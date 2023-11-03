@@ -35,6 +35,7 @@ import 'package:immich_mobile/utils/immich_app_theme.dart';
 import 'package:immich_mobile/utils/migration.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
@@ -49,6 +50,7 @@ void main() async {
 
 Future<void> initApp() async {
   await EasyLocalization.ensureInitialized();
+  MediaKit.ensureInitialized();
 
   if (kReleaseMode && Platform.isAndroid) {
     try {

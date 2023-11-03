@@ -9,6 +9,8 @@ import 'package:immich_mobile/modules/asset_viewer/ui/video_player_controls.dart
 import 'package:immich_mobile/shared/models/asset.dart';
 import 'package:immich_mobile/shared/models/store.dart';
 import 'package:immich_mobile/shared/ui/immich_loading_indicator.dart';
+import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -125,99 +127,128 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  late VideoPlayerController videoPlayerController;
-  ChewieController? chewieController;
+  // late VideoPlayerController videoPlayerController;
+  // ChewieController? chewieController;
+
+  // Create a [Player] to control playback.
+  late final player = Player();
+  // Create a [VideoController] to handle video output from [Player].
+  late final controller = VideoController(player);
 
   @override
   void initState() {
     super.initState();
-    initializePlayer();
+    // initializePlayer();
 
-    videoPlayerController.addListener(() {
-      if (videoPlayerController.value.isInitialized) {
-        if (videoPlayerController.value.isPlaying) {
-          WakelockPlus.enable();
-          widget.onPlaying?.call();
-        } else if (!videoPlayerController.value.isPlaying) {
-          WakelockPlus.disable();
-          widget.onPaused?.call();
-        }
+    // videoPlayerController.addListener(() {
+    //   if (videoPlayerController.value.isInitialized) {
+    //     if (videoPlayerController.value.isPlaying) {
+    //       WakelockPlus.enable();
+    //       widget.onPlaying?.call();
+    //     } else if (!videoPlayerController.value.isPlaying) {
+    //       WakelockPlus.disable();
+    //       widget.onPaused?.call();
+    //     }
 
-        if (videoPlayerController.value.position ==
-            videoPlayerController.value.duration) {
-          WakelockPlus.disable();
-          widget.onVideoEnded();
-        }
-      }
-    });
-  }
+    //     if (videoPlayerController.value.position ==
+    //         videoPlayerController.value.duration) {
+    //       WakelockPlus.disable();
+    //       widget.onVideoEnded();
+    //     }
+    //   }
+    // });
 
-  Future<void> initializePlayer() async {
-    try {
-      videoPlayerController = widget.file == null
-          ? VideoPlayerController.networkUrl(
-              Uri.parse(widget.url!),
-              httpHeaders: {"Authorization": "Bearer ${widget.jwtToken}"},
-            )
-          : VideoPlayerController.file(widget.file!);
-
-      await videoPlayerController.initialize();
-      _createChewieController();
-      setState(() {});
-    } catch (e) {
-      debugPrint("ERROR initialize video player $e");
+    if (widget.file == null) {
+      player.open(
+        Media(
+          Uri.parse(widget.url!).toString(),
+          httpHeaders: {
+            "Authorization": "Bearer ${widget.jwtToken}",
+          },
+        ),
+      );
+    } else {
+      player.open(
+        Media(
+          widget.file!.path,
+        ),
+      );
     }
   }
 
-  _createChewieController() {
-    chewieController = ChewieController(
-      controlsSafeAreaMinimum: const EdgeInsets.only(
-        bottom: 100,
-      ),
-      showOptions: true,
-      showControlsOnInitialize: false,
-      videoPlayerController: videoPlayerController,
-      autoPlay: true,
-      autoInitialize: true,
-      allowFullScreen: false,
-      allowedScreenSleep: false,
-      showControls: !widget.isMotionVideo,
-      customControls: const VideoPlayerControls(),
-      hideControlsTimer: const Duration(seconds: 5),
-    );
-  }
+  // Future<void> initializePlayer() async {
+  //   try {
+  //     videoPlayerController = widget.file == null
+  //         ? VideoPlayerController.networkUrl(
+  //             Uri.parse(widget.url!),
+  //             httpHeaders: {"Authorization": "Bearer ${widget.jwtToken}"},
+  //           )
+  //         : VideoPlayerController.file(widget.file!);
+
+  //     await videoPlayerController.initialize();
+  //     _createChewieController();
+  //     setState(() {});
+  //   } catch (e) {
+  //     debugPrint("ERROR initialize video player $e");
+  //   }
+  // }
+
+  // _createChewieController() {
+  //   chewieController = ChewieController(
+  //     controlsSafeAreaMinimum: const EdgeInsets.only(
+  //       bottom: 100,
+  //     ),
+  //     showOptions: true,
+  //     showControlsOnInitialize: false,
+  //     videoPlayerController: videoPlayerController,
+  //     autoPlay: true,
+  //     autoInitialize: true,
+  //     allowFullScreen: false,
+  //     allowedScreenSleep: false,
+  //     showControls: !widget.isMotionVideo,
+  //     customControls: const VideoPlayerControls(),
+  //     hideControlsTimer: const Duration(seconds: 5),
+  //   );
+  // }
 
   @override
   void dispose() {
     super.dispose();
-    videoPlayerController.pause();
-    videoPlayerController.dispose();
-    chewieController?.dispose();
+    player.dispose();
+    // videoPlayerController.pause();
+    // videoPlayerController.dispose();
+    // chewieController?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (chewieController?.videoPlayerController.value.isInitialized == true) {
-      return SizedBox(
-        child: Chewie(
-          controller: chewieController!,
-        ),
-      );
-    } else {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: Stack(
-            children: [
-              if (widget.placeholder != null) widget.placeholder!,
-              const Center(
-                child: ImmichLoadingIndicator(),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Video(controller: controller),
+    );
+
+    // if (chewieController?.videoPlayerController.value.isInitialized == true) {
+    //   return SizedBox(
+    //     child: Chewie(
+    //       controller: chewieController!,
+    //     ),
+    //   );
+    // } else {
+    //   return SizedBox(
+    //     height: MediaQuery.of(context).size.height,
+    //     width: MediaQuery.of(context).size.width,
+    //     child: Center(
+    //       child: Stack(
+    //         children: [
+    //           if (widget.placeholder != null) widget.placeholder!,
+    //           const Center(
+    //             child: ImmichLoadingIndicator(),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+    // }
   }
 }

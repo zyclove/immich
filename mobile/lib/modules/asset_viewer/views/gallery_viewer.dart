@@ -791,11 +791,6 @@ class GalleryViewerPage extends HookConsumerWidget {
                         localPosition = details.localPosition,
                     onDragUpdate: (_, details, __) =>
                         handleSwipeUpDown(details),
-                    heroAttributes: PhotoViewHeroAttributes(
-                      tag: isFromDto
-                          ? '${a.remoteId}-$heroOffset'
-                          : a.id + heroOffset,
-                    ),
                     filterQuality: FilterQuality.high,
                     maxScale: 1.0,
                     minScale: 1.0,
