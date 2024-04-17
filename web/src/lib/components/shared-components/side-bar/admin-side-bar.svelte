@@ -3,7 +3,7 @@
   import SideBarSection from '$lib/components/shared-components/side-bar/side-bar-section.svelte';
   import StatusBox from '$lib/components/shared-components/status-box.svelte';
   import { AppRoute } from '$lib/constants';
-  import { mdiAccountMultipleOutline, mdiBookshelf, mdiCog, mdiServer, mdiSync, mdiTools } from '@mdi/js';
+  import { mdiAccountMultipleOutline, mdiBookshelf, mdiCog, mdiPuzzle, mdiServer, mdiSync, mdiTools } from '@mdi/js';
 </script>
 
 <SideBarSection>
@@ -14,6 +14,7 @@
     <SideBarLink title="External Libraries" routeId={AppRoute.ADMIN_LIBRARY_MANAGEMENT} icon={mdiBookshelf} />
     <SideBarLink title="Server Stats" routeId={AppRoute.ADMIN_STATS} icon={mdiServer} />
     <SideBarLink title="Repair" routeId={AppRoute.ADMIN_REPAIR} icon={mdiTools} preloadData={false} />
+    <SideBarLink title="Plugins" routeId={AppRoute.ADMIN_PLUGINS} icon={mdiPuzzle} preloadData={false} />
   </nav>
 
   <div class="mb-6 mt-auto">

@@ -13,6 +13,7 @@ import { StorageTemplateService } from 'src/services/storage-template.service';
 import { StorageService } from 'src/services/storage.service';
 import { SystemConfigService } from 'src/services/system-config.service';
 import { UserService } from 'src/services/user.service';
+import { WorkflowService } from 'src/services/workflow.service';
 import { otelSDK } from 'src/utils/instrumentation';
 
 @Injectable()
@@ -31,6 +32,7 @@ export class MicroservicesService {
     private storageService: StorageService,
     private userService: UserService,
     private databaseService: DatabaseService,
+    private workflowService: WorkflowService,
   ) {}
 
   async init() {
@@ -77,6 +79,7 @@ export class MicroservicesService {
       [JobName.LIBRARY_REMOVE_OFFLINE]: (data) => this.libraryService.handleOfflineRemoval(data),
       [JobName.LIBRARY_QUEUE_SCAN_ALL]: (data) => this.libraryService.handleQueueAllScan(data),
       [JobName.LIBRARY_QUEUE_CLEANUP]: () => this.libraryService.handleQueueCleanup(),
+      [JobName.WORKFLOW_TRIGGER]: (data) => this.workflowService.handleTrigger(data),
     });
 
     await this.metadataService.init();

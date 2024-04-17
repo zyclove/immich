@@ -16,6 +16,7 @@ import {
   JobStatus,
   QueueCleanType,
   QueueName,
+  WorkflowTriggerType,
 } from 'src/interfaces/job.interface';
 import { ILoggerRepository } from 'src/interfaces/logger.interface';
 import { IMetricRepository } from 'src/interfaces/metric.interface';
@@ -293,6 +294,13 @@ export class JobService {
         // Only live-photo motion part will be marked as not visible immediately on upload. Skip notifying clients
         if (asset && asset.isVisible) {
           this.eventRepository.clientSend(ClientEvent.UPLOAD_SUCCESS, asset.ownerId, mapAsset(asset));
+        }
+
+        if (asset) {
+          await this.jobRepository.queue({
+            name: JobName.WORKFLOW_TRIGGER,
+            data: { type: WorkflowTriggerType.ASSET_UPLOAD, data: { assetId: asset.id } },
+          });
         }
         break;
       }

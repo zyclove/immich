@@ -16,6 +16,7 @@ import { MetadataService } from 'src/services/metadata.service';
 import { MicroservicesService } from 'src/services/microservices.service';
 import { PartnerService } from 'src/services/partner.service';
 import { PersonService } from 'src/services/person.service';
+import { PluginService } from 'src/services/plugin.service';
 import { SearchService } from 'src/services/search.service';
 import { ServerInfoService } from 'src/services/server-info.service';
 import { SharedLinkService } from 'src/services/shared-link.service';
@@ -28,6 +29,7 @@ import { TagService } from 'src/services/tag.service';
 import { TimelineService } from 'src/services/timeline.service';
 import { TrashService } from 'src/services/trash.service';
 import { UserService } from 'src/services/user.service';
+import { WorkflowService } from 'src/services/workflow.service';
 
 export const services = [
   ApiService,
@@ -48,6 +50,7 @@ export const services = [
   MetadataService,
   PartnerService,
   PersonService,
+  PluginService,
   SearchService,
   ServerInfoService,
   SharedLinkService,
@@ -60,4 +63,5 @@ export const services = [
   TimelineService,
   TrashService,
   UserService,
+  WorkflowService,
 ];

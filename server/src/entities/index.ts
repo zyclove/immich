@@ -13,6 +13,7 @@ import { MemoryEntity } from 'src/entities/memory.entity';
 import { MoveEntity } from 'src/entities/move.entity';
 import { PartnerEntity } from 'src/entities/partner.entity';
 import { PersonEntity } from 'src/entities/person.entity';
+import { PluginEntity } from 'src/entities/plugin.entity';
 import { SharedLinkEntity } from 'src/entities/shared-link.entity';
 import { SmartInfoEntity } from 'src/entities/smart-info.entity';
 import { SmartSearchEntity } from 'src/entities/smart-search.entity';
@@ -37,6 +38,7 @@ export const entities = [
   MoveEntity,
   PartnerEntity,
   PersonEntity,
+  PluginEntity,
   SharedLinkEntity,
   SmartInfoEntity,
   SmartSearchEntity,

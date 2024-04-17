@@ -20,6 +20,7 @@ import { IMetricRepository } from 'src/interfaces/metric.interface';
 import { IMoveRepository } from 'src/interfaces/move.interface';
 import { IPartnerRepository } from 'src/interfaces/partner.interface';
 import { IPersonRepository } from 'src/interfaces/person.interface';
+import { IPluginRepository } from 'src/interfaces/plugin.interface';
 import { ISearchRepository } from 'src/interfaces/search.interface';
 import { IServerInfoRepository } from 'src/interfaces/server-info.interface';
 import { ISharedLinkRepository } from 'src/interfaces/shared-link.interface';
@@ -51,6 +52,7 @@ import { MetricRepository } from 'src/repositories/metric.repository';
 import { MoveRepository } from 'src/repositories/move.repository';
 import { PartnerRepository } from 'src/repositories/partner.repository';
 import { PersonRepository } from 'src/repositories/person.repository';
+import { PluginRepository } from 'src/repositories/plugin.repository';
 import { SearchRepository } from 'src/repositories/search.repository';
 import { ServerInfoRepository } from 'src/repositories/server-info.repository';
 import { SharedLinkRepository } from 'src/repositories/shared-link.repository';
@@ -83,6 +85,7 @@ export const repositories = [
   { provide: IMoveRepository, useClass: MoveRepository },
   { provide: IPartnerRepository, useClass: PartnerRepository },
   { provide: IPersonRepository, useClass: PersonRepository },
+  { provide: IPluginRepository, useClass: PluginRepository },
   { provide: IServerInfoRepository, useClass: ServerInfoRepository },
   { provide: ISharedLinkRepository, useClass: SharedLinkRepository },
   { provide: ISearchRepository, useClass: SearchRepository },

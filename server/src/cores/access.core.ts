@@ -43,6 +43,13 @@ export enum Permission {
   PERSON_CREATE = 'person.create',
   PERSON_REASSIGN = 'person.reassign',
 
+  PLUGIN_READ = 'plugin.read',
+  PLUGIN_WRITE = 'plugin.write',
+  PLUGIN_DELETE = 'plugin.delete',
+  PLUGIN_ADMIN = 'plugin.admin',
+  PLUGIN_INSTALL = 'plugin.install',
+  PLUGIN_UNINSTALL = 'plugin.uninstall',
+
   PARTNER_UPDATE = 'partner.update',
 }
 

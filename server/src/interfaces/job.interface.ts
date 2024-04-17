@@ -89,6 +89,9 @@ export enum JobName {
   SIDECAR_DISCOVERY = 'sidecar-discovery',
   SIDECAR_SYNC = 'sidecar-sync',
   SIDECAR_WRITE = 'sidecar-write',
+
+  // workflows
+  WORKFLOW_TRIGGER = 'workflow-trigger',
 }
 
 export const JOBS_ASSET_PAGINATION_SIZE = 1000;
@@ -134,6 +137,17 @@ export interface ISidecarWriteJob extends IEntityJob {
 export interface IDeferrableJob extends IEntityJob {
   deferred?: boolean;
 }
+
+export enum WorkflowTriggerType {
+  ASSET_UPLOAD = 'asset.upload',
+  ASSET_UPDATE = 'asset.update',
+  ASSET_TRASH = 'asset.trash',
+  ASSET_DELETE = 'asset.delete',
+}
+
+export type IWorkflowTriggerJob =
+  | { type: WorkflowTriggerType.ASSET_UPLOAD; data: { assetId: string } }
+  | { type: WorkflowTriggerType.ASSET_UPDATE; data: { asset2Id: string } };
 
 export interface JobCounts {
   active: number;
@@ -216,7 +230,8 @@ export type JobItem =
   | { name: JobName.LIBRARY_REMOVE_OFFLINE; data: IEntityJob }
   | { name: JobName.LIBRARY_DELETE; data: IEntityJob }
   | { name: JobName.LIBRARY_QUEUE_SCAN_ALL; data: IBaseJob }
-  | { name: JobName.LIBRARY_QUEUE_CLEANUP; data: IBaseJob };
+  | { name: JobName.LIBRARY_QUEUE_CLEANUP; data: IBaseJob }
+  | { name: JobName.WORKFLOW_TRIGGER; data: IWorkflowTriggerJob };
 
 export enum JobStatus {
   SUCCESS = 'success',
