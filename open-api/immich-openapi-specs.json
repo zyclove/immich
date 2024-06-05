@@ -2299,6 +2299,27 @@
         ]
       }
     },
+    "/auth/validate-license": {
+      "get": {
+        "operationId": "validateLicense",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
     "/auth/validateToken": {
       "post": {
         "operationId": "validateAccessToken",
