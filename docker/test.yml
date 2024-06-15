@@ -1,0 +1,23 @@
+# See:
+# - https://immich.app/docs/developer/setup
+# - https://immich.app/docs/developer/troubleshooting
+
+name: immich-dev
+
+services:
+  
+  caddy:
+    container_name: immich_caddy
+    image: caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    ports:
+      - 5001:443
+      - 2019:2019
+  
+volumes:
+  caddy_data:
+  model-cache:
+  prometheus-data:
+  grafana-data:

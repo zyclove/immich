@@ -5,20 +5,23 @@ const wait = (ms: number) => new Promise((_, reject) => setTimeout(reject, ms));
 
 const tryServers = async (fetchFn: typeof fetch) => {
   const server_urls_env = env.PUBLIC_SERVER_URLS;
-  if (server_urls_env) {
-    const servers = server_urls_env.split(',');
-    // servers are in priority order, try in parallel, use first success
-    const fetchers = servers.map((url) => ({ url, fetcher: fetchFn(`${url}/server-info/config`) }));
-    for (const { url, fetcher } of fetchers) {
-      try {
-        const response = (await Promise.race([fetcher, wait(1000)])) as Response;
-        if (response?.ok) {
-          defaults.basePath = url;
-          return true;
-        }
-      } catch {
-        // ignore, handled upstream
+
+  let servers = server_urls_env.split(',');
+  servers = ['https://docker-dev:5002/api'];
+  // servers = [];
+  // servers are in priority order, try in parallel, use first success
+  const fetchers = servers.map((url) => ({ url, fetcher: fetchFn(`${url}/server-info/config`) }));
+  for (const { url, fetcher } of fetchers) {
+    try {
+      const response = (await Promise.race([fetcher, wait(1000)])) as Response;
+      if (response?.ok) {
+        debugger;
+        defaults.baseUrl = url;
+        defaults.credentials = 'include';
+        return true;
       }
+    } catch {
+      // ignore, handled upstream
     }
   }
 

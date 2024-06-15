@@ -13,6 +13,9 @@ const upstream = {
 };
 
 export default defineConfig({
+  build: {
+    minify: false,
+  },
   resolve: {
     alias: {
       'xmlhttprequest-ssl': './node_modules/engine.io-client/lib/xmlhttprequest.js',
@@ -26,6 +29,9 @@ export default defineConfig({
       '/api': upstream,
       '/.well-known/immich': upstream,
       '/custom.css': upstream,
+    },
+    cors: {
+      origin: false,
     },
   },
   plugins: [

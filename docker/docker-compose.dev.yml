@@ -5,6 +5,24 @@
 name: immich-dev
 
 services:
+  nginx:
+    container_name: nginx_web
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../web/build:/usr/share/immich-web:ro
+    ports:
+      - 5000:80
+  caddy:
+    container_name: immich_caddy
+    image: caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    ports:
+      - 5001:443
+      - 5002:444
+      - 2019:2019
   immich-server:
     container_name: immich_server
     command: ['/usr/src/app/bin/immich-dev']
@@ -19,6 +37,7 @@ services:
     restart: always
     volumes:
       - ../server:/usr/src/app
+      - ../server/node_modules:/usr/src/node_modules
       - ../open-api:/usr/src/open-api
       - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
       - ${UPLOAD_LOCATION}/photos/upload:/usr/src/app/upload/upload
@@ -107,7 +126,22 @@ services:
       interval: 5m
       start_interval: 30s
       start_period: 5m
-    command: ["postgres", "-c" ,"shared_preload_libraries=vectors.so", "-c", 'search_path="$$user", public, vectors', "-c", "logging_collector=on", "-c", "max_wal_size=2GB", "-c", "shared_buffers=512MB", "-c", "wal_compression=on"]
+    command:
+      [
+        'postgres',
+        '-c',
+        'shared_preload_libraries=vectors.so',
+        '-c',
+        'search_path="$$user", public, vectors',
+        '-c',
+        'logging_collector=on',
+        '-c',
+        'max_wal_size=2GB',
+        '-c',
+        'shared_buffers=512MB',
+        '-c',
+        'wal_compression=on',
+      ]
 
   # set IMMICH_METRICS=true in .env to enable metrics
   # immich-prometheus:
@@ -131,6 +165,7 @@ services:
   #     - grafana-data:/var/lib/grafana
 
 volumes:
+  caddy_data:
   model-cache:
   prometheus-data:
   grafana-data:

@@ -1,4 +1,5 @@
 import { AppRoute } from '$lib/constants';
+import { initSDK } from '$lib/utils/server';
 import { getServerConfig } from '@immich/sdk';
 import { redirect } from '@sveltejs/kit';
 import { t } from 'svelte-i18n';
@@ -10,6 +11,14 @@ export const ssr = false;
 export const csr = true;
 
 export const load = (async () => {
+  let hasError = false;
+  try {
+    await initSDK(fetch);
+  } catch {
+    // error pages use page layouts, so can't throw error - catch it and display error message in layout.
+    hasError = true;
+  }
+  debugger;
   const authenticated = await loadUser();
   if (authenticated) {
     redirect(302, AppRoute.PHOTOS);
@@ -24,6 +33,7 @@ export const load = (async () => {
   const $t = get(t);
 
   return {
+    hasError,
     meta: {
       title: $t('welcome') + ' 🎉',
       description: $t('immich_web_interface'),

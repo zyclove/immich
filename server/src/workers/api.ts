@@ -1,11 +1,13 @@
+import { CorsOptionsCallback, CustomOrigin } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { json } from 'body-parser';
 import cookieParser from 'cookie-parser';
+import { NextFunction, Request, Response } from 'express';
 import { existsSync } from 'node:fs';
 import sirv from 'sirv';
 import { ApiModule } from 'src/app.module';
-import { envName, excludePaths, isDev, serverVersion, WEB_ROOT } from 'src/constants';
+import { WEB_ROOT, envName, excludePaths, isDev, serverVersion } from 'src/constants';
 import { ILoggerRepository } from 'src/interfaces/logger.interface';
 import { WebSocketAdapter } from 'src/middleware/websocket.adapter';
 import { ApiService } from 'src/services/api.service';
@@ -22,8 +24,15 @@ async function bootstrap() {
 
   const port = Number(process.env.IMMICH_PORT) || 3001;
   const app = await NestFactory.create<NestExpressApplication>(ApiModule, { bufferLogs: true });
+  // app.use((req: Request, res: Response, next: NextFunction) => {
+  //   console.log(req.url);
+  //   console.log(req.get('origin'));
+  //   console.log(req.get('host'));
+  //   debugger;
+  //   next();
+  // });
   const logger = await app.resolve<ILoggerRepository>(ILoggerRepository);
-
+  //i
   logger.setAppName('Api');
   logger.setContext('Bootstrap');
   app.useLogger(logger);
@@ -31,8 +40,32 @@ async function bootstrap() {
   app.set('etag', 'strong');
   app.use(cookieParser());
   app.use(json({ limit: '10mb' }));
+  debugger; // oddkjkjjh
+  const origins: CustomOrigin = (_, cb) => {
+    console.log('hi');
+    debugger;
+    cb(null, [
+      'http://192.168.4.248:2283',
+      'http://docker-dev:2283',
+      'https://docker-dev:5002',
+      'https://192.168.4.248:5001',
+    ]);
+  };
+
   if (isDev()) {
-    app.enableCors();
+    debugger;
+    app.enableCors((req, cb) => {
+      if (req.get('origin')) {
+        cb(null, {
+          credentials: true,
+          origin: origins,
+          methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+          allowedHeaders: ['content-type', '*'],
+        });
+      } else {
+        cb(null, { origin: false });
+      }
+    });
   }
   app.useWebSocketAdapter(new WebSocketAdapter(app));
   useSwagger(app);

@@ -1,0 +1,21 @@
+
+
+:443 {
+	tls internal {
+    	on_demand
+  	}
+	reverse_proxy immich-web:3000
+	log {
+		output file /logs/caddy.log
+	}
+}
+
+:444 {
+	tls internal {
+    	on_demand
+  	}
+	reverse_proxy immich-server:3001
+	log {
+		output file /logs/caddy.log
+	}
+}

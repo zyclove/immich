@@ -5,7 +5,7 @@ import { CookieResponse, ImmichCookie } from 'src/dtos/auth.dto';
 export const respondWithCookie = <T>(res: Response, body: T, { isSecure, values }: CookieResponse) => {
   const defaults: CookieOptions = {
     path: '/',
-    sameSite: 'lax',
+    sameSite: 'none',
     httpOnly: true,
     secure: isSecure,
     maxAge: Duration.fromObject({ days: 400 }).toMillis(),

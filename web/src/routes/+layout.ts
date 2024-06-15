@@ -7,16 +7,9 @@ import type { LayoutLoad } from './$types';
 
 export const ssr = false;
 export const csr = true;
+export const prerender = true;
 
 export const load = (async ({ fetch }) => {
-  let hasError = false;
-  try {
-    await initSDK(fetch);
-  } catch {
-    // error pages use page layouts, so can't throw error - catch it and display error message in layout.
-    hasError = true;
-  }
-
   for (const { code, loader } of langs) {
     register(code, loader);
   }
@@ -24,6 +17,13 @@ export const load = (async ({ fetch }) => {
   const preferenceLang = get(lang);
 
   await init({ fallbackLocale: preferenceLang === 'dev' ? 'dev' : defaultLang.code, initialLocale: preferenceLang });
+  let hasError = false;
+  try {
+    await initSDK(fetch);
+  } catch {
+    // error pages use page layouts, so can't throw error - catch it and display error message in layout.
+    hasError = true;
+  }
 
   return {
     hasError,
