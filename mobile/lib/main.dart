@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
+import 'package:share_handler/share_handler.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:immich_mobile/constants/locales.dart';
 import 'package:immich_mobile/services/background.service.dart';
@@ -175,6 +176,29 @@ class ImmichAppState extends ConsumerState<ImmichApp>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // needs to be delayed so that EasyLocalization is working
       ref.read(backgroundServiceProvider).resumeServiceIfEnabled();
+    });
+    initPlatformState();
+  }
+
+  SharedMedia? media;
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    final handler = ShareHandlerPlatform.instance;
+    media = await handler.getInitialSharedMedia();
+
+    handler.sharedMediaStream.listen((SharedMedia media) {
+      if (!mounted) return;
+      setState(() {
+        this.media = media;
+
+        print("Received shared media: $media");
+      });
+    });
+    if (!mounted) return;
+
+    setState(() {
+      // _platformVersion = platformVersion;
     });
   }
 
