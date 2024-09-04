@@ -462,36 +462,39 @@ class BackupNotifier extends StateNotifier<BackUpState> {
         return;
       }
 
-      Set<BackupCandidate> assetsWillBeBackup = Set.from(state.allUniqueAssets);
+      Set<BackupCandidate> candidates = Set.from(state.allUniqueAssets);
       // Remove item that has already been backed up
       for (final assetId in state.allAssetsInDatabase) {
-        assetsWillBeBackup.removeWhere((e) => e.asset.id == assetId);
+        candidates.removeWhere((e) => e.asset.id == assetId);
       }
 
-      if (assetsWillBeBackup.isEmpty) {
+      if (candidates.isEmpty) {
         state = state.copyWith(backupProgress: BackUpProgressEnum.idle);
       }
 
-      // Perform Backup
-      state = state.copyWith(cancelToken: CancellationToken());
+      // Check with server for hash duplication
+      await _backupService.checkBulkUpload(candidates);
 
-      final pmProgressHandler = Platform.isIOS ? PMProgressHandler() : null;
+      // // Perform Backup
+      // state = state.copyWith(cancelToken: CancellationToken());
 
-      pmProgressHandler?.stream.listen((event) {
-        final double progress = event.progress;
-        state = state.copyWith(iCloudDownloadProgress: progress);
-      });
+      // final pmProgressHandler = Platform.isIOS ? PMProgressHandler() : null;
 
-      await _backupService.backupAsset(
-        assetsWillBeBackup,
-        state.cancelToken,
-        pmProgressHandler: pmProgressHandler,
-        onSuccess: _onAssetUploaded,
-        onProgress: _onUploadProgress,
-        onCurrentAsset: _onSetCurrentBackupAsset,
-        onError: _onBackupError,
-      );
-      await notifyBackgroundServiceCanRun();
+      // pmProgressHandler?.stream.listen((event) {
+      //   final double progress = event.progress;
+      //   state = state.copyWith(iCloudDownloadProgress: progress);
+      // });
+
+      // await _backupService.backupAsset(
+      //   candidates,
+      //   state.cancelToken,
+      //   pmProgressHandler: pmProgressHandler,
+      //   onSuccess: _onAssetUploaded,
+      //   onProgress: _onUploadProgress,
+      //   onCurrentAsset: _onSetCurrentBackupAsset,
+      //   onError: _onBackupError,
+      // );
+      // await notifyBackgroundServiceCanRun();
     } else {
       openAppSettings();
     }

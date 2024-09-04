@@ -566,8 +566,8 @@ class SyncService {
         .findAll();
     assert(inDb.isSorted(Asset.compareByChecksum), "inDb not sorted!");
     final int assetCountOnDevice = await ape.assetCountAsync;
-    final List<Asset> onDevice =
-        await _hashService.getHashedAssets(ape, excludedAssets: excludedAssets);
+    final List<Asset> onDevice = await _hashService
+        .getHashedAssetsFromDeviceAlbum(ape, excludedAssets: excludedAssets);
     _removeDuplicates(onDevice);
     // _removeDuplicates sorts `onDevice` by checksum
     final (toAdd, toUpdate, toDelete) = _diffAssets(onDevice, inDb);
@@ -649,7 +649,8 @@ class SyncService {
     if (modified == null) {
       return false;
     }
-    final List<Asset> newAssets = await _hashService.getHashedAssets(modified);
+    final List<Asset> newAssets =
+        await _hashService.getHashedAssetsFromDeviceAlbum(modified);
 
     if (totalOnDevice != lastKnownTotal + newAssets.length) {
       return false;
@@ -683,8 +684,8 @@ class SyncService {
   ]) async {
     _log.info("Syncing a new local album to DB: ${ape.name}");
     final Album a = Album.local(ape);
-    final assets =
-        await _hashService.getHashedAssets(ape, excludedAssets: excludedAssets);
+    final assets = await _hashService.getHashedAssetsFromDeviceAlbum(ape,
+        excludedAssets: excludedAssets);
     _removeDuplicates(assets);
     final (existingInDb, updated) = await _linkWithExistingFromDb(assets);
     _log.info(

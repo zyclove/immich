@@ -7,9 +7,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/entities/backup_album.entity.dart';
+import 'package:immich_mobile/entities/device_asset.entity.dart';
 import 'package:immich_mobile/entities/duplicated_asset.entity.dart';
 import 'package:immich_mobile/entities/store.entity.dart';
+import 'package:immich_mobile/extensions/string_extensions.dart';
 import 'package:immich_mobile/models/backup/backup_candidate.model.dart';
+import 'package:immich_mobile/models/backup/bulk_upload_check_result.model.dart';
 import 'package:immich_mobile/models/backup/current_upload_asset.model.dart';
 import 'package:immich_mobile/models/backup/error_upload_asset.model.dart';
 import 'package:immich_mobile/models/backup/success_upload_asset.model.dart';
@@ -19,6 +22,7 @@ import 'package:immich_mobile/providers/db.provider.dart';
 import 'package:immich_mobile/services/album.service.dart';
 import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/services/app_settings.service.dart';
+import 'package:immich_mobile/services/hash.service.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
 import 'package:openapi/api.dart';
@@ -32,6 +36,7 @@ final backupServiceProvider = Provider(
     ref.watch(dbProvider),
     ref.watch(appSettingsServiceProvider),
     ref.watch(albumServiceProvider),
+    ref.watch(hashServiceProvider),
   ),
 );
 
@@ -42,13 +47,71 @@ class BackupService {
   final Logger _log = Logger("BackupService");
   final AppSettingsService _appSetting;
   final AlbumService _albumService;
+  final HashService _hashService;
 
   BackupService(
     this._apiService,
     this._db,
     this._appSetting,
     this._albumService,
+    this._hashService,
   );
+
+  Future<BulkUploadCheckResult> checkBulkUpload(
+    Set<BackupCandidate> candidates,
+  ) async {
+    List<AssetBulkUploadCheckItem> assets = [];
+
+    final assetEntities = candidates.map((c) => c.asset).toList();
+    final hashedDeviceAssets =
+        await _hashService.getHashedAssetsFromAssetEntity(assetEntities);
+
+    for (final hashedAsset in hashedDeviceAssets) {
+      final AssetBulkUploadCheckItem item = AssetBulkUploadCheckItem(
+        id: hashedAsset.id.toString(),
+        checksum: hashedAsset.checksum,
+      );
+
+      assets.add(item);
+    }
+
+    final response = await _apiService.assetsApi.checkBulkUpload(
+      AssetBulkUploadCheckDto(assets: assets),
+    );
+
+    // AssetBulkUploadCheckResult[action=reject, assetId=6929085c-ad33-489b-a352-af1bdcf19ee6, id=-9223372036854775808, reason=duplicate]
+    if (response == null) {
+      return BulkUploadCheckResult(
+        rejects: [],
+        accepts: [],
+      );
+    }
+
+    final List<RejectResult> rejects = [];
+    final List<AcceptResult> accepts = [];
+
+    for (final result in response.results) {
+      if (result.action == AssetBulkUploadCheckResultActionEnum.reject) {
+        rejects.add(
+          RejectResult(
+            localId: result.id,
+            remoteId: result.assetId ?? "",
+          ),
+        );
+      } else {
+        accepts.add(
+          AcceptResult(
+            localId: result.id,
+          ),
+        );
+      }
+    }
+
+    return BulkUploadCheckResult(
+      rejects: rejects,
+      accepts: accepts,
+    );
+  }
 
   Future<List<String>?> getDeviceBackupAsset() async {
     final String deviceId = Store.get(StoreKey.deviceId);

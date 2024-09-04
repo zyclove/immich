@@ -19,8 +19,20 @@ class HashService {
   final BackgroundService _backgroundService;
   final _log = Logger('HashService');
 
+  Future<List<Asset>> getHashedAssetsFromAssetEntity(
+    List<AssetEntity> assets,
+  ) async {
+    final ids = assets
+        .map(Platform.isAndroid ? (a) => a.id.toInt() : (a) => a.id)
+        .toList();
+
+    final List<DeviceAsset?> hashes = await lookupHashes(ids);
+
+    return _mapAllHashedAssets(assets, hashes);
+  }
+
   /// Returns all assets that were successfully hashed
-  Future<List<Asset>> getHashedAssets(
+  Future<List<Asset>> getHashedAssetsFromDeviceAlbum(
     AssetPathEntity album, {
     int start = 0,
     int end = 0x7fffffffffffffff,
@@ -44,7 +56,7 @@ class HashService {
     final ids = assetEntities
         .map(Platform.isAndroid ? (a) => a.id.toInt() : (a) => a.id)
         .toList();
-    final List<DeviceAsset?> hashes = await _lookupHashes(ids);
+    final List<DeviceAsset?> hashes = await lookupHashes(ids);
     final List<DeviceAsset> toAdd = [];
     final List<String> toHash = [];
 
@@ -90,7 +102,7 @@ class HashService {
   }
 
   /// Lookup hashes of assets by their local ID
-  Future<List<DeviceAsset?>> _lookupHashes(List<Object> ids) =>
+  Future<List<DeviceAsset?>> lookupHashes(List<Object> ids) =>
       Platform.isAndroid
           ? _db.androidDeviceAssets.getAll(ids.cast())
           : _db.iOSDeviceAssets.getAllById(ids.cast());

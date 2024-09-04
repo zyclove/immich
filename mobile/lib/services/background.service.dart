@@ -361,8 +361,13 @@ class BackgroundService {
         UserService(apiService, db, syncSerive, partnerService);
     AlbumService albumService =
         AlbumService(apiService, userService, syncSerive, db);
-    BackupService backupService =
-        BackupService(apiService, db, settingService, albumService);
+    BackupService backupService = BackupService(
+      apiService,
+      db,
+      settingService,
+      albumService,
+      hashService,
+    );
 
     final selectedAlbums = backupService.selectedAlbumsQuery().findAllSync();
     final excludedAlbums = backupService.excludedAlbumsQuery().findAllSync();
