@@ -38,7 +38,7 @@ dependencies:
   share_plus: ^10.0.0
   flutter_displaymode: ^0.6.0
   scrollable_positioned_list: ^0.3.8
-  path: ^1.8.3
+  path: ^1.9.0
   path_provider: ^2.1.2
   collection: ^1.18.0
   http_parser: ^4.0.2
@@ -67,6 +67,7 @@ dependencies:
   image_picker: ^1.0.7 # only used to select user profile image from system gallery -> we can simply select an image from within immich?
   logging: ^1.2.0
   file_picker: ^8.0.0+1
+  sqflite: ^2.3.3+1
 
 # This is uncommented in F-Droid build script
 # Taken from https://github.com/Myzel394/locus/blob/445013d22ec1d759027d4303bd65b30c5c8588c8/pubspec.yaml#L105

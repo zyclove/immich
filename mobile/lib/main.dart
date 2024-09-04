@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
+import 'package:immich_mobile/utils/sqlite.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:immich_mobile/constants/locales.dart';
 import 'package:immich_mobile/services/background.service.dart';
@@ -54,6 +55,7 @@ void main() async {
 
 Future<void> initApp() async {
   await EasyLocalization.ensureInitialized();
+  await openSqliteDatabase();
 
   if (kReleaseMode && Platform.isAndroid) {
     try {
