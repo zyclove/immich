@@ -7,10 +7,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/entities/backup_album.entity.dart';
-import 'package:immich_mobile/entities/device_asset.entity.dart';
 import 'package:immich_mobile/entities/duplicated_asset.entity.dart';
 import 'package:immich_mobile/entities/store.entity.dart';
-import 'package:immich_mobile/extensions/string_extensions.dart';
 import 'package:immich_mobile/models/backup/backup_candidate.model.dart';
 import 'package:immich_mobile/models/backup/bulk_upload_check_result.model.dart';
 import 'package:immich_mobile/models/backup/current_upload_asset.model.dart';
@@ -79,7 +77,6 @@ class BackupService {
       AssetBulkUploadCheckDto(assets: assets),
     );
 
-    // AssetBulkUploadCheckResult[action=reject, assetId=6929085c-ad33-489b-a352-af1bdcf19ee6, id=-9223372036854775808, reason=duplicate]
     if (response == null) {
       return BulkUploadCheckResult(
         rejects: [],

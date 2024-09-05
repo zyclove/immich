@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cancellation_token_http/http.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -473,7 +471,7 @@ class BackupNotifier extends StateNotifier<BackUpState> {
       }
 
       // Check with server for hash duplication
-      await _backupService.checkBulkUpload(candidates);
+      final bulkCheckResult = await _backupService.checkBulkUpload(candidates);
 
       // // Perform Backup
       // state = state.copyWith(cancelToken: CancellationToken());
