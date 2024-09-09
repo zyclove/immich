@@ -5,6 +5,14 @@
 name: immich-dev
 
 services:
+  tunnel:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiMjg5MzRlYWM2OGNmZDM3YWVmZTk2M2E1YWI3NGNkZjAiLCJ0IjoiNzk1OGZkNzgtZDhkZC00NWY0LWI0NmMtNDI5ZjVmZDgwYjRlIiwicyI6Ik5UWmpZekkzTm1RdE1UQTFNQzAwTW1Jd0xXSTVNV0l0TnpWbVlXTXdabUpsWlRFMSJ9
+
   immich-server:
     container_name: immich_server
     command: ['/usr/src/app/bin/immich-dev']
@@ -20,9 +28,8 @@ services:
     volumes:
       - ../server:/usr/src/app
       - ../open-api:/usr/src/open-api
-      - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
-      - ${UPLOAD_LOCATION}/photos/upload:/usr/src/app/upload/upload
-      - /usr/src/app/node_modules
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ../server/node_modules:/usr/src/app/node_modules
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
