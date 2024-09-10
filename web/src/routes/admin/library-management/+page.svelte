@@ -285,14 +285,7 @@
                 </td>
 
                 <td class=" text-ellipsis px-4 text-sm">
-                  <ButtonContextMenu
-                    align="top-right"
-                    direction="left"
-                    color="primary"
-                    size="16"
-                    icon={mdiDotsVertical}
-                    title={$t('library_options')}
-                  >
+                  <ButtonContextMenu color="primary" size="16" icon={mdiDotsVertical} title={$t('library_options')}>
                     <MenuOption onClick={() => onScanClicked(library)} text={$t('scan_library')} />
                     <hr />
                     <MenuOption onClick={() => onRenameClicked(index)} text={$t('rename')} />
