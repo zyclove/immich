@@ -45,6 +45,7 @@ export enum AppRoute {
 
   UTILITIES = '/utilities',
   DUPLICATES = '/utilities/duplicates',
+  WORKFLOWS = '/utilities/workflows',
 
   FOLDERS = '/folders',
   TAGS = '/tags',

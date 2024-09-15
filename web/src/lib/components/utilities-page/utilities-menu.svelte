@@ -17,4 +17,14 @@
     </span>
     {$t('review_duplicates')}
   </a>
+
+  <a
+    href={AppRoute.WORKFLOWS}
+    class="w-full hover:bg-gray-100 dark:hover:bg-immich-dark-gray flex items-center gap-4 p-4"
+  >
+    <span
+      ><Icon path={mdiContentDuplicate} class="text-immich-primary dark:text-immich-dark-primary" size="24" />
+    </span>
+    {$t('workflows')}
+  </a>
 </div>
