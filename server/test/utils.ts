@@ -1,4 +1,5 @@
 import { PNG } from 'pngjs';
+import { IMediaRepository } from 'src/interfaces/media.interface';
 import { IMetadataRepository } from 'src/interfaces/metadata.interface';
 import { BaseService } from 'src/services/base.service';
 import { newAccessRepositoryMock } from 'test/repositories/access.repository.mock';
@@ -41,18 +42,21 @@ import { newViewRepositoryMock } from 'test/repositories/view.repository.mock';
 import { Mocked } from 'vitest';
 
 type RepositoryOverrides = {
-  metadataRepository: IMetadataRepository;
+  mediaRepository?: IMediaRepository;
+  metadataRepository?: IMetadataRepository;
 };
 type BaseServiceArgs = ConstructorParameters<typeof BaseService>;
 type Constructor<Type, Args extends Array<any>> = {
   new (...deps: Args): Type;
 };
 
+export const testAssetDir = '/test-assets';
+
 export const newTestService = <T extends BaseService>(
   Service: Constructor<T, BaseServiceArgs>,
   overrides?: RepositoryOverrides,
 ) => {
-  const { metadataRepository } = overrides || {};
+  const { mediaRepository, metadataRepository } = overrides || {};
 
   const accessMock = newAccessRepositoryMock();
   const loggerMock = newLoggerRepositoryMock();
@@ -70,7 +74,7 @@ export const newTestService = <T extends BaseService>(
   const libraryMock = newLibraryRepositoryMock();
   const machineLearningMock = newMachineLearningRepositoryMock();
   const mapMock = newMapRepositoryMock();
-  const mediaMock = newMediaRepositoryMock();
+  const mediaMock = (mediaRepository || newMediaRepositoryMock()) as Mocked<IMediaRepository>;
   const memoryMock = newMemoryRepositoryMock();
   const metadataMock = (metadataRepository || newMetadataRepositoryMock()) as Mocked<IMetadataRepository>;
   const metricMock = newMetricRepositoryMock();
