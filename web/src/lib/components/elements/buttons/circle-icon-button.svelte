@@ -139,7 +139,12 @@
   aria-label={title}
   on:mouseenter={() => togglePopover(true)}
   on:mouseleave={() => togglePopover(false)}
-  on:focus={() => togglePopover(true)}
+  on:focus={() => {
+    if (!element.matches(':focus-visible')) {
+      return;
+    }
+    togglePopover(true);
+  }}
   on:blur={() => togglePopover(false)}
   on:click
   {...$$restProps}
@@ -150,7 +155,7 @@
   <div
     in:scale={{ duration: 150, opacity: 0, start: 0.9 }}
     out:scale={{ duration: 150, opacity: 0, start: 0.9 }}
-    class="fixed inset-[unset] rounded-md border bg-gray-500 p-2 text-[12px] text-gray-100 shadow-md dark:border-immich-dark-gray dark:bg-immich-dark-gray"
+    class="fixed inset-[unset] rounded-md border bg-gray-500 p-2 text-[12px] text-gray-100 shadow-md dark:bg-immich-dark-gray"
     style:top={top + 'px'}
     style:left={left + 'px'}
     bind:this={popover}
