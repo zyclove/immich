@@ -33,7 +33,8 @@
   import Icon from '$lib/components/elements/icon.svelte';
   import { scale } from 'svelte/transition';
   import { tick } from 'svelte';
-  import { getHoverMode, hoverDelay, setHoverMode } from '$lib/utils/popover-timer';
+  import { activePopoverId, getHoverMode, hoverDelay, setHoverMode } from '$lib/utils/popover-timer';
+  import { generateId } from '$lib/utils/generate-id';
 
   type $$Props = Props;
 
@@ -84,6 +85,8 @@
   $: mobileClass = hideMobile ? 'hidden sm:flex' : '';
   $: paddingClass = paddingClasses[padding];
 
+  const id = $$restProps.id ?? generateId();
+
   let popover: HTMLElement;
   let element: HTMLElement;
   let top = 0;
@@ -111,6 +114,7 @@
     left = box.left;
     showPopover = true;
     setHoverMode(true);
+    $activePopoverId = id;
     void tick().then(() => {
       const offsetWidth = popover?.offsetWidth ?? 10;
       const spaceBelow = (window.visualViewport?.height ?? window.innerHeight) - box.top - box.height;
@@ -128,6 +132,7 @@
   bind:this={element}
   type={href ? undefined : type}
   {href}
+  {id}
   style:width={buttonSize ? buttonSize + 'px' : ''}
   style:height={buttonSize ? buttonSize + 'px' : ''}
   class="flex place-content-center place-items-center rounded-full {colorClass} {paddingClass} transition-all disabled:cursor-default hover:dark:text-immich-dark-gray {className} {mobileClass}"
@@ -141,7 +146,7 @@
 >
   <Icon path={icon} {size} ariaHidden {viewBox} color="currentColor" />
 </svelte:element>
-{#if showPopover}
+{#if showPopover && $activePopoverId === id}
   <div
     in:scale={{ duration: 150, opacity: 0, start: 0.9 }}
     out:scale={{ duration: 150, opacity: 0, start: 0.9 }}
