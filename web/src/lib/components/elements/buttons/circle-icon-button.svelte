@@ -31,6 +31,9 @@
 
 <script lang="ts">
   import Icon from '$lib/components/elements/icon.svelte';
+  import { scale } from 'svelte/transition';
+  import { tick } from 'svelte';
+  import { getHoverMode, hoverDelay, setHoverMode } from '$lib/utils/popover-timer';
 
   type $$Props = Props;
 
@@ -80,19 +83,73 @@
   $: colorClass = colorClasses[color];
   $: mobileClass = hideMobile ? 'hidden sm:flex' : '';
   $: paddingClass = paddingClasses[padding];
+
+  let popover: HTMLElement;
+  let element: HTMLElement;
+  let top = 0;
+  let left = 0;
+  let showPopover = false;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const togglePopover = (show: boolean) => {
+    if (!show) {
+      clearTimeout(timeoutId);
+      setHoverMode(false);
+      showPopover = false;
+      return;
+    }
+    if (getHoverMode()) {
+      onShowPopover();
+    } else {
+      timeoutId = setTimeout(onShowPopover, hoverDelay);
+    }
+  };
+
+  const onShowPopover = () => {
+    const box = element.getBoundingClientRect();
+    top = box.top + box.height + 5;
+    left = box.left;
+    showPopover = true;
+    setHoverMode(true);
+    void tick().then(() => {
+      const offsetWidth = popover?.offsetWidth ?? 10;
+      const spaceBelow = (window.visualViewport?.height ?? window.innerHeight) - box.top - box.height;
+      if (spaceBelow < popover.offsetHeight) {
+        top = box.top - popover.offsetHeight - 5;
+      }
+      left = box.left + box.width / 2 - offsetWidth / 2;
+    });
+  };
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <svelte:element
   this={href ? 'a' : 'button'}
+  bind:this={element}
   type={href ? undefined : type}
-  {title}
   {href}
   style:width={buttonSize ? buttonSize + 'px' : ''}
   style:height={buttonSize ? buttonSize + 'px' : ''}
   class="flex place-content-center place-items-center rounded-full {colorClass} {paddingClass} transition-all disabled:cursor-default hover:dark:text-immich-dark-gray {className} {mobileClass}"
+  aria-label={title}
+  on:mouseenter={() => togglePopover(true)}
+  on:mouseleave={() => togglePopover(false)}
+  on:focus={() => togglePopover(true)}
+  on:blur={() => togglePopover(false)}
   on:click
   {...$$restProps}
 >
-  <Icon path={icon} {size} ariaLabel={title} {viewBox} color="currentColor" />
+  <Icon path={icon} {size} ariaHidden {viewBox} color="currentColor" />
 </svelte:element>
+{#if showPopover}
+  <div
+    in:scale={{ duration: 150, opacity: 0, start: 0.9 }}
+    out:scale={{ duration: 150, opacity: 0, start: 0.9 }}
+    class="fixed inset-[unset] rounded-md border bg-gray-500 p-2 text-[12px] text-gray-100 shadow-md dark:border-immich-dark-gray dark:bg-immich-dark-gray"
+    style:top={top + 'px'}
+    style:left={left + 'px'}
+    bind:this={popover}
+  >
+    {title}
+  </div>
+{/if}
