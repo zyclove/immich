@@ -142,10 +142,12 @@
   {id}
   style:width={buttonSize ? buttonSize + 'px' : ''}
   style:height={buttonSize ? buttonSize + 'px' : ''}
-  class="flex place-content-center place-items-center rounded-full {colorClass} {paddingClass} transition-all disabled:cursor-default hover:dark:text-immich-dark-gray {className} {mobileClass}"
+  class="flex place-content-center place-items-center rounded-full select-none {colorClass} {paddingClass} transition-all disabled:cursor-default hover:dark:text-immich-dark-gray {className} {mobileClass}"
   aria-label={title}
   on:mouseenter={() => togglePopover(true)}
   on:mouseleave={() => togglePopover(false)}
+  on:touchstart={() => togglePopover(true)}
+  on:touchend={() => togglePopover(false)}
   on:focus={() => {
     if (!element.matches(':focus-visible')) {
       return;
