@@ -84,6 +84,7 @@
   $: colorClass = colorClasses[color];
   $: mobileClass = hideMobile ? 'hidden sm:flex' : '';
   $: paddingClass = paddingClasses[padding];
+  $: recalculatePosition(title);
 
   const id = $$restProps.id ?? generateId();
 
@@ -123,6 +124,12 @@
       }
       left = box.left + box.width / 2 - offsetWidth / 2;
     });
+  };
+
+  const recalculatePosition = (title: string) => {
+    if (showPopover && title) {
+      onShowPopover();
+    }
   };
 </script>
 
