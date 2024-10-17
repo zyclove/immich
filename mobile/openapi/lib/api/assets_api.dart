@@ -16,8 +16,6 @@ class AssetsApi {
 
   final ApiClient apiClient;
 
-  /// checkBulkUpload
-  ///
   /// Checks if assets exist by checksums
   ///
   /// Note: This method returns the HTTP [Response].
@@ -50,8 +48,6 @@ class AssetsApi {
     );
   }
 
-  /// checkBulkUpload
-  ///
   /// Checks if assets exist by checksums
   ///
   /// Parameters:
@@ -72,8 +68,6 @@ class AssetsApi {
     return null;
   }
 
-  /// checkExistingAssets
-  ///
   /// Checks if multiple assets exist on the server and returns all existing - used by background backup
   ///
   /// Note: This method returns the HTTP [Response].
@@ -106,8 +100,6 @@ class AssetsApi {
     );
   }
 
-  /// checkExistingAssets
-  ///
   /// Checks if multiple assets exist on the server and returns all existing - used by background backup
   ///
   /// Parameters:
@@ -223,8 +215,6 @@ class AssetsApi {
     return null;
   }
 
-  /// getAllUserAssetsByDeviceId
-  ///
   /// Get all asset of a device that are in the database, ID only.
   ///
   /// Note: This method returns the HTTP [Response].
@@ -258,8 +248,6 @@ class AssetsApi {
     );
   }
 
-  /// getAllUserAssetsByDeviceId
-  ///
   /// Get all asset of a device that are in the database, ID only.
   ///
   /// Parameters:
@@ -576,8 +564,6 @@ class AssetsApi {
     return null;
   }
 
-  /// replaceAsset
-  ///
   /// Replace the asset with new file, without changing its id
   ///
   /// Note: This method returns the HTTP [Response].
@@ -659,8 +645,6 @@ class AssetsApi {
     );
   }
 
-  /// replaceAsset
-  ///
   /// Replace the asset with new file, without changing its id
   ///
   /// Parameters:

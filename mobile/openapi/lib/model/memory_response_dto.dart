@@ -17,13 +17,11 @@ class MemoryResponseDto {
     required this.createdAt,
     required this.data,
     this.deletedAt,
-    this.hideAt,
     required this.id,
     required this.isSaved,
     required this.memoryAt,
     required this.ownerId,
     this.seenAt,
-    this.showAt,
     required this.type,
     required this.updatedAt,
   });
@@ -42,14 +40,6 @@ class MemoryResponseDto {
   ///
   DateTime? deletedAt;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DateTime? hideAt;
-
   String id;
 
   bool isSaved;
@@ -66,14 +56,6 @@ class MemoryResponseDto {
   ///
   DateTime? seenAt;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DateTime? showAt;
-
   MemoryType type;
 
   DateTime updatedAt;
@@ -84,13 +66,11 @@ class MemoryResponseDto {
     other.createdAt == createdAt &&
     other.data == data &&
     other.deletedAt == deletedAt &&
-    other.hideAt == hideAt &&
     other.id == id &&
     other.isSaved == isSaved &&
     other.memoryAt == memoryAt &&
     other.ownerId == ownerId &&
     other.seenAt == seenAt &&
-    other.showAt == showAt &&
     other.type == type &&
     other.updatedAt == updatedAt;
 
@@ -101,18 +81,16 @@ class MemoryResponseDto {
     (createdAt.hashCode) +
     (data.hashCode) +
     (deletedAt == null ? 0 : deletedAt!.hashCode) +
-    (hideAt == null ? 0 : hideAt!.hashCode) +
     (id.hashCode) +
     (isSaved.hashCode) +
     (memoryAt.hashCode) +
     (ownerId.hashCode) +
     (seenAt == null ? 0 : seenAt!.hashCode) +
-    (showAt == null ? 0 : showAt!.hashCode) +
     (type.hashCode) +
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'MemoryResponseDto[assets=$assets, createdAt=$createdAt, data=$data, deletedAt=$deletedAt, hideAt=$hideAt, id=$id, isSaved=$isSaved, memoryAt=$memoryAt, ownerId=$ownerId, seenAt=$seenAt, showAt=$showAt, type=$type, updatedAt=$updatedAt]';
+  String toString() => 'MemoryResponseDto[assets=$assets, createdAt=$createdAt, data=$data, deletedAt=$deletedAt, id=$id, isSaved=$isSaved, memoryAt=$memoryAt, ownerId=$ownerId, seenAt=$seenAt, type=$type, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -124,11 +102,6 @@ class MemoryResponseDto {
     } else {
     //  json[r'deletedAt'] = null;
     }
-    if (this.hideAt != null) {
-      json[r'hideAt'] = this.hideAt!.toUtc().toIso8601String();
-    } else {
-    //  json[r'hideAt'] = null;
-    }
       json[r'id'] = this.id;
       json[r'isSaved'] = this.isSaved;
       json[r'memoryAt'] = this.memoryAt.toUtc().toIso8601String();
@@ -137,11 +110,6 @@ class MemoryResponseDto {
       json[r'seenAt'] = this.seenAt!.toUtc().toIso8601String();
     } else {
     //  json[r'seenAt'] = null;
-    }
-    if (this.showAt != null) {
-      json[r'showAt'] = this.showAt!.toUtc().toIso8601String();
-    } else {
-    //  json[r'showAt'] = null;
     }
       json[r'type'] = this.type;
       json[r'updatedAt'] = this.updatedAt.toUtc().toIso8601String();
@@ -161,13 +129,11 @@ class MemoryResponseDto {
         createdAt: mapDateTime(json, r'createdAt', r'')!,
         data: OnThisDayDto.fromJson(json[r'data'])!,
         deletedAt: mapDateTime(json, r'deletedAt', r''),
-        hideAt: mapDateTime(json, r'hideAt', r''),
         id: mapValueOfType<String>(json, r'id')!,
         isSaved: mapValueOfType<bool>(json, r'isSaved')!,
         memoryAt: mapDateTime(json, r'memoryAt', r'')!,
         ownerId: mapValueOfType<String>(json, r'ownerId')!,
         seenAt: mapDateTime(json, r'seenAt', r''),
-        showAt: mapDateTime(json, r'showAt', r''),
         type: MemoryType.fromJson(json[r'type'])!,
         updatedAt: mapDateTime(json, r'updatedAt', r'')!,
       );

@@ -21,7 +21,6 @@ class UserPreferencesUpdateDto {
     this.people,
     this.purchase,
     this.ratings,
-    this.sharedLinks,
     this.tags,
   });
 
@@ -95,14 +94,6 @@ class UserPreferencesUpdateDto {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  SharedLinksUpdate? sharedLinks;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   TagsUpdate? tags;
 
   @override
@@ -115,7 +106,6 @@ class UserPreferencesUpdateDto {
     other.people == people &&
     other.purchase == purchase &&
     other.ratings == ratings &&
-    other.sharedLinks == sharedLinks &&
     other.tags == tags;
 
   @override
@@ -129,11 +119,10 @@ class UserPreferencesUpdateDto {
     (people == null ? 0 : people!.hashCode) +
     (purchase == null ? 0 : purchase!.hashCode) +
     (ratings == null ? 0 : ratings!.hashCode) +
-    (sharedLinks == null ? 0 : sharedLinks!.hashCode) +
     (tags == null ? 0 : tags!.hashCode);
 
   @override
-  String toString() => 'UserPreferencesUpdateDto[avatar=$avatar, download=$download, emailNotifications=$emailNotifications, folders=$folders, memories=$memories, people=$people, purchase=$purchase, ratings=$ratings, sharedLinks=$sharedLinks, tags=$tags]';
+  String toString() => 'UserPreferencesUpdateDto[avatar=$avatar, download=$download, emailNotifications=$emailNotifications, folders=$folders, memories=$memories, people=$people, purchase=$purchase, ratings=$ratings, tags=$tags]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -177,11 +166,6 @@ class UserPreferencesUpdateDto {
     } else {
     //  json[r'ratings'] = null;
     }
-    if (this.sharedLinks != null) {
-      json[r'sharedLinks'] = this.sharedLinks;
-    } else {
-    //  json[r'sharedLinks'] = null;
-    }
     if (this.tags != null) {
       json[r'tags'] = this.tags;
     } else {
@@ -207,7 +191,6 @@ class UserPreferencesUpdateDto {
         people: PeopleUpdate.fromJson(json[r'people']),
         purchase: PurchaseUpdate.fromJson(json[r'purchase']),
         ratings: RatingsUpdate.fromJson(json[r'ratings']),
-        sharedLinks: SharedLinksUpdate.fromJson(json[r'sharedLinks']),
         tags: TagsUpdate.fromJson(json[r'tags']),
       );
     }

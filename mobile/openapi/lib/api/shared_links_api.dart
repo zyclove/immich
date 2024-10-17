@@ -127,10 +127,7 @@ class SharedLinksApi {
   }
 
   /// Performs an HTTP 'GET /shared-links' operation and returns the [Response].
-  /// Parameters:
-  ///
-  /// * [String] albumId:
-  Future<Response> getAllSharedLinksWithHttpInfo({ String? albumId, }) async {
+  Future<Response> getAllSharedLinksWithHttpInfo() async {
     // ignore: prefer_const_declarations
     final path = r'/shared-links';
 
@@ -140,10 +137,6 @@ class SharedLinksApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
-    if (albumId != null) {
-      queryParams.addAll(_queryParams('', 'albumId', albumId));
-    }
 
     const contentTypes = <String>[];
 
@@ -159,11 +152,8 @@ class SharedLinksApi {
     );
   }
 
-  /// Parameters:
-  ///
-  /// * [String] albumId:
-  Future<List<SharedLinkResponseDto>?> getAllSharedLinks({ String? albumId, }) async {
-    final response = await getAllSharedLinksWithHttpInfo( albumId: albumId, );
+  Future<List<SharedLinkResponseDto>?> getAllSharedLinks() async {
+    final response = await getAllSharedLinksWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

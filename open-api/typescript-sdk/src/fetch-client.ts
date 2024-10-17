@@ -113,10 +113,6 @@ export type PurchaseResponse = {
 export type RatingsResponse = {
     enabled: boolean;
 };
-export type SharedLinksResponse = {
-    enabled: boolean;
-    sidebarWeb: boolean;
-};
 export type TagsResponse = {
     enabled: boolean;
     sidebarWeb: boolean;
@@ -130,7 +126,6 @@ export type UserPreferencesResponseDto = {
     people: PeopleResponse;
     purchase: PurchaseResponse;
     ratings: RatingsResponse;
-    sharedLinks: SharedLinksResponse;
     tags: TagsResponse;
 };
 export type AvatarUpdate = {
@@ -163,10 +158,6 @@ export type PurchaseUpdate = {
 export type RatingsUpdate = {
     enabled?: boolean;
 };
-export type SharedLinksUpdate = {
-    enabled?: boolean;
-    sidebarWeb?: boolean;
-};
 export type TagsUpdate = {
     enabled?: boolean;
     sidebarWeb?: boolean;
@@ -180,7 +171,6 @@ export type UserPreferencesUpdateDto = {
     people?: PeopleUpdate;
     purchase?: PurchaseUpdate;
     ratings?: RatingsUpdate;
-    sharedLinks?: SharedLinksUpdate;
     tags?: TagsUpdate;
 };
 export type AlbumUserResponseDto = {
@@ -223,12 +213,8 @@ export type AssetFaceWithoutPersonResponseDto = {
 };
 export type PersonWithFacesResponseDto = {
     birthDate: string | null;
-    /** This property was added in v1.126.0 */
-    color?: string;
     faces: AssetFaceWithoutPersonResponseDto[];
     id: string;
-    /** This property was added in v1.126.0 */
-    isFavorite?: boolean;
     isHidden: boolean;
     name: string;
     thumbnailPath: string;
@@ -449,6 +435,10 @@ export type AssetMediaReplaceDto = {
     fileCreatedAt: string;
     fileModifiedAt: string;
 };
+export type AuditDeletesResponseDto = {
+    ids: string[];
+    needsFullSync: boolean;
+};
 export type SignUpDto = {
     email: string;
     name: string;
@@ -501,11 +491,7 @@ export type DuplicateResponseDto = {
 };
 export type PersonResponseDto = {
     birthDate: string | null;
-    /** This property was added in v1.126.0 */
-    color?: string;
     id: string;
-    /** This property was added in v1.126.0 */
-    isFavorite?: boolean;
     isHidden: boolean;
     name: string;
     thumbnailPath: string;
@@ -522,19 +508,6 @@ export type AssetFaceResponseDto = {
     imageWidth: number;
     person: (PersonResponseDto) | null;
     sourceType?: SourceType;
-};
-export type AssetFaceCreateDto = {
-    assetId: string;
-    height: number;
-    imageHeight: number;
-    imageWidth: number;
-    personId: string;
-    width: number;
-    x: number;
-    y: number;
-};
-export type AssetFaceDeleteDto = {
-    force: boolean;
 };
 export type FaceDto = {
     id: string;
@@ -640,13 +613,11 @@ export type MemoryResponseDto = {
     createdAt: string;
     data: OnThisDayDto;
     deletedAt?: string;
-    hideAt?: string;
     id: string;
     isSaved: boolean;
     memoryAt: string;
     ownerId: string;
     seenAt?: string;
-    showAt?: string;
     "type": MemoryType;
     updatedAt: string;
 };
@@ -718,8 +689,6 @@ export type PersonCreateDto = {
     /** Person date of birth.
     Note: the mobile app cannot currently set the birth date to null. */
     birthDate?: string | null;
-    color?: string | null;
-    isFavorite?: boolean;
     /** Person visibility */
     isHidden?: boolean;
     /** Person name. */
@@ -729,12 +698,10 @@ export type PeopleUpdateItem = {
     /** Person date of birth.
     Note: the mobile app cannot currently set the birth date to null. */
     birthDate?: string | null;
-    color?: string | null;
     /** Asset is used to get the feature face thumbnail. */
     featureFaceAssetId?: string;
     /** Person id. */
     id: string;
-    isFavorite?: boolean;
     /** Person visibility */
     isHidden?: boolean;
     /** Person name. */
@@ -747,10 +714,8 @@ export type PersonUpdateDto = {
     /** Person date of birth.
     Note: the mobile app cannot currently set the birth date to null. */
     birthDate?: string | null;
-    color?: string | null;
     /** Asset is used to get the feature face thumbnail. */
     featureFaceAssetId?: string;
-    isFavorite?: boolean;
     /** Person visibility */
     isHidden?: boolean;
     /** Person name. */
@@ -804,7 +769,6 @@ export type MetadataSearchDto = {
     country?: string | null;
     createdAfter?: string;
     createdBefore?: string;
-    description?: string;
     deviceAssetId?: string;
     deviceId?: string;
     encodedVideoPath?: string;
@@ -826,10 +790,8 @@ export type MetadataSearchDto = {
     page?: number;
     personIds?: string[];
     previewPath?: string;
-    rating?: number;
     size?: number;
     state?: string | null;
-    tagIds?: string[];
     takenAfter?: string;
     takenBefore?: string;
     thumbnailPath?: string;
@@ -894,10 +856,8 @@ export type RandomSearchDto = {
     make?: string;
     model?: string | null;
     personIds?: string[];
-    rating?: number;
     size?: number;
     state?: string | null;
-    tagIds?: string[];
     takenAfter?: string;
     takenBefore?: string;
     trashedAfter?: string;
@@ -931,10 +891,8 @@ export type SmartSearchDto = {
     page?: number;
     personIds?: string[];
     query: string;
-    rating?: number;
     size?: number;
     state?: string | null;
-    tagIds?: string[];
     takenAfter?: string;
     takenBefore?: string;
     trashedAfter?: string;
@@ -1119,16 +1077,6 @@ export type StackCreateDto = {
 export type StackUpdateDto = {
     primaryAssetId?: string;
 };
-export type SyncAckDeleteDto = {
-    types?: SyncEntityType[];
-};
-export type SyncAckDto = {
-    ack: string;
-    "type": SyncEntityType;
-};
-export type SyncAckSetDto = {
-    acks: string[];
-};
 export type AssetDeltaSyncDto = {
     updatedAfter: string;
     userIds: string[];
@@ -1143,9 +1091,6 @@ export type AssetFullSyncDto = {
     limit: number;
     updatedUntil: string;
     userId?: string;
-};
-export type SyncStreamDto = {
-    types: SyncRequestType[];
 };
 export type DatabaseBackupConfig = {
     cronExpression: string;
@@ -1530,7 +1475,7 @@ export function restoreUserAdmin({ id }: {
     id: string;
 }, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
-        status: 200;
+        status: 201;
         data: UserAdminResponseDto;
     }>(`/admin/users/${encodeURIComponent(id)}/restore`, {
         ...opts,
@@ -1758,7 +1703,7 @@ export function updateAssets({ assetBulkUpdateDto }: {
     })));
 }
 /**
- * checkBulkUpload
+ * Checks if assets exist by checksums
  */
 export function checkBulkUpload({ assetBulkUploadCheckDto }: {
     assetBulkUploadCheckDto: AssetBulkUploadCheckDto;
@@ -1773,7 +1718,7 @@ export function checkBulkUpload({ assetBulkUploadCheckDto }: {
     })));
 }
 /**
- * getAllUserAssetsByDeviceId
+ * Get all asset of a device that are in the database, ID only.
  */
 export function getAllUserAssetsByDeviceId({ deviceId }: {
     deviceId: string;
@@ -1786,7 +1731,7 @@ export function getAllUserAssetsByDeviceId({ deviceId }: {
     }));
 }
 /**
- * checkExistingAssets
+ * Checks if multiple assets exist on the server and returns all existing - used by background backup
  */
 export function checkExistingAssets({ checkExistingAssetsDto }: {
     checkExistingAssetsDto: CheckExistingAssetsDto;
@@ -1894,7 +1839,7 @@ export function downloadAsset({ id, key }: {
     }));
 }
 /**
- * replaceAsset
+ * Replace the asset with new file, without changing its id
  */
 export function replaceAsset({ id, key, assetMediaReplaceDto }: {
     id: string;
@@ -1936,6 +1881,22 @@ export function playAssetVideo({ id, key }: {
         data: Blob;
     }>(`/assets/${encodeURIComponent(id)}/video/playback${QS.query(QS.explode({
         key
+    }))}`, {
+        ...opts
+    }));
+}
+export function getAuditDeletes({ after, entityType, userId }: {
+    after: string;
+    entityType: EntityType;
+    userId?: string;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: AuditDeletesResponseDto;
+    }>(`/audit/deletes${QS.query(QS.explode({
+        after,
+        entityType,
+        userId
     }))}`, {
         ...opts
     }));
@@ -2043,25 +2004,6 @@ export function getFaces({ id }: {
     }))}`, {
         ...opts
     }));
-}
-export function createFace({ assetFaceCreateDto }: {
-    assetFaceCreateDto: AssetFaceCreateDto;
-}, opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchText("/faces", oazapfts.json({
-        ...opts,
-        method: "POST",
-        body: assetFaceCreateDto
-    })));
-}
-export function deleteFace({ id, assetFaceDeleteDto }: {
-    id: string;
-    assetFaceDeleteDto: AssetFaceDeleteDto;
-}, opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchText(`/faces/${encodeURIComponent(id)}`, oazapfts.json({
-        ...opts,
-        method: "DELETE",
-        body: assetFaceDeleteDto
-    })));
 }
 export function reassignFacesById({ id, faceDto }: {
     id: string;
@@ -2224,21 +2166,11 @@ export function reverseGeocode({ lat, lon }: {
         ...opts
     }));
 }
-export function searchMemories({ $for, isSaved, isTrashed, $type }: {
-    $for?: string;
-    isSaved?: boolean;
-    isTrashed?: boolean;
-    $type?: MemoryType;
-}, opts?: Oazapfts.RequestOpts) {
+export function searchMemories(opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: MemoryResponseDto[];
-    }>(`/memories${QS.query(QS.explode({
-        "for": $for,
-        isSaved,
-        isTrashed,
-        "type": $type
-    }))}`, {
+    }>("/memories", {
         ...opts
     }));
 }
@@ -2802,15 +2734,11 @@ export function deleteSession({ id }: {
         method: "DELETE"
     }));
 }
-export function getAllSharedLinks({ albumId }: {
-    albumId?: string;
-}, opts?: Oazapfts.RequestOpts) {
+export function getAllSharedLinks(opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: SharedLinkResponseDto[];
-    }>(`/shared-links${QS.query(QS.explode({
-        albumId
-    }))}`, {
+    }>("/shared-links", {
         ...opts
     }));
 }
@@ -2969,32 +2897,6 @@ export function updateStack({ id, stackUpdateDto }: {
         body: stackUpdateDto
     })));
 }
-export function deleteSyncAck({ syncAckDeleteDto }: {
-    syncAckDeleteDto: SyncAckDeleteDto;
-}, opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchText("/sync/ack", oazapfts.json({
-        ...opts,
-        method: "DELETE",
-        body: syncAckDeleteDto
-    })));
-}
-export function getSyncAck(opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchJson<{
-        status: 200;
-        data: SyncAckDto[];
-    }>("/sync/ack", {
-        ...opts
-    }));
-}
-export function sendSyncAck({ syncAckSetDto }: {
-    syncAckSetDto: SyncAckSetDto;
-}, opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchText("/sync/ack", oazapfts.json({
-        ...opts,
-        method: "POST",
-        body: syncAckSetDto
-    })));
-}
 export function getDeltaSync({ assetDeltaSyncDto }: {
     assetDeltaSyncDto: AssetDeltaSyncDto;
 }, opts?: Oazapfts.RequestOpts) {
@@ -3017,15 +2919,6 @@ export function getFullSyncForUser({ assetFullSyncDto }: {
         ...opts,
         method: "POST",
         body: assetFullSyncDto
-    })));
-}
-export function getSyncStream({ syncStreamDto }: {
-    syncStreamDto: SyncStreamDto;
-}, opts?: Oazapfts.RequestOpts) {
-    return oazapfts.ok(oazapfts.fetchText("/sync/stream", oazapfts.json({
-        ...opts,
-        method: "POST",
-        body: syncStreamDto
     })));
 }
 export function getConfig(opts?: Oazapfts.RequestOpts) {
@@ -3453,8 +3346,7 @@ export enum AlbumUserRole {
 }
 export enum SourceType {
     MachineLearning = "machine-learning",
-    Exif = "exif",
-    Manual = "manual"
+    Exif = "exif"
 }
 export enum AssetTypeEnum {
     Image = "IMAGE",
@@ -3575,12 +3467,14 @@ export enum AssetMediaSize {
     Preview = "preview",
     Thumbnail = "thumbnail"
 }
+export enum EntityType {
+    Asset = "ASSET",
+    Album = "ALBUM"
+}
 export enum ManualJobName {
     PersonCleanup = "person-cleanup",
     TagCleanup = "tag-cleanup",
-    UserCleanup = "user-cleanup",
-    MemoryCleanup = "memory-cleanup",
-    MemoryCreate = "memory-create"
+    UserCleanup = "user-cleanup"
 }
 export enum JobName {
     ThumbnailGeneration = "thumbnailGeneration",
@@ -3642,16 +3536,6 @@ export enum Error2 {
     Duplicate = "duplicate",
     NoPermission = "no_permission",
     NotFound = "not_found"
-}
-export enum SyncEntityType {
-    UserV1 = "UserV1",
-    UserDeleteV1 = "UserDeleteV1",
-    PartnerV1 = "PartnerV1",
-    PartnerDeleteV1 = "PartnerDeleteV1"
-}
-export enum SyncRequestType {
-    UsersV1 = "UsersV1",
-    PartnersV1 = "PartnersV1"
 }
 export enum TranscodeHWAccel {
     Nvenc = "nvenc",

@@ -14,17 +14,13 @@ class PersonUpdateDto {
   /// Returns a new [PersonUpdateDto] instance.
   PersonUpdateDto({
     this.birthDate,
-    this.color,
     this.featureFaceAssetId,
-    this.isFavorite,
     this.isHidden,
     this.name,
   });
 
   /// Person date of birth. Note: the mobile app cannot currently set the birth date to null.
   DateTime? birthDate;
-
-  String? color;
 
   /// Asset is used to get the feature face thumbnail.
   ///
@@ -34,14 +30,6 @@ class PersonUpdateDto {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? featureFaceAssetId;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  bool? isFavorite;
 
   /// Person visibility
   ///
@@ -64,9 +52,7 @@ class PersonUpdateDto {
   @override
   bool operator ==(Object other) => identical(this, other) || other is PersonUpdateDto &&
     other.birthDate == birthDate &&
-    other.color == color &&
     other.featureFaceAssetId == featureFaceAssetId &&
-    other.isFavorite == isFavorite &&
     other.isHidden == isHidden &&
     other.name == name;
 
@@ -74,14 +60,12 @@ class PersonUpdateDto {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (birthDate == null ? 0 : birthDate!.hashCode) +
-    (color == null ? 0 : color!.hashCode) +
     (featureFaceAssetId == null ? 0 : featureFaceAssetId!.hashCode) +
-    (isFavorite == null ? 0 : isFavorite!.hashCode) +
     (isHidden == null ? 0 : isHidden!.hashCode) +
     (name == null ? 0 : name!.hashCode);
 
   @override
-  String toString() => 'PersonUpdateDto[birthDate=$birthDate, color=$color, featureFaceAssetId=$featureFaceAssetId, isFavorite=$isFavorite, isHidden=$isHidden, name=$name]';
+  String toString() => 'PersonUpdateDto[birthDate=$birthDate, featureFaceAssetId=$featureFaceAssetId, isHidden=$isHidden, name=$name]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -90,20 +74,10 @@ class PersonUpdateDto {
     } else {
     //  json[r'birthDate'] = null;
     }
-    if (this.color != null) {
-      json[r'color'] = this.color;
-    } else {
-    //  json[r'color'] = null;
-    }
     if (this.featureFaceAssetId != null) {
       json[r'featureFaceAssetId'] = this.featureFaceAssetId;
     } else {
     //  json[r'featureFaceAssetId'] = null;
-    }
-    if (this.isFavorite != null) {
-      json[r'isFavorite'] = this.isFavorite;
-    } else {
-    //  json[r'isFavorite'] = null;
     }
     if (this.isHidden != null) {
       json[r'isHidden'] = this.isHidden;
@@ -128,9 +102,7 @@ class PersonUpdateDto {
 
       return PersonUpdateDto(
         birthDate: mapDateTime(json, r'birthDate', r''),
-        color: mapValueOfType<String>(json, r'color'),
         featureFaceAssetId: mapValueOfType<String>(json, r'featureFaceAssetId'),
-        isFavorite: mapValueOfType<bool>(json, r'isFavorite'),
         isHidden: mapValueOfType<bool>(json, r'isHidden'),
         name: mapValueOfType<String>(json, r'name'),
       );

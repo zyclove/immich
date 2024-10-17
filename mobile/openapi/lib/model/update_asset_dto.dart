@@ -73,7 +73,7 @@ class UpdateAssetDto {
   ///
   num? longitude;
 
-  /// Minimum value: -1
+  /// Minimum value: 0
   /// Maximum value: 5
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
