@@ -47,6 +47,9 @@ void main() async {
   await migrateDatabaseIfNeeded(db);
   HttpOverrides.global = HttpSSLCertOverride();
 
+  WidgetsFlutterBinding.ensureInitialized();
+  // LocaleSettings.useDeviceLocale();
+
   runApp(
     ProviderScope(
       overrides: [dbProvider.overrideWithValue(db)],
