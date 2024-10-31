@@ -1,10 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsInt, IsNotEmpty, IsString, Max, Min, ValidateNested } from 'class-validator';
+import { DateTime } from 'luxon';
 import { PropertyLifecycle } from 'src/decorators';
 import { AuthDto } from 'src/dtos/auth.dto';
 import { AssetFaceEntity } from 'src/entities/asset-face.entity';
 import { PersonEntity } from 'src/entities/person.entity';
+import { SourceType } from 'src/enum';
 import { IsDateStringFormat, MaxDateString, Optional, ValidateBoolean, ValidateUUID } from 'src/validation';
 
 export class PersonCreateDto {
@@ -20,7 +22,7 @@ export class PersonCreateDto {
    * Note: the mobile app cannot currently set the birth date to null.
    */
   @ApiProperty({ format: 'date' })
-  @MaxDateString(() => new Date(), { message: 'Birth date cannot be in the future' })
+  @MaxDateString(() => DateTime.now(), { message: 'Birth date cannot be in the future' })
   @IsDateStringFormat('yyyy-MM-dd')
   @Optional({ nullable: true })
   birthDate?: string | null;
@@ -112,6 +114,8 @@ export class AssetFaceWithoutPersonResponseDto {
   boundingBoxY1!: number;
   @ApiProperty({ type: 'integer' })
   boundingBoxY2!: number;
+  @ApiProperty({ enum: SourceType, enumName: 'SourceType' })
+  sourceType?: SourceType;
 }
 
 export class AssetFaceResponseDto extends AssetFaceWithoutPersonResponseDto {
@@ -175,6 +179,7 @@ export function mapFacesWithoutPerson(face: AssetFaceEntity): AssetFaceWithoutPe
     boundingBoxX2: face.boundingBoxX2,
     boundingBoxY1: face.boundingBoxY1,
     boundingBoxY2: face.boundingBoxY2,
+    sourceType: face.sourceType,
   };
 }
 

@@ -18,20 +18,20 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
+import { SystemConfig } from 'src/config';
+import { CLIPConfig, DuplicateDetectionConfig, FacialRecognitionConfig } from 'src/dtos/model-config.dto';
 import {
   AudioCodec,
   CQMode,
   Colorspace,
   ImageFormat,
   LogLevel,
-  SystemConfig,
   ToneMapping,
   TranscodeHWAccel,
   TranscodePolicy,
   VideoCodec,
   VideoContainer,
-} from 'src/config';
-import { CLIPConfig, DuplicateDetectionConfig, FacialRecognitionConfig } from 'src/dtos/model-config.dto';
+} from 'src/enum';
 import { ConcurrentQueueName, QueueName } from 'src/interfaces/job.interface';
 import { ValidateBoolean, validateCronExpression } from 'src/validation';
 
@@ -46,6 +46,30 @@ const isLibraryScanEnabled = (config: SystemConfigLibraryScanDto) => config.enab
 const isOAuthEnabled = (config: SystemConfigOAuthDto) => config.enabled;
 const isOAuthOverrideEnabled = (config: SystemConfigOAuthDto) => config.mobileOverrideEnabled;
 const isEmailNotificationEnabled = (config: SystemConfigSmtpDto) => config.enabled;
+const isDatabaseBackupEnabled = (config: DatabaseBackupConfig) => config.enabled;
+
+export class DatabaseBackupConfig {
+  @ValidateBoolean()
+  enabled!: boolean;
+
+  @ValidateIf(isDatabaseBackupEnabled)
+  @IsNotEmpty()
+  @Validate(CronValidator, { message: 'Invalid cron expression' })
+  @IsString()
+  cronExpression!: string;
+
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
+  keepLastAmount!: number;
+}
+
+export class SystemConfigBackupsDto {
+  @Type(() => DatabaseBackupConfig)
+  @ValidateNested()
+  @IsObject()
+  database!: DatabaseBackupConfig;
+}
 
 export class SystemConfigFFmpegDto {
   @IsInt()
@@ -296,10 +320,12 @@ class SystemConfigMapDto {
   @ValidateBoolean()
   enabled!: boolean;
 
-  @IsString()
+  @IsNotEmpty()
+  @IsUrl()
   lightStyle!: string;
 
-  @IsString()
+  @IsNotEmpty()
+  @IsUrl()
   darkStyle!: string;
 }
 
@@ -375,8 +401,21 @@ class SystemConfigReverseGeocodingDto {
   enabled!: boolean;
 }
 
+class SystemConfigFacesDto {
+  @IsBoolean()
+  import!: boolean;
+}
+
+class SystemConfigMetadataDto {
+  @Type(() => SystemConfigFacesDto)
+  @ValidateNested()
+  @IsObject()
+  faces!: SystemConfigFacesDto;
+}
+
 class SystemConfigServerDto {
-  @IsString()
+  @ValidateIf((_, value: string) => value !== '')
+  @IsUrl({ require_tld: false, require_protocol: true, protocols: ['http', 'https'] })
   externalDomain!: string;
 
   @IsString()
@@ -458,26 +497,10 @@ export class SystemConfigThemeDto {
   customCss!: string;
 }
 
-class SystemConfigImageDto {
+class SystemConfigGeneratedImageDto {
   @IsEnum(ImageFormat)
   @ApiProperty({ enumName: 'ImageFormat', enum: ImageFormat })
-  thumbnailFormat!: ImageFormat;
-
-  @IsInt()
-  @Min(1)
-  @Type(() => Number)
-  @ApiProperty({ type: 'integer' })
-  thumbnailSize!: number;
-
-  @IsEnum(ImageFormat)
-  @ApiProperty({ enumName: 'ImageFormat', enum: ImageFormat })
-  previewFormat!: ImageFormat;
-
-  @IsInt()
-  @Min(1)
-  @Type(() => Number)
-  @ApiProperty({ type: 'integer' })
-  previewSize!: number;
+  format!: ImageFormat;
 
   @IsInt()
   @Min(1)
@@ -485,6 +508,24 @@ class SystemConfigImageDto {
   @Type(() => Number)
   @ApiProperty({ type: 'integer' })
   quality!: number;
+
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
+  @ApiProperty({ type: 'integer' })
+  size!: number;
+}
+
+export class SystemConfigImageDto {
+  @Type(() => SystemConfigGeneratedImageDto)
+  @ValidateNested()
+  @IsObject()
+  thumbnail!: SystemConfigGeneratedImageDto;
+
+  @Type(() => SystemConfigGeneratedImageDto)
+  @ValidateNested()
+  @IsObject()
+  preview!: SystemConfigGeneratedImageDto;
 
   @IsEnum(Colorspace)
   @ApiProperty({ enumName: 'Colorspace', enum: Colorspace })
@@ -514,6 +555,11 @@ class SystemConfigUserDto {
 }
 
 export class SystemConfigDto implements SystemConfig {
+  @Type(() => SystemConfigBackupsDto)
+  @ValidateNested()
+  @IsObject()
+  backup!: SystemConfigBackupsDto;
+
   @Type(() => SystemConfigFFmpegDto)
   @ValidateNested()
   @IsObject()
@@ -553,6 +599,11 @@ export class SystemConfigDto implements SystemConfig {
   @ValidateNested()
   @IsObject()
   reverseGeocoding!: SystemConfigReverseGeocodingDto;
+
+  @Type(() => SystemConfigMetadataDto)
+  @ValidateNested()
+  @IsObject()
+  metadata!: SystemConfigMetadataDto;
 
   @Type(() => SystemConfigStorageTemplateDto)
   @ValidateNested()

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:background_downloader/background_downloader.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
 import 'package:share_handler/share_handler.dart';
+import 'package:immich_mobile/utils/download.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:immich_mobile/constants/locales.dart';
 import 'package:immich_mobile/services/background.service.dart';
@@ -40,7 +42,6 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   ImmichWidgetsBinding();
-
   final db = await loadDb();
   await initApp();
   await migrateDatabaseIfNeeded(db);
@@ -66,6 +67,8 @@ Future<void> initApp() async {
     }
   }
 
+  await fetchSystemPalette();
+
   // Initialize Immich Logger Service
   ImmichLogger();
 
@@ -81,11 +84,29 @@ Future<void> initApp() async {
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint("FlutterError - Catch all: $error \n $stack");
     log.severe('PlatformDispatcher - Catch all', error, stack);
     return true;
   };
 
   initializeTimeZones();
+
+  FileDownloader().configureNotification(
+    running: TaskNotification(
+      'downloading_media'.tr(),
+      'file: {filename}',
+    ),
+    complete: TaskNotification(
+      'download_finished'.tr(),
+      'file: {filename}',
+    ),
+    progressBar: true,
+  );
+
+  FileDownloader().trackTasksInGroup(
+    downloadGroupLivePhoto,
+    markDownloadedComplete: false,
+  );
 }
 
 Future<Isar> loadDb() async {
@@ -210,7 +231,8 @@ class ImmichAppState extends ConsumerState<ImmichApp>
 
   @override
   Widget build(BuildContext context) {
-    var router = ref.watch(appRouterProvider);
+    final router = ref.watch(appRouterProvider);
+    final immichTheme = ref.watch(immichThemeProvider);
 
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
@@ -220,9 +242,9 @@ class ImmichAppState extends ConsumerState<ImmichApp>
       home: MaterialApp.router(
         title: 'Immich',
         debugShowCheckedModeBanner: false,
-        themeMode: ref.watch(immichThemeProvider),
-        darkTheme: immichDarkTheme,
-        theme: immichLightTheme,
+        themeMode: ref.watch(immichThemeModeProvider),
+        darkTheme: getThemeData(colorScheme: immichTheme.dark),
+        theme: getThemeData(colorScheme: immichTheme.light),
         routeInformationParser: router.defaultRouteParser(),
         routerDelegate: router.delegate(
           navigatorObservers: () => [TabNavigationObserver(ref: ref)],

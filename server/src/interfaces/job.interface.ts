@@ -15,11 +15,15 @@ export enum QueueName {
   SIDECAR = 'sidecar',
   LIBRARY = 'library',
   NOTIFICATION = 'notifications',
+  BACKUP_DATABASE = 'backupDatabase',
 }
 
 export type ConcurrentQueueName = Exclude<
   QueueName,
-  QueueName.STORAGE_TEMPLATE_MIGRATION | QueueName.FACIAL_RECOGNITION | QueueName.DUPLICATE_DETECTION
+  | QueueName.STORAGE_TEMPLATE_MIGRATION
+  | QueueName.FACIAL_RECOGNITION
+  | QueueName.DUPLICATE_DETECTION
+  | QueueName.BACKUP_DATABASE
 >;
 
 export enum JobCommand {
@@ -31,15 +35,16 @@ export enum JobCommand {
 }
 
 export enum JobName {
+  //backups
+  BACKUP_DATABASE = 'database-backup',
+
   // conversion
   QUEUE_VIDEO_CONVERSION = 'queue-video-conversion',
   VIDEO_CONVERSION = 'video-conversion',
 
   // thumbnails
   QUEUE_GENERATE_THUMBNAILS = 'queue-generate-thumbnails',
-  GENERATE_PREVIEW = 'generate-preview',
-  GENERATE_THUMBNAIL = 'generate-thumbnail',
-  GENERATE_THUMBHASH = 'generate-thumbhash',
+  GENERATE_THUMBNAILS = 'generate-thumbnails',
   GENERATE_PERSON_THUMBNAIL = 'generate-person-thumbnail',
 
   // metadata
@@ -60,6 +65,9 @@ export enum JobName {
   STORAGE_TEMPLATE_MIGRATION = 'storage-template-migration',
   STORAGE_TEMPLATE_MIGRATION_SINGLE = 'storage-template-migration-single',
 
+  // tags
+  TAG_CLEANUP = 'tag-cleanup',
+
   // migration
   QUEUE_MIGRATION = 'queue-migration',
   MIGRATE_ASSET = 'migrate-asset',
@@ -73,11 +81,12 @@ export enum JobName {
   FACIAL_RECOGNITION = 'facial-recognition',
 
   // library management
-  LIBRARY_SCAN = 'library-refresh',
-  LIBRARY_SCAN_ASSET = 'library-refresh-asset',
-  LIBRARY_REMOVE_OFFLINE = 'library-remove-offline',
+  LIBRARY_QUEUE_SYNC_FILES = 'library-queue-sync-files',
+  LIBRARY_QUEUE_SYNC_ASSETS = 'library-queue-sync-assets',
+  LIBRARY_SYNC_FILE = 'library-sync-file',
+  LIBRARY_SYNC_ASSET = 'library-sync-asset',
   LIBRARY_DELETE = 'library-delete',
-  LIBRARY_QUEUE_SCAN_ALL = 'library-queue-all-refresh',
+  LIBRARY_QUEUE_SYNC_ALL = 'library-queue-sync-all',
   LIBRARY_QUEUE_CLEANUP = 'library-queue-cleanup',
 
   // cleanup
@@ -88,6 +97,8 @@ export enum JobName {
   // smart search
   QUEUE_SMART_SEARCH = 'queue-smart-search',
   SMART_SEARCH = 'smart-search',
+
+  QUEUE_TRASH_EMPTY = 'queue-trash-empty',
 
   // duplicate detection
   QUEUE_DUPLICATE_DETECTION = 'queue-duplicate-detection',
@@ -110,14 +121,21 @@ export enum JobName {
 }
 
 export const JOBS_ASSET_PAGINATION_SIZE = 1000;
+export const JOBS_LIBRARY_PAGINATION_SIZE = 10_000;
 
 export interface IBaseJob {
   force?: boolean;
 }
 
+export interface IDelayedJob extends IBaseJob {
+  /** The minimum time to wait to execute this job, in milliseconds. */
+  delay?: number;
+}
+
 export interface IEntityJob extends IBaseJob {
   id: string;
   source?: 'upload' | 'sidecar-write' | 'copy';
+  notify?: boolean;
 }
 
 export interface IAssetDeleteJob extends IEntityJob {
@@ -129,9 +147,9 @@ export interface ILibraryFileJob extends IEntityJob {
   assetPath: string;
 }
 
-export interface ILibraryRefreshJob extends IEntityJob {
-  refreshModifiedFiles: boolean;
-  refreshAllFiles: boolean;
+export interface ILibraryAssetJob extends IEntityJob {
+  importPaths: string[];
+  exclusionPatterns: string[];
 }
 
 export interface IBulkEntityJob extends IBaseJob {
@@ -147,6 +165,8 @@ export interface ISidecarWriteJob extends IEntityJob {
   dateTimeOriginal?: string;
   latitude?: number;
   longitude?: number;
+  rating?: number;
+  tags?: true;
 }
 
 export interface IDeferrableJob extends IEntityJob {
@@ -173,8 +193,8 @@ export interface INotifyAlbumInviteJob extends IEntityJob {
   recipientId: string;
 }
 
-export interface INotifyAlbumUpdateJob extends IEntityJob {
-  senderId: string;
+export interface INotifyAlbumUpdateJob extends IEntityJob, IDelayedJob {
+  recipientIds: string[];
 }
 
 export interface JobCounts {
@@ -196,15 +216,16 @@ export enum QueueCleanType {
 }
 
 export type JobItem =
+  // Backups
+  | { name: JobName.BACKUP_DATABASE; data?: IBaseJob }
+
   // Transcoding
   | { name: JobName.QUEUE_VIDEO_CONVERSION; data: IBaseJob }
   | { name: JobName.VIDEO_CONVERSION; data: IEntityJob }
 
   // Thumbnails
   | { name: JobName.QUEUE_GENERATE_THUMBNAILS; data: IBaseJob }
-  | { name: JobName.GENERATE_PREVIEW; data: IEntityJob }
-  | { name: JobName.GENERATE_THUMBNAIL; data: IEntityJob }
-  | { name: JobName.GENERATE_THUMBHASH; data: IEntityJob }
+  | { name: JobName.GENERATE_THUMBNAILS; data: IEntityJob }
 
   // User
   | { name: JobName.USER_DELETE_CHECK; data?: IBaseJob }
@@ -240,6 +261,7 @@ export type JobItem =
   // Smart Search
   | { name: JobName.QUEUE_SMART_SEARCH; data: IBaseJob }
   | { name: JobName.SMART_SEARCH; data: IEntityJob }
+  | { name: JobName.QUEUE_TRASH_EMPTY; data?: IBaseJob }
 
   // Duplicate Detection
   | { name: JobName.QUEUE_DUPLICATE_DETECTION; data: IBaseJob }
@@ -252,17 +274,21 @@ export type JobItem =
   | { name: JobName.CLEAN_OLD_AUDIT_LOGS; data?: IBaseJob }
   | { name: JobName.CLEAN_OLD_SESSION_TOKENS; data?: IBaseJob }
 
+  // Tags
+  | { name: JobName.TAG_CLEANUP; data?: IBaseJob }
+
   // Asset Deletion
   | { name: JobName.PERSON_CLEANUP; data?: IBaseJob }
   | { name: JobName.ASSET_DELETION; data: IAssetDeleteJob }
   | { name: JobName.ASSET_DELETION_CHECK; data?: IBaseJob }
 
   // Library Management
-  | { name: JobName.LIBRARY_SCAN_ASSET; data: ILibraryFileJob }
-  | { name: JobName.LIBRARY_SCAN; data: ILibraryRefreshJob }
-  | { name: JobName.LIBRARY_REMOVE_OFFLINE; data: IEntityJob }
+  | { name: JobName.LIBRARY_SYNC_FILE; data: ILibraryFileJob }
+  | { name: JobName.LIBRARY_QUEUE_SYNC_FILES; data: IEntityJob }
+  | { name: JobName.LIBRARY_QUEUE_SYNC_ASSETS; data: IEntityJob }
+  | { name: JobName.LIBRARY_SYNC_ASSET; data: IEntityJob }
   | { name: JobName.LIBRARY_DELETE; data: IEntityJob }
-  | { name: JobName.LIBRARY_QUEUE_SCAN_ALL; data: IBaseJob }
+  | { name: JobName.LIBRARY_QUEUE_SYNC_ALL; data?: IBaseJob }
   | { name: JobName.LIBRARY_QUEUE_CLEANUP; data: IBaseJob }
 
   // Notification
@@ -289,7 +315,6 @@ export interface IJobRepository {
   addHandler(queueName: QueueName, concurrency: number, handler: JobItemHandler): void;
   addCronJob(name: string, expression: string, onTick: () => void, start?: boolean): void;
   updateCronJob(name: string, expression?: string, start?: boolean): void;
-  deleteCronJob(name: string): void;
   setConcurrency(queueName: QueueName, concurrency: number): void;
   queue(item: JobItem): Promise<void>;
   queueAll(items: JobItem[]): Promise<void>;
@@ -300,4 +325,5 @@ export interface IJobRepository {
   getQueueStatus(name: QueueName): Promise<QueueStatus>;
   getJobCounts(name: QueueName): Promise<JobCounts>;
   waitForQueueCompletion(...queues: QueueName[]): Promise<void>;
+  removeJob(jobId: string, name: JobName): Promise<IEntityJob | undefined>;
 }

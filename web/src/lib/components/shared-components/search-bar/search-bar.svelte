@@ -2,10 +2,9 @@
   import { AppRoute } from '$lib/constants';
   import { goto } from '$app/navigation';
   import { isSearchEnabled, preventRaceConditionSearchBar, savedSearchTerms } from '$lib/stores/search.store';
-  import { clickOutside } from '$lib/actions/click-outside';
   import { mdiClose, mdiMagnify, mdiTune } from '@mdi/js';
   import SearchHistoryBox from './search-history-box.svelte';
-  import SearchFilterBox from './search-filter-box.svelte';
+  import SearchFilterModal from './search-filter-modal.svelte';
   import type { MetadataSearchDto, SmartSearchDto } from '@immich/sdk';
   import { getMetadataSearchQuery } from '$lib/utils/metadata-search';
   import { handlePromiseError } from '$lib/utils';
@@ -67,13 +66,17 @@
   };
 
   const onFocusOut = () => {
-    if ($isSearchEnabled) {
-      $preventRaceConditionSearchBar = true;
-    }
+    const focusOutTimer = setTimeout(() => {
+      if ($isSearchEnabled) {
+        $preventRaceConditionSearchBar = true;
+      }
 
-    closeDropdown();
-    $isSearchEnabled = false;
-    showFilter = false;
+      closeDropdown();
+      $isSearchEnabled = false;
+      showFilter = false;
+    }, 100);
+
+    clearTimeout(focusOutTimer);
   };
 
   const onHistoryTermClick = async (searchTerm: string) => {
@@ -142,7 +145,7 @@
   ]}
 />
 
-<div class="w-full relative" use:clickOutside={{ onOutclick: onFocusOut }} use:focusOutside={{ onFocusOut }}>
+<div class="w-full relative" use:focusOutside={{ onFocusOut }} tabindex="-1">
   <form
     draggable="false"
     autocomplete="off"
@@ -153,7 +156,7 @@
     on:focusin={onFocusIn}
     role="search"
   >
-    <div use:focusOutside={{ onFocusOut: closeDropdown }}>
+    <div use:focusOutside={{ onFocusOut: closeDropdown }} tabindex="-1">
       <label for="main-search-bar" class="sr-only">{$t('search_your_photos')}</label>
       <input
         type="text"
@@ -161,8 +164,8 @@
         id="main-search-bar"
         class="w-full transition-all border-2 px-14 py-4 text-immich-fg/75 dark:text-immich-dark-fg
         {grayTheme ? 'dark:bg-immich-dark-gray' : 'dark:bg-immich-dark-bg'}
-        {(showSuggestions && isSearchSuggestions) || showFilter ? 'rounded-t-3xl' : 'rounded-3xl bg-gray-200'}
-        {$isSearchEnabled ? 'border-gray-200 dark:border-gray-700 bg-white' : 'border-transparent'}"
+        {showSuggestions && isSearchSuggestions ? 'rounded-t-3xl' : 'rounded-3xl bg-gray-200'}
+        {$isSearchEnabled && !showFilter ? 'border-gray-200 dark:border-gray-700 bg-white' : 'border-transparent'}"
         placeholder={$t('search_your_photos')}
         required
         pattern="^(?!m:$).*$"
@@ -216,6 +219,6 @@
   </form>
 
   {#if showFilter}
-    <SearchFilterBox {searchQuery} on:search={({ detail }) => onSearch(detail)} />
+    <SearchFilterModal {searchQuery} onSearch={(payload) => onSearch(payload)} onClose={() => (showFilter = false)} />
   {/if}
 </div>

@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDateString, IsEnum, IsInt, IsPositive, ValidateNested } from 'class-validator';
-import { UserAvatarColor, UserPreferences } from 'src/entities/user-metadata.entity';
+import { UserPreferences } from 'src/entities/user-metadata.entity';
+import { UserAvatarColor } from 'src/enum';
 import { Optional, ValidateBoolean } from 'src/validation';
 
 class AvatarUpdate {
@@ -11,9 +12,38 @@ class AvatarUpdate {
   color?: UserAvatarColor;
 }
 
-class MemoryUpdate {
+class MemoriesUpdate {
   @ValidateBoolean({ optional: true })
   enabled?: boolean;
+}
+
+class RatingsUpdate {
+  @ValidateBoolean({ optional: true })
+  enabled?: boolean;
+}
+
+class FoldersUpdate {
+  @ValidateBoolean({ optional: true })
+  enabled?: boolean;
+
+  @ValidateBoolean({ optional: true })
+  sidebarWeb?: boolean;
+}
+
+class PeopleUpdate {
+  @ValidateBoolean({ optional: true })
+  enabled?: boolean;
+
+  @ValidateBoolean({ optional: true })
+  sidebarWeb?: boolean;
+}
+
+class TagsUpdate {
+  @ValidateBoolean({ optional: true })
+  enabled?: boolean;
+
+  @ValidateBoolean({ optional: true })
+  sidebarWeb?: boolean;
 }
 
 class EmailNotificationsUpdate {
@@ -27,12 +57,15 @@ class EmailNotificationsUpdate {
   albumUpdate?: boolean;
 }
 
-class DownloadUpdate {
+class DownloadUpdate implements Partial<DownloadResponse> {
   @Optional()
   @IsInt()
   @IsPositive()
   @ApiProperty({ type: 'integer' })
   archiveSize?: number;
+
+  @ValidateBoolean({ optional: true })
+  includeEmbeddedVideos?: boolean;
 }
 
 class PurchaseUpdate {
@@ -47,13 +80,33 @@ class PurchaseUpdate {
 export class UserPreferencesUpdateDto {
   @Optional()
   @ValidateNested()
-  @Type(() => AvatarUpdate)
-  avatar?: AvatarUpdate;
+  @Type(() => FoldersUpdate)
+  folders?: FoldersUpdate;
 
   @Optional()
   @ValidateNested()
-  @Type(() => MemoryUpdate)
-  memories?: MemoryUpdate;
+  @Type(() => MemoriesUpdate)
+  memories?: MemoriesUpdate;
+
+  @Optional()
+  @ValidateNested()
+  @Type(() => PeopleUpdate)
+  people?: PeopleUpdate;
+
+  @Optional()
+  @ValidateNested()
+  @Type(() => RatingsUpdate)
+  ratings?: RatingsUpdate;
+
+  @Optional()
+  @ValidateNested()
+  @Type(() => TagsUpdate)
+  tags?: TagsUpdate;
+
+  @Optional()
+  @ValidateNested()
+  @Type(() => AvatarUpdate)
+  avatar?: AvatarUpdate;
 
   @Optional()
   @ValidateNested()
@@ -76,8 +129,27 @@ class AvatarResponse {
   color!: UserAvatarColor;
 }
 
-class MemoryResponse {
-  enabled!: boolean;
+class RatingsResponse {
+  enabled: boolean = false;
+}
+
+class MemoriesResponse {
+  enabled: boolean = true;
+}
+
+class FoldersResponse {
+  enabled: boolean = false;
+  sidebarWeb: boolean = false;
+}
+
+class PeopleResponse {
+  enabled: boolean = true;
+  sidebarWeb: boolean = false;
+}
+
+class TagsResponse {
+  enabled: boolean = true;
+  sidebarWeb: boolean = true;
 }
 
 class EmailNotificationsResponse {
@@ -89,6 +161,8 @@ class EmailNotificationsResponse {
 class DownloadResponse {
   @ApiProperty({ type: 'integer' })
   archiveSize!: number;
+
+  includeEmbeddedVideos: boolean = false;
 }
 
 class PurchaseResponse {
@@ -97,7 +171,11 @@ class PurchaseResponse {
 }
 
 export class UserPreferencesResponseDto implements UserPreferences {
-  memories!: MemoryResponse;
+  folders!: FoldersResponse;
+  memories!: MemoriesResponse;
+  people!: PeopleResponse;
+  ratings!: RatingsResponse;
+  tags!: TagsResponse;
   avatar!: AvatarResponse;
   emailNotifications!: EmailNotificationsResponse;
   download!: DownloadResponse;

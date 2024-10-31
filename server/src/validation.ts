@@ -21,11 +21,11 @@ import {
   ValidationOptions,
   buildMessage,
   isDateString,
-  maxDate,
 } from 'class-validator';
 import { CronJob } from 'cron';
 import { DateTime } from 'luxon';
 import sanitize from 'sanitize-filename';
+import { isIP, isIPRange } from 'validator';
 
 @Injectable()
 export class ParseMeUUIDPipe extends ParseUUIDPipe {
@@ -66,6 +66,8 @@ export class UUIDParamDto {
 
 export interface OptionalOptions extends ValidationOptions {
   nullable?: boolean;
+  /** convert empty strings to null */
+  emptyToNull?: boolean;
 }
 
 /**
@@ -76,12 +78,20 @@ export interface OptionalOptions extends ValidationOptions {
  * @see IsOptional exported from `class-validator.
  */
 // https://stackoverflow.com/a/71353929
-export function Optional({ nullable, ...validationOptions }: OptionalOptions = {}) {
+export function Optional({ nullable, emptyToNull, ...validationOptions }: OptionalOptions = {}) {
+  const decorators: PropertyDecorator[] = [];
+
   if (nullable === true) {
-    return IsOptional(validationOptions);
+    decorators.push(IsOptional(validationOptions));
+  } else {
+    decorators.push(ValidateIf((object: any, v: any) => v !== undefined, validationOptions));
   }
 
-  return ValidateIf((object: any, v: any) => v !== undefined, validationOptions);
+  if (emptyToNull) {
+    decorators.push(Transform(({ value }) => (value === '' ? null : value)));
+  }
+
+  return applyDecorators(...decorators);
 }
 
 type UUIDOptions = { optional?: boolean; each?: boolean; nullable?: boolean };
@@ -193,18 +203,54 @@ export function IsDateStringFormat(format: string, validationOptions?: Validatio
   );
 }
 
-export function MaxDateString(date: Date | (() => Date), validationOptions?: ValidationOptions): PropertyDecorator {
+function maxDate(date: DateTime, maxDate: DateTime | (() => DateTime)) {
+  return date <= (maxDate instanceof DateTime ? maxDate : maxDate());
+}
+
+export function MaxDateString(
+  date: DateTime | (() => DateTime),
+  validationOptions?: ValidationOptions,
+): PropertyDecorator {
   return ValidateBy(
     {
       name: 'maxDateString',
       constraints: [date],
       validator: {
         validate: (value, args) => {
-          const date = DateTime.fromISO(value, { zone: 'utc' }).toJSDate();
+          const date = DateTime.fromISO(value, { zone: 'utc' });
           return maxDate(date, args?.constraints[0]);
         },
         defaultMessage: buildMessage(
           (eachPrefix) => 'maximal allowed date for ' + eachPrefix + '$property is $constraint1',
+          validationOptions,
+        ),
+      },
+    },
+    validationOptions,
+  );
+}
+
+type IsIPRangeOptions = { requireCIDR?: boolean };
+export function IsIPRange(options: IsIPRangeOptions, validationOptions?: ValidationOptions): PropertyDecorator {
+  const { requireCIDR } = { requireCIDR: true, ...options };
+
+  return ValidateBy(
+    {
+      name: 'isIPRange',
+      validator: {
+        validate: (value): boolean => {
+          if (isIPRange(value)) {
+            return true;
+          }
+
+          if (!requireCIDR && isIP(value)) {
+            return true;
+          }
+
+          return false;
+        },
+        defaultMessage: buildMessage(
+          (eachPrefix) => eachPrefix + '$property must be an ip address, or ip address range',
           validationOptions,
         ),
       },

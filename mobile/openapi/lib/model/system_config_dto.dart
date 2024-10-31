@@ -13,6 +13,7 @@ part of openapi.api;
 class SystemConfigDto {
   /// Returns a new [SystemConfigDto] instance.
   SystemConfigDto({
+    required this.backup,
     required this.ffmpeg,
     required this.image,
     required this.job,
@@ -20,6 +21,7 @@ class SystemConfigDto {
     required this.logging,
     required this.machineLearning,
     required this.map,
+    required this.metadata,
     required this.newVersionCheck,
     required this.notifications,
     required this.oauth,
@@ -31,6 +33,8 @@ class SystemConfigDto {
     required this.trash,
     required this.user,
   });
+
+  SystemConfigBackupsDto backup;
 
   SystemConfigFFmpegDto ffmpeg;
 
@@ -45,6 +49,8 @@ class SystemConfigDto {
   SystemConfigMachineLearningDto machineLearning;
 
   SystemConfigMapDto map;
+
+  SystemConfigMetadataDto metadata;
 
   SystemConfigNewVersionCheckDto newVersionCheck;
 
@@ -68,6 +74,7 @@ class SystemConfigDto {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SystemConfigDto &&
+    other.backup == backup &&
     other.ffmpeg == ffmpeg &&
     other.image == image &&
     other.job == job &&
@@ -75,6 +82,7 @@ class SystemConfigDto {
     other.logging == logging &&
     other.machineLearning == machineLearning &&
     other.map == map &&
+    other.metadata == metadata &&
     other.newVersionCheck == newVersionCheck &&
     other.notifications == notifications &&
     other.oauth == oauth &&
@@ -89,6 +97,7 @@ class SystemConfigDto {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
+    (backup.hashCode) +
     (ffmpeg.hashCode) +
     (image.hashCode) +
     (job.hashCode) +
@@ -96,6 +105,7 @@ class SystemConfigDto {
     (logging.hashCode) +
     (machineLearning.hashCode) +
     (map.hashCode) +
+    (metadata.hashCode) +
     (newVersionCheck.hashCode) +
     (notifications.hashCode) +
     (oauth.hashCode) +
@@ -108,10 +118,11 @@ class SystemConfigDto {
     (user.hashCode);
 
   @override
-  String toString() => 'SystemConfigDto[ffmpeg=$ffmpeg, image=$image, job=$job, library_=$library_, logging=$logging, machineLearning=$machineLearning, map=$map, newVersionCheck=$newVersionCheck, notifications=$notifications, oauth=$oauth, passwordLogin=$passwordLogin, reverseGeocoding=$reverseGeocoding, server=$server, storageTemplate=$storageTemplate, theme=$theme, trash=$trash, user=$user]';
+  String toString() => 'SystemConfigDto[backup=$backup, ffmpeg=$ffmpeg, image=$image, job=$job, library_=$library_, logging=$logging, machineLearning=$machineLearning, map=$map, metadata=$metadata, newVersionCheck=$newVersionCheck, notifications=$notifications, oauth=$oauth, passwordLogin=$passwordLogin, reverseGeocoding=$reverseGeocoding, server=$server, storageTemplate=$storageTemplate, theme=$theme, trash=$trash, user=$user]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+      json[r'backup'] = this.backup;
       json[r'ffmpeg'] = this.ffmpeg;
       json[r'image'] = this.image;
       json[r'job'] = this.job;
@@ -119,6 +130,7 @@ class SystemConfigDto {
       json[r'logging'] = this.logging;
       json[r'machineLearning'] = this.machineLearning;
       json[r'map'] = this.map;
+      json[r'metadata'] = this.metadata;
       json[r'newVersionCheck'] = this.newVersionCheck;
       json[r'notifications'] = this.notifications;
       json[r'oauth'] = this.oauth;
@@ -136,10 +148,12 @@ class SystemConfigDto {
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
   static SystemConfigDto? fromJson(dynamic value) {
+    upgradeDto(value, "SystemConfigDto");
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
       return SystemConfigDto(
+        backup: SystemConfigBackupsDto.fromJson(json[r'backup'])!,
         ffmpeg: SystemConfigFFmpegDto.fromJson(json[r'ffmpeg'])!,
         image: SystemConfigImageDto.fromJson(json[r'image'])!,
         job: SystemConfigJobDto.fromJson(json[r'job'])!,
@@ -147,6 +161,7 @@ class SystemConfigDto {
         logging: SystemConfigLoggingDto.fromJson(json[r'logging'])!,
         machineLearning: SystemConfigMachineLearningDto.fromJson(json[r'machineLearning'])!,
         map: SystemConfigMapDto.fromJson(json[r'map'])!,
+        metadata: SystemConfigMetadataDto.fromJson(json[r'metadata'])!,
         newVersionCheck: SystemConfigNewVersionCheckDto.fromJson(json[r'newVersionCheck'])!,
         notifications: SystemConfigNotificationsDto.fromJson(json[r'notifications'])!,
         oauth: SystemConfigOAuthDto.fromJson(json[r'oauth'])!,
@@ -204,6 +219,7 @@ class SystemConfigDto {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
+    'backup',
     'ffmpeg',
     'image',
     'job',
@@ -211,6 +227,7 @@ class SystemConfigDto {
     'logging',
     'machineLearning',
     'map',
+    'metadata',
     'newVersionCheck',
     'notifications',
     'oauth',

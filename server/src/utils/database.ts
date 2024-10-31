@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { AssetFaceEntity } from 'src/entities/asset-face.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
 import { AssetSearchBuilderOptions } from 'src/interfaces/search.interface';
 import { Between, IsNull, LessThanOrEqual, MoreThanOrEqual, Not, SelectQueryBuilder } from 'typeorm';
@@ -44,11 +45,19 @@ export function searchAssetBuilder(
   }
 
   if (hasExifQuery) {
-    options.withExif
-      ? builder.leftJoinAndSelect(`${builder.alias}.exifInfo`, 'exifInfo')
-      : builder.leftJoin(`${builder.alias}.exifInfo`, 'exifInfo');
+    if (options.withExif) {
+      builder.leftJoinAndSelect(`${builder.alias}.exifInfo`, 'exifInfo');
+    } else {
+      builder.leftJoin(`${builder.alias}.exifInfo`, 'exifInfo');
+    }
 
-    builder.andWhere({ exifInfo });
+    for (const [key, value] of Object.entries(exifInfo)) {
+      if (value === null) {
+        builder.andWhere(`exifInfo.${key} IS NULL`);
+      } else {
+        builder.andWhere(`exifInfo.${key} = :${key}`, { [key]: value });
+      }
+    }
   }
 
   const id = _.pick(options, ['checksum', 'deviceAssetId', 'deviceId', 'id', 'libraryId']);
@@ -63,7 +72,7 @@ export function searchAssetBuilder(
     builder.andWhere(`${builder.alias}.ownerId IN (:...userIds)`, { userIds: options.userIds });
   }
 
-  const path = _.pick(options, ['encodedVideoPath', 'originalPath', 'previewPath', 'thumbnailPath']);
+  const path = _.pick(options, ['encodedVideoPath', 'originalPath']);
   builder.andWhere(_.omitBy(path, _.isUndefined));
 
   if (options.originalFileName) {
@@ -72,7 +81,7 @@ export function searchAssetBuilder(
     });
   }
 
-  const status = _.pick(options, ['isFavorite', 'isOffline', 'isVisible', 'type']);
+  const status = _.pick(options, ['isFavorite', 'isVisible', 'type']);
   const {
     isArchived,
     isEncoded,
@@ -83,7 +92,6 @@ export function searchAssetBuilder(
     withPeople,
     withSmartInfo,
     personIds,
-    withExif,
     withStacked,
     trashedAfter,
     trashedBefore,
@@ -112,7 +120,7 @@ export function searchAssetBuilder(
   }
 
   if (withPeople) {
-    builder.leftJoinAndSelect(`${builder.alias}.person`, 'person');
+    builder.leftJoinAndSelect('faces.person', 'person');
   }
 
   if (withSmartInfo) {
@@ -120,15 +128,16 @@ export function searchAssetBuilder(
   }
 
   if (personIds && personIds.length > 0) {
-    builder
-      .leftJoin(`${builder.alias}.faces`, 'faces')
-      .andWhere('faces.personId IN (:...personIds)', { personIds })
-      .addGroupBy(`${builder.alias}.id`)
-      .having('COUNT(DISTINCT faces.personId) = :personCount', { personCount: personIds.length });
+    const cte = builder
+      .createQueryBuilder()
+      .select('faces."assetId"')
+      .from(AssetFaceEntity, 'faces')
+      .where('faces."personId" IN (:...personIds)', { personIds })
+      .groupBy(`faces."assetId"`)
+      .having(`COUNT(DISTINCT faces."personId") = :personCount`, { personCount: personIds.length });
+    builder.addCommonTableExpression(cte, 'face_ids').innerJoin('face_ids', 'a', 'a."assetId" = asset.id');
 
-    if (withExif) {
-      builder.addGroupBy('exifInfo.assetId');
-    }
+    builder.getQuery(); // typeorm mixes up parameters without this  (੭ °ཀ°)੭
   }
 
   if (withStacked) {

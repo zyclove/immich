@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart' hide Store;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:immich_mobile/constants/constants.dart';
 import 'package:immich_mobile/entities/asset.entity.dart';
 import 'package:immich_mobile/extensions/build_context_extensions.dart';
+import 'package:immich_mobile/pages/common/download_panel.dart';
 import 'package:immich_mobile/pages/common/video_viewer.page.dart';
 import 'package:immich_mobile/providers/app_settings.provider.dart';
 import 'package:immich_mobile/providers/asset_viewer/asset_stack.provider.dart';
@@ -22,7 +24,7 @@ import 'package:immich_mobile/services/app_settings.service.dart';
 import 'package:immich_mobile/widgets/asset_grid/asset_grid_data_structure.dart';
 import 'package:immich_mobile/widgets/asset_viewer/advanced_bottom_sheet.dart';
 import 'package:immich_mobile/widgets/asset_viewer/bottom_gallery_bar.dart';
-import 'package:immich_mobile/widgets/asset_viewer/exif_sheet/exif_bottom_sheet.dart';
+import 'package:immich_mobile/widgets/asset_viewer/detail_panel/detail_panel.dart';
 import 'package:immich_mobile/widgets/asset_viewer/gallery_app_bar.dart';
 import 'package:immich_mobile/widgets/common/immich_image.dart';
 import 'package:immich_mobile/widgets/common/immich_thumbnail.dart';
@@ -30,7 +32,6 @@ import 'package:immich_mobile/widgets/photo_view/photo_view_gallery.dart';
 import 'package:immich_mobile/widgets/photo_view/src/photo_view_computed_scale.dart';
 import 'package:immich_mobile/widgets/photo_view/src/photo_view_scale_state.dart';
 import 'package:immich_mobile/widgets/photo_view/src/utils/photo_view_hero_attributes.dart';
-import 'package:isar/isar.dart';
 
 @RoutePage()
 // ignore: must_be_immutable
@@ -55,8 +56,6 @@ class GalleryViewerPage extends HookConsumerWidget {
     final settings = ref.watch(appSettingsServiceProvider);
     final loadAsset = renderList.loadAsset;
     final totalAssets = useState(renderList.totalAssets);
-    final isLoadPreview = useState(AppSettingsEnum.loadPreview.defaultValue);
-    final isLoadOriginal = useState(AppSettingsEnum.loadOriginal.defaultValue);
     final shouldLoopVideo = useState(AppSettingsEnum.loopVideo.defaultValue);
     final isZoomed = useState(false);
     final isPlayingVideo = useState(false);
@@ -70,12 +69,12 @@ class GalleryViewerPage extends HookConsumerWidget {
     });
 
     final stackIndex = useState(-1);
-    final stack = showStack && currentAsset.stackChildrenCount > 0
+    final stack = showStack && currentAsset.stackCount > 0
         ? ref.watch(assetStackStateProvider(currentAsset))
         : <Asset>[];
     final stackElements = showStack ? [currentAsset, ...stack] : <Asset>[];
     // Assets from response DTOs do not have an isar id, querying which would give us the default autoIncrement id
-    final isFromDto = currentAsset.id == Isar.autoIncrement;
+    final isFromDto = currentAsset.id == noDbId;
 
     Asset asset = stackIndex.value == -1
         ? currentAsset
@@ -97,10 +96,6 @@ class GalleryViewerPage extends HookConsumerWidget {
 
     useEffect(
       () {
-        isLoadPreview.value =
-            settings.getSetting<bool>(AppSettingsEnum.loadPreview);
-        isLoadOriginal.value =
-            settings.getSetting<bool>(AppSettingsEnum.loadOriginal);
         shouldLoopVideo.value =
             settings.getSetting<bool>(AppSettingsEnum.loopVideo);
         return null;
@@ -152,7 +147,7 @@ class GalleryViewerPage extends HookConsumerWidget {
                       .watch(appSettingsServiceProvider)
                       .getSetting<bool>(AppSettingsEnum.advancedTroubleshooting)
                   ? AdvancedBottomSheet(assetDetail: asset)
-                  : ExifBottomSheet(asset: asset),
+                  : DetailPanel(asset: asset),
             ),
           );
         },
@@ -270,7 +265,7 @@ class GalleryViewerPage extends HookConsumerWidget {
 
     return PopScope(
       // Change immersive mode back to normal "edgeToEdge" mode
-      onPopInvoked: (_) =>
+      onPopInvokedWithResult: (didPop, _) =>
           SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge),
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -324,6 +319,7 @@ class GalleryViewerPage extends HookConsumerWidget {
               builder: (context, index) {
                 final a =
                     index == currentIndex.value ? asset : loadAsset(index);
+
                 final ImageProvider provider =
                     ImmichImage.imageProvider(asset: a);
 
@@ -426,6 +422,7 @@ class GalleryViewerPage extends HookConsumerWidget {
                 ],
               ),
             ),
+            const DownloadPanel(),
           ],
         ),
       ),

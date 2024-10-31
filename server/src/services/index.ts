@@ -6,6 +6,7 @@ import { AssetMediaService } from 'src/services/asset-media.service';
 import { AssetService } from 'src/services/asset.service';
 import { AuditService } from 'src/services/audit.service';
 import { AuthService } from 'src/services/auth.service';
+import { BackupService } from 'src/services/backup.service';
 import { CliService } from 'src/services/cli.service';
 import { DatabaseService } from 'src/services/database.service';
 import { DownloadService } from 'src/services/download.service';
@@ -25,6 +26,7 @@ import { ServerService } from 'src/services/server.service';
 import { SessionService } from 'src/services/session.service';
 import { SharedLinkService } from 'src/services/shared-link.service';
 import { SmartInfoService } from 'src/services/smart-info.service';
+import { StackService } from 'src/services/stack.service';
 import { StorageTemplateService } from 'src/services/storage-template.service';
 import { StorageService } from 'src/services/storage.service';
 import { SyncService } from 'src/services/sync.service';
@@ -36,6 +38,7 @@ import { TrashService } from 'src/services/trash.service';
 import { UserAdminService } from 'src/services/user-admin.service';
 import { UserService } from 'src/services/user.service';
 import { VersionService } from 'src/services/version.service';
+import { ViewService } from 'src/services/view.service';
 
 export const services = [
   APIKeyService,
@@ -46,6 +49,7 @@ export const services = [
   AssetService,
   AuditService,
   AuthService,
+  BackupService,
   CliService,
   DatabaseService,
   DownloadService,
@@ -65,6 +69,7 @@ export const services = [
   SessionService,
   SharedLinkService,
   SmartInfoService,
+  StackService,
   StorageService,
   StorageTemplateService,
   SyncService,
@@ -76,4 +81,5 @@ export const services = [
   UserAdminService,
   UserService,
   VersionService,
+  ViewService,
 ];
