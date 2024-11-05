@@ -16,6 +16,45 @@ class SyncApi {
 
   final ApiClient apiClient;
 
+  /// Performs an HTTP 'POST /sync/acknowledge' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [SyncAcknowledgeDto] syncAcknowledgeDto (required):
+  Future<Response> ackSyncWithHttpInfo(SyncAcknowledgeDto syncAcknowledgeDto,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/sync/acknowledge';
+
+    // ignore: prefer_final_locals
+    Object? postBody = syncAcknowledgeDto;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [SyncAcknowledgeDto] syncAcknowledgeDto (required):
+  Future<void> ackSync(SyncAcknowledgeDto syncAcknowledgeDto,) async {
+    final response = await ackSyncWithHttpInfo(syncAcknowledgeDto,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// Performs an HTTP 'POST /sync/delta-sync' operation and returns the [Response].
   /// Parameters:
   ///
@@ -111,5 +150,44 @@ class SyncApi {
 
     }
     return null;
+  }
+
+  /// Performs an HTTP 'POST /sync/stream' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [SyncStreamDto] syncStreamDto (required):
+  Future<Response> getSyncStreamWithHttpInfo(SyncStreamDto syncStreamDto,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/sync/stream';
+
+    // ignore: prefer_final_locals
+    Object? postBody = syncStreamDto;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [SyncStreamDto] syncStreamDto (required):
+  Future<void> getSyncStream(SyncStreamDto syncStreamDto,) async {
+    final response = await getSyncStreamWithHttpInfo(syncStreamDto,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
   }
 }

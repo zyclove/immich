@@ -201,8 +201,10 @@ Class | Method | HTTP request | Description
 *StacksApi* | [**getStack**](doc//StacksApi.md#getstack) | **GET** /stacks/{id} | 
 *StacksApi* | [**searchStacks**](doc//StacksApi.md#searchstacks) | **GET** /stacks | 
 *StacksApi* | [**updateStack**](doc//StacksApi.md#updatestack) | **PUT** /stacks/{id} | 
+*SyncApi* | [**ackSync**](doc//SyncApi.md#acksync) | **POST** /sync/acknowledge | 
 *SyncApi* | [**getDeltaSync**](doc//SyncApi.md#getdeltasync) | **POST** /sync/delta-sync | 
 *SyncApi* | [**getFullSyncForUser**](doc//SyncApi.md#getfullsyncforuser) | **POST** /sync/full-sync | 
+*SyncApi* | [**getSyncStream**](doc//SyncApi.md#getsyncstream) | **POST** /sync/stream | 
 *SystemConfigApi* | [**getConfig**](doc//SystemConfigApi.md#getconfig) | **GET** /system-config | 
 *SystemConfigApi* | [**getConfigDefaults**](doc//SystemConfigApi.md#getconfigdefaults) | **GET** /system-config/defaults | 
 *SystemConfigApi* | [**getStorageTemplateOptions**](doc//SystemConfigApi.md#getstoragetemplateoptions) | **GET** /system-config/storage-template-options | 
@@ -414,6 +416,21 @@ Class | Method | HTTP request | Description
  - [StackCreateDto](doc//StackCreateDto.md)
  - [StackResponseDto](doc//StackResponseDto.md)
  - [StackUpdateDto](doc//StackUpdateDto.md)
+ - [SyncAcknowledgeDto](doc//SyncAcknowledgeDto.md)
+ - [SyncActivityDeleteDtoV1](doc//SyncActivityDeleteDtoV1.md)
+ - [SyncAlbumAssetDeleteDtoV1](doc//SyncAlbumAssetDeleteDtoV1.md)
+ - [SyncAlbumAssetDtoV1](doc//SyncAlbumAssetDtoV1.md)
+ - [SyncAlbumDeleteV1](doc//SyncAlbumDeleteV1.md)
+ - [SyncAlbumDtoV1](doc//SyncAlbumDtoV1.md)
+ - [SyncAssetAlbumDeleteV1](doc//SyncAssetAlbumDeleteV1.md)
+ - [SyncAssetAlbumDtoV1](doc//SyncAssetAlbumDtoV1.md)
+ - [SyncAssetOwnerDeleteV1](doc//SyncAssetOwnerDeleteV1.md)
+ - [SyncAssetOwnerDtoV1](doc//SyncAssetOwnerDtoV1.md)
+ - [SyncAssetPartnerDeleteV1](doc//SyncAssetPartnerDeleteV1.md)
+ - [SyncAssetPartnerDtoV1](doc//SyncAssetPartnerDtoV1.md)
+ - [SyncMemoryDelete](doc//SyncMemoryDelete.md)
+ - [SyncMemoryDtoV1](doc//SyncMemoryDtoV1.md)
+ - [SyncStreamDto](doc//SyncStreamDto.md)
  - [SystemConfigBackupsDto](doc//SystemConfigBackupsDto.md)
  - [SystemConfigDto](doc//SystemConfigDto.md)
  - [SystemConfigFFmpegDto](doc//SystemConfigFFmpegDto.md)

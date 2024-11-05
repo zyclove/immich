@@ -5778,6 +5778,41 @@
         ]
       }
     },
+    "/sync/acknowledge": {
+      "post": {
+        "operationId": "ackSync",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncAcknowledgeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Sync"
+        ]
+      }
+    },
     "/sync/delta-sync": {
       "post": {
         "operationId": "getDeltaSync",
@@ -5846,6 +5881,41 @@
                 }
               }
             },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Sync"
+        ]
+      }
+    },
+    "/sync/stream": {
+      "post": {
+        "operationId": "getSyncStream",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncStreamDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
             "description": ""
           }
         },
@@ -11479,6 +11549,743 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "SyncAcknowledgeDto": {
+        "properties": {
+          "timestamp": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "Activity",
+              "ActivityDelete",
+              "AssetOwner",
+              "AssetOwnerDelete",
+              "AssetPartner",
+              "AssetPartnerDelete",
+              "AssetAlbum",
+              "AssetAlbumDelete",
+              "Album",
+              "AlbumDelete",
+              "Memory",
+              "MemoryDelete",
+              "Partner",
+              "PartnerDelete",
+              "Person",
+              "PersonDelete",
+              "SharedLink",
+              "SharedLinkDelete",
+              "Stack",
+              "StackDelete",
+              "Tag",
+              "TagDelete",
+              "User",
+              "UserDelete",
+              "AlbumAsset",
+              "AlbumAssetDelete",
+              "AlbumUser",
+              "AlbumUserDelete"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "timestamp",
+          "type"
+        ],
+        "type": "object"
+      },
+      "SyncActivityDeleteDtoV1": {
+        "properties": {
+          "deletedAt": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SyncActivityDtoV1": {
+        "properties": {},
+        "type": "object"
+      },
+      "SyncAlbumAssetDeleteDtoV1": {
+        "properties": {
+          "albumId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "assetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "deletedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "albumId",
+          "assetId",
+          "deletedAt"
+        ],
+        "type": "object"
+      },
+      "SyncAlbumAssetDtoV1": {
+        "properties": {
+          "albumId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "assetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "albumId",
+          "assetId",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "SyncAlbumDeleteV1": {
+        "properties": {
+          "deletedAt": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SyncAlbumDtoV1": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "SyncAssetAlbumDeleteV1": {
+        "properties": {
+          "deletedAt": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SyncAssetAlbumDtoV1": {
+        "properties": {
+          "bitsPerSample": {
+            "type": "number"
+          },
+          "checksum": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "colorspace": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "dateTimeOriginal": {
+            "type": "string"
+          },
+          "deletedAt": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "exifImageHeight": {
+            "type": "number"
+          },
+          "exifImageWidth": {
+            "type": "number"
+          },
+          "exposureTime": {
+            "type": "string"
+          },
+          "fNumber": {
+            "type": "number"
+          },
+          "fileCreatedAt": {
+            "type": "string"
+          },
+          "fileModifiedAt": {
+            "type": "string"
+          },
+          "fileSizeInByte": {
+            "type": "number"
+          },
+          "fps": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isArchived": {
+            "type": "boolean"
+          },
+          "isExternal": {
+            "type": "boolean"
+          },
+          "isFavorite": {
+            "type": "boolean"
+          },
+          "isOffline": {
+            "type": "boolean"
+          },
+          "iso": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "lensModel": {
+            "type": "string"
+          },
+          "libraryId": {
+            "type": "string"
+          },
+          "livePhotoVideoId": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "modifyDate": {
+            "type": "string"
+          },
+          "orientation": {
+            "type": "string"
+          },
+          "originalFileName": {
+            "type": "string"
+          },
+          "originalPath": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "profileDescription": {
+            "type": "string"
+          },
+          "projectionType": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "state": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "trashed",
+              "deleted"
+            ],
+            "type": "string"
+          },
+          "thumbhash": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "OTHER"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "checksum",
+          "createdAt",
+          "fileCreatedAt",
+          "fileModifiedAt",
+          "id",
+          "isArchived",
+          "isExternal",
+          "isFavorite",
+          "isOffline",
+          "originalFileName",
+          "originalPath",
+          "ownerId",
+          "status",
+          "type"
+        ],
+        "type": "object"
+      },
+      "SyncAssetOwnerDeleteV1": {
+        "properties": {
+          "deletedAt": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SyncAssetOwnerDtoV1": {
+        "properties": {
+          "bitsPerSample": {
+            "type": "number"
+          },
+          "checksum": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "colorspace": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "dateTimeOriginal": {
+            "type": "string"
+          },
+          "deletedAt": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "exifImageHeight": {
+            "type": "number"
+          },
+          "exifImageWidth": {
+            "type": "number"
+          },
+          "exposureTime": {
+            "type": "string"
+          },
+          "fNumber": {
+            "type": "number"
+          },
+          "fileCreatedAt": {
+            "type": "string"
+          },
+          "fileModifiedAt": {
+            "type": "string"
+          },
+          "fileSizeInByte": {
+            "type": "number"
+          },
+          "fps": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isArchived": {
+            "type": "boolean"
+          },
+          "isExternal": {
+            "type": "boolean"
+          },
+          "isFavorite": {
+            "type": "boolean"
+          },
+          "isOffline": {
+            "type": "boolean"
+          },
+          "iso": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "lensModel": {
+            "type": "string"
+          },
+          "libraryId": {
+            "type": "string"
+          },
+          "livePhotoVideoId": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "modifyDate": {
+            "type": "string"
+          },
+          "orientation": {
+            "type": "string"
+          },
+          "originalFileName": {
+            "type": "string"
+          },
+          "originalPath": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "profileDescription": {
+            "type": "string"
+          },
+          "projectionType": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "state": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "trashed",
+              "deleted"
+            ],
+            "type": "string"
+          },
+          "thumbhash": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "OTHER"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "checksum",
+          "createdAt",
+          "fileCreatedAt",
+          "fileModifiedAt",
+          "id",
+          "isArchived",
+          "isExternal",
+          "isFavorite",
+          "isOffline",
+          "originalFileName",
+          "originalPath",
+          "ownerId",
+          "status",
+          "type"
+        ],
+        "type": "object"
+      },
+      "SyncAssetPartnerDeleteV1": {
+        "properties": {
+          "deletedAt": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SyncAssetPartnerDtoV1": {
+        "properties": {
+          "bitsPerSample": {
+            "type": "number"
+          },
+          "checksum": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "colorspace": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "dateTimeOriginal": {
+            "type": "string"
+          },
+          "deletedAt": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "exifImageHeight": {
+            "type": "number"
+          },
+          "exifImageWidth": {
+            "type": "number"
+          },
+          "exposureTime": {
+            "type": "string"
+          },
+          "fNumber": {
+            "type": "number"
+          },
+          "fileCreatedAt": {
+            "type": "string"
+          },
+          "fileModifiedAt": {
+            "type": "string"
+          },
+          "fileSizeInByte": {
+            "type": "number"
+          },
+          "fps": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isArchived": {
+            "type": "boolean"
+          },
+          "isExternal": {
+            "type": "boolean"
+          },
+          "isFavorite": {
+            "type": "boolean"
+          },
+          "isOffline": {
+            "type": "boolean"
+          },
+          "iso": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "lensModel": {
+            "type": "string"
+          },
+          "libraryId": {
+            "type": "string"
+          },
+          "livePhotoVideoId": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "modifyDate": {
+            "type": "string"
+          },
+          "orientation": {
+            "type": "string"
+          },
+          "originalFileName": {
+            "type": "string"
+          },
+          "originalPath": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "profileDescription": {
+            "type": "string"
+          },
+          "projectionType": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "state": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "trashed",
+              "deleted"
+            ],
+            "type": "string"
+          },
+          "thumbhash": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "OTHER"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "checksum",
+          "createdAt",
+          "fileCreatedAt",
+          "fileModifiedAt",
+          "id",
+          "isArchived",
+          "isExternal",
+          "isFavorite",
+          "isOffline",
+          "originalFileName",
+          "originalPath",
+          "ownerId",
+          "status",
+          "type"
+        ],
+        "type": "object"
+      },
+      "SyncMemoryDelete": {
+        "properties": {
+          "deletedAt": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SyncMemoryDtoV1": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "SyncStreamDto": {
+        "properties": {
+          "types": {
+            "items": {
+              "enum": [
+                "ActivityV1",
+                "ActivityDeleteV1",
+                "AssetOwnerV1",
+                "AssetOwnerDeleteV1",
+                "AssetPartnerV1",
+                "AssetPartnerDeleteV1",
+                "AssetAlbumV1",
+                "AssetAlbumDeleteV1",
+                "AlbumV1",
+                "AlbumDeleteV1",
+                "MemoryV1",
+                "MemoryDeleteV1",
+                "PartnerV1",
+                "PartnerDeleteV1",
+                "PersonV1",
+                "PersonDeleteV1",
+                "SharedLinkV1",
+                "SharedLinkDeleteV1",
+                "StackV1",
+                "StackDeleteV1",
+                "TagV1",
+                "TagDeleteV1",
+                "UserV1",
+                "UserDeleteV1",
+                "AlbumAssetV1",
+                "AlbumAssetDeleteV1",
+                "AlbumUserV1",
+                "AlbumDeleteUserV1"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "types"
+        ],
         "type": "object"
       },
       "SystemConfigBackupsDto": {

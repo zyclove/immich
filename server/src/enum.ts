@@ -53,6 +53,98 @@ export enum DatabaseAction {
   DELETE = 'DELETE',
 }
 
+export enum SyncAcknowledgeType {
+  // base types
+  Activity = 'Activity',
+  ActivityDelete = 'ActivityDelete',
+
+  AssetOwner = 'AssetOwner',
+  AssetOwnerDelete = 'AssetOwnerDelete',
+
+  AssetPartner = 'AssetPartner',
+  AssetPartnerDelete = 'AssetPartnerDelete',
+
+  AssetAlbum = 'AssetAlbum',
+  AssetAlbumDelete = 'AssetAlbumDelete',
+
+  Album = 'Album',
+  AlbumDelete = 'AlbumDelete',
+
+  Memory = 'Memory',
+  MemoryDelete = 'MemoryDelete',
+
+  Partner = 'Partner',
+  PartnerDelete = 'PartnerDelete',
+
+  Person = 'Person',
+  PersonDelete = 'PersonDelete',
+
+  SharedLink = 'SharedLink',
+  SharedLinkDelete = 'SharedLinkDelete',
+
+  Stack = 'Stack',
+  StackDelete = 'StackDelete',
+
+  Tag = 'Tag',
+  TagDelete = 'TagDelete',
+
+  User = 'User',
+  UserDelete = 'UserDelete',
+
+  // relation types
+  AlbumAsset = 'AlbumAsset',
+  AlbumAssetDelete = 'AlbumAssetDelete',
+
+  AlbumUser = 'AlbumUser',
+  AlbumUserDelete = 'AlbumUserDelete',
+}
+
+export enum SyncResponseType {
+  // base types
+  ActivityV1 = 'ActivityV1',
+  ActivityDeleteV1 = 'ActivityDeleteV1',
+
+  AssetOwnerV1 = 'AssetOwnerV1',
+  AssetOwnerDeleteV1 = 'AssetOwnerDeleteV1',
+
+  AssetPartnerV1 = 'AssetPartnerV1',
+  AssetPartnerDeleteV1 = 'AssetPartnerDeleteV1',
+
+  AssetAlbumV1 = 'AssetAlbumV1',
+  AssetAlbumDeleteV1 = 'AssetAlbumDeleteV1',
+
+  AlbumV1 = 'AlbumV1',
+  AlbumDeleteV1 = 'AlbumDeleteV1',
+
+  MemoryV1 = 'MemoryV1',
+  MemoryDeleteV1 = 'MemoryDeleteV1',
+
+  PartnerV1 = 'PartnerV1',
+  PartnerDeleteV1 = 'PartnerDeleteV1',
+
+  PersonV1 = 'PersonV1',
+  PersonDeleteV1 = 'PersonDeleteV1',
+
+  SharedLinkV1 = 'SharedLinkV1',
+  SharedLinkDeleteV1 = 'SharedLinkDeleteV1',
+
+  StackV1 = 'StackV1',
+  StackDeleteV1 = 'StackDeleteV1',
+
+  TagV1 = 'TagV1',
+  TagDeleteV1 = 'TagDeleteV1',
+
+  UserV1 = 'UserV1',
+  UserDeleteV1 = 'UserDeleteV1',
+
+  // relation types
+  AlbumAssetV1 = 'AlbumAssetV1',
+  AlbumAssetDeleteV1 = 'AlbumAssetDeleteV1',
+
+  AlbumUserV1 = 'AlbumUserV1',
+  AlbumUserDeleteV1 = 'AlbumDeleteUserV1',
+}
+
 export enum EntityType {
   ASSET = 'ASSET',
   ALBUM = 'ALBUM',

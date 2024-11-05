@@ -510,6 +510,36 @@ class ApiClient {
           return StackResponseDto.fromJson(value);
         case 'StackUpdateDto':
           return StackUpdateDto.fromJson(value);
+        case 'SyncAcknowledgeDto':
+          return SyncAcknowledgeDto.fromJson(value);
+        case 'SyncActivityDeleteDtoV1':
+          return SyncActivityDeleteDtoV1.fromJson(value);
+        case 'SyncAlbumAssetDeleteDtoV1':
+          return SyncAlbumAssetDeleteDtoV1.fromJson(value);
+        case 'SyncAlbumAssetDtoV1':
+          return SyncAlbumAssetDtoV1.fromJson(value);
+        case 'SyncAlbumDeleteV1':
+          return SyncAlbumDeleteV1.fromJson(value);
+        case 'SyncAlbumDtoV1':
+          return SyncAlbumDtoV1.fromJson(value);
+        case 'SyncAssetAlbumDeleteV1':
+          return SyncAssetAlbumDeleteV1.fromJson(value);
+        case 'SyncAssetAlbumDtoV1':
+          return SyncAssetAlbumDtoV1.fromJson(value);
+        case 'SyncAssetOwnerDeleteV1':
+          return SyncAssetOwnerDeleteV1.fromJson(value);
+        case 'SyncAssetOwnerDtoV1':
+          return SyncAssetOwnerDtoV1.fromJson(value);
+        case 'SyncAssetPartnerDeleteV1':
+          return SyncAssetPartnerDeleteV1.fromJson(value);
+        case 'SyncAssetPartnerDtoV1':
+          return SyncAssetPartnerDtoV1.fromJson(value);
+        case 'SyncMemoryDelete':
+          return SyncMemoryDelete.fromJson(value);
+        case 'SyncMemoryDtoV1':
+          return SyncMemoryDtoV1.fromJson(value);
+        case 'SyncStreamDto':
+          return SyncStreamDto.fromJson(value);
         case 'SystemConfigBackupsDto':
           return SystemConfigBackupsDto.fromJson(value);
         case 'SystemConfigDto':

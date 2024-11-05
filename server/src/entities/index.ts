@@ -21,6 +21,7 @@ import { SharedLinkEntity } from 'src/entities/shared-link.entity';
 import { SmartInfoEntity } from 'src/entities/smart-info.entity';
 import { SmartSearchEntity } from 'src/entities/smart-search.entity';
 import { StackEntity } from 'src/entities/stack.entity';
+import { SyncCheckpointEntity } from 'src/entities/sync-checkpoint.entity';
 import { SystemMetadataEntity } from 'src/entities/system-metadata.entity';
 import { TagEntity } from 'src/entities/tag.entity';
 import { UserMetadataEntity } from 'src/entities/user-metadata.entity';
@@ -54,6 +55,7 @@ export const entities = [
   UserEntity,
   UserMetadataEntity,
   SessionEntity,
+  SyncCheckpointEntity,
   LibraryEntity,
   VersionHistoryEntity,
 ];

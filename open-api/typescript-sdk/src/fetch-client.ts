@@ -1070,6 +1070,10 @@ export type StackCreateDto = {
 export type StackUpdateDto = {
     primaryAssetId?: string;
 };
+export type SyncAcknowledgeDto = {
+    timestamp: string;
+    "type": Type;
+};
 export type AssetDeltaSyncDto = {
     updatedAfter: string;
     userIds: string[];
@@ -1084,6 +1088,9 @@ export type AssetFullSyncDto = {
     limit: number;
     updatedUntil: string;
     userId?: string;
+};
+export type SyncStreamDto = {
+    types: ("ActivityV1" | "ActivityDeleteV1" | "AssetOwnerV1" | "AssetOwnerDeleteV1" | "AssetPartnerV1" | "AssetPartnerDeleteV1" | "AssetAlbumV1" | "AssetAlbumDeleteV1" | "AlbumV1" | "AlbumDeleteV1" | "MemoryV1" | "MemoryDeleteV1" | "PartnerV1" | "PartnerDeleteV1" | "PersonV1" | "PersonDeleteV1" | "SharedLinkV1" | "SharedLinkDeleteV1" | "StackV1" | "StackDeleteV1" | "TagV1" | "TagDeleteV1" | "UserV1" | "UserDeleteV1" | "AlbumAssetV1" | "AlbumAssetDeleteV1" | "AlbumUserV1" | "AlbumDeleteUserV1")[];
 };
 export type DatabaseBackupConfig = {
     cronExpression: string;
@@ -2861,6 +2868,15 @@ export function updateStack({ id, stackUpdateDto }: {
         body: stackUpdateDto
     })));
 }
+export function ackSync({ syncAcknowledgeDto }: {
+    syncAcknowledgeDto: SyncAcknowledgeDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchText("/sync/acknowledge", oazapfts.json({
+        ...opts,
+        method: "POST",
+        body: syncAcknowledgeDto
+    })));
+}
 export function getDeltaSync({ assetDeltaSyncDto }: {
     assetDeltaSyncDto: AssetDeltaSyncDto;
 }, opts?: Oazapfts.RequestOpts) {
@@ -2883,6 +2899,15 @@ export function getFullSyncForUser({ assetFullSyncDto }: {
         ...opts,
         method: "POST",
         body: assetFullSyncDto
+    })));
+}
+export function getSyncStream({ syncStreamDto }: {
+    syncStreamDto: SyncStreamDto;
+}, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchText("/sync/stream", oazapfts.json({
+        ...opts,
+        method: "POST",
+        body: syncStreamDto
     })));
 }
 export function getConfig(opts?: Oazapfts.RequestOpts) {
@@ -3500,6 +3525,36 @@ export enum Error2 {
     Duplicate = "duplicate",
     NoPermission = "no_permission",
     NotFound = "not_found"
+}
+export enum Type {
+    Activity = "Activity",
+    ActivityDelete = "ActivityDelete",
+    AssetOwner = "AssetOwner",
+    AssetOwnerDelete = "AssetOwnerDelete",
+    AssetPartner = "AssetPartner",
+    AssetPartnerDelete = "AssetPartnerDelete",
+    AssetAlbum = "AssetAlbum",
+    AssetAlbumDelete = "AssetAlbumDelete",
+    Album = "Album",
+    AlbumDelete = "AlbumDelete",
+    Memory = "Memory",
+    MemoryDelete = "MemoryDelete",
+    Partner = "Partner",
+    PartnerDelete = "PartnerDelete",
+    Person = "Person",
+    PersonDelete = "PersonDelete",
+    SharedLink = "SharedLink",
+    SharedLinkDelete = "SharedLinkDelete",
+    Stack = "Stack",
+    StackDelete = "StackDelete",
+    Tag = "Tag",
+    TagDelete = "TagDelete",
+    User = "User",
+    UserDelete = "UserDelete",
+    AlbumAsset = "AlbumAsset",
+    AlbumAssetDelete = "AlbumAssetDelete",
+    AlbumUser = "AlbumUser",
+    AlbumUserDelete = "AlbumUserDelete"
 }
 export enum TranscodeHWAccel {
     Nvenc = "nvenc",

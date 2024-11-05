@@ -1,5 +1,14 @@
+import { SyncCheckpointEntity } from 'src/entities/sync-checkpoint.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('sessions')
 export class SessionEntity {
@@ -26,4 +35,7 @@ export class SessionEntity {
 
   @Column({ default: '' })
   deviceOS!: string;
+
+  @OneToMany(() => SyncCheckpointEntity, (checkpoint) => checkpoint.session)
+  checkpoints?: SyncCheckpointEntity[];
 }
