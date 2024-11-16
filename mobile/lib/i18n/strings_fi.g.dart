@@ -198,7 +198,7 @@ class TranslationsFi extends Translations {
 	@override String get confirm_password => 'Vahvista salasana';
 	@override String get contain => 'Mahduta';
 	@override String get context => 'Konteksti';
-	@override String get continue_text => 'Jatka';
+	@override String get kContinue => 'Jatka';
 	@override String get copied_image_to_clipboard => 'Kuva kopioitu leikepöydälle.';
 	@override String get copied_to_clipboard => 'Kopioitu leikepöydälle!';
 	@override String get copy_error => 'Kopiointivirhe';
@@ -1917,7 +1917,7 @@ extension on TranslationsFi {
 			case 'confirm_password': return 'Vahvista salasana';
 			case 'contain': return 'Mahduta';
 			case 'context': return 'Konteksti';
-			case 'continue_text': return 'Jatka';
+			case 'kContinue': return 'Jatka';
 			case 'copied_image_to_clipboard': return 'Kuva kopioitu leikepöydälle.';
 			case 'copied_to_clipboard': return 'Kopioitu leikepöydälle!';
 			case 'copy_error': return 'Kopiointivirhe';

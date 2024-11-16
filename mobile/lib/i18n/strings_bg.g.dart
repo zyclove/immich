@@ -168,7 +168,7 @@ class TranslationsBg extends Translations {
 	@override String get confirm_password => 'Потвърдете паролата';
 	@override String get contain => '';
 	@override String get context => 'Контекст';
-	@override String get continue_text => 'Продължи';
+	@override String get kContinue => 'Продължи';
 	@override String get copied_image_to_clipboard => 'Изображението е копирано в клипборда.';
 	@override String get copied_to_clipboard => 'Копирано в клипборда!';
 	@override String get copy_error => 'Грешка при копирането';
@@ -1657,7 +1657,7 @@ extension on TranslationsBg {
 			case 'confirm_password': return 'Потвърдете паролата';
 			case 'contain': return '';
 			case 'context': return 'Контекст';
-			case 'continue_text': return 'Продължи';
+			case 'kContinue': return 'Продължи';
 			case 'copied_image_to_clipboard': return 'Изображението е копирано в клипборда.';
 			case 'copied_to_clipboard': return 'Копирано в клипборда!';
 			case 'copy_error': return 'Грешка при копирането';

@@ -198,7 +198,7 @@ class TranslationsNl extends Translations {
 	@override String get confirm_password => 'Bevestig wachtwoord';
 	@override String get contain => 'Bevat';
 	@override String get context => 'Context';
-	@override String get continue_text => 'Doorgaan';
+	@override String get kContinue => 'Doorgaan';
 	@override String get copied_image_to_clipboard => 'Afbeelding gekopieerd naar klembord.';
 	@override String get copied_to_clipboard => 'Gekopieerd naar klembord!';
 	@override String get copy_error => 'Fout bij kopiëren';
@@ -982,6 +982,11 @@ class _TranslationsAdminNl extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Weet je zeker dat je alle inlogmethoden wilt uitschakelen? Inloggen zal volledig worden uitgeschakeld.';
 	@override String get authentication_settings_reenable => 'Gebruik een <link>servercommando</link> om opnieuw in te schakelen.';
 	@override String get background_task_job => 'Achtergrondtaken';
+	@override String get backup_database => 'Backup Database';
+	@override String get backup_database_enable_description => 'Database back-ups activeren';
+	@override String get backup_keep_last_amount => 'Maximaal aantal back-ups om te bewaren';
+	@override String get backup_settings => 'Back-up instellingen';
+	@override String get backup_settings_description => 'Database back-up instellingen beheren';
 	@override String get check_all => 'Controleer het logboek';
 	@override String get cleared_jobs => 'Taken gewist voor: {job}';
 	@override String get config_set_by_file => 'Instellingen worden momenteel beheerd door een configuratiebestand';
@@ -991,6 +996,9 @@ class _TranslationsAdminNl extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Weet je zeker dat je alle gezichten opnieuw wilt verwerken? Hiermee worden ook alle mensen gewist.';
 	@override String get confirm_user_password_reset => 'Weet u zeker dat je het wachtwoord van {user} wilt resetten?';
 	@override String get create_job => 'Taak maken';
+	@override String get cron_expression => 'Cron expressie';
+	@override String get cron_expression_description => 'Stel de scaninterval in met het cron-formaat. Voor meer informatie kun je kijken naar bijvoorbeeld <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Cron-expressie presets';
 	@override String get crontab_guru => 'Crontab Guru';
 	@override String get disable_login => 'Inloggen uitschakelen';
 	@override String get disabled => 'Uitgeschakeld';
@@ -1498,6 +1506,11 @@ extension on TranslationsNl {
 			case 'admin.authentication_settings_disable_all': return 'Weet je zeker dat je alle inlogmethoden wilt uitschakelen? Inloggen zal volledig worden uitgeschakeld.';
 			case 'admin.authentication_settings_reenable': return 'Gebruik een <link>servercommando</link> om opnieuw in te schakelen.';
 			case 'admin.background_task_job': return 'Achtergrondtaken';
+			case 'admin.backup_database': return 'Backup Database';
+			case 'admin.backup_database_enable_description': return 'Database back-ups activeren';
+			case 'admin.backup_keep_last_amount': return 'Maximaal aantal back-ups om te bewaren';
+			case 'admin.backup_settings': return 'Back-up instellingen';
+			case 'admin.backup_settings_description': return 'Database back-up instellingen beheren';
 			case 'admin.check_all': return 'Controleer het logboek';
 			case 'admin.cleared_jobs': return 'Taken gewist voor: {job}';
 			case 'admin.config_set_by_file': return 'Instellingen worden momenteel beheerd door een configuratiebestand';
@@ -1507,6 +1520,9 @@ extension on TranslationsNl {
 			case 'admin.confirm_reprocess_all_faces': return 'Weet je zeker dat je alle gezichten opnieuw wilt verwerken? Hiermee worden ook alle mensen gewist.';
 			case 'admin.confirm_user_password_reset': return 'Weet u zeker dat je het wachtwoord van {user} wilt resetten?';
 			case 'admin.create_job': return 'Taak maken';
+			case 'admin.cron_expression': return 'Cron expressie';
+			case 'admin.cron_expression_description': return 'Stel de scaninterval in met het cron-formaat. Voor meer informatie kun je kijken naar bijvoorbeeld <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Cron-expressie presets';
 			case 'admin.crontab_guru': return 'Crontab Guru';
 			case 'admin.disable_login': return 'Inloggen uitschakelen';
 			case 'admin.disabled': return 'Uitgeschakeld';
@@ -1947,7 +1963,7 @@ extension on TranslationsNl {
 			case 'confirm_password': return 'Bevestig wachtwoord';
 			case 'contain': return 'Bevat';
 			case 'context': return 'Context';
-			case 'continue_text': return 'Doorgaan';
+			case 'kContinue': return 'Doorgaan';
 			case 'copied_image_to_clipboard': return 'Afbeelding gekopieerd naar klembord.';
 			case 'copied_to_clipboard': return 'Gekopieerd naar klembord!';
 			case 'copy_error': return 'Fout bij kopiëren';

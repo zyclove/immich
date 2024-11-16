@@ -197,7 +197,7 @@ class TranslationsAr extends Translations {
 	@override String get confirm_password => 'تأكيد كلمة المرور';
 	@override String get contain => 'محتواة';
 	@override String get context => 'السياق';
-	@override String get continue_text => 'متابعة';
+	@override String get kContinue => 'متابعة';
 	@override String get copied_image_to_clipboard => 'تم نسخ الصورة إلى الحافظة.';
 	@override String get copied_to_clipboard => 'نسخ إلى الحافظة!';
 	@override String get copy_error => 'نسخ الخطأ';
@@ -1941,7 +1941,7 @@ extension on TranslationsAr {
 			case 'confirm_password': return 'تأكيد كلمة المرور';
 			case 'contain': return 'محتواة';
 			case 'context': return 'السياق';
-			case 'continue_text': return 'متابعة';
+			case 'kContinue': return 'متابعة';
 			case 'copied_image_to_clipboard': return 'تم نسخ الصورة إلى الحافظة.';
 			case 'copied_to_clipboard': return 'نسخ إلى الحافظة!';
 			case 'copy_error': return 'نسخ الخطأ';

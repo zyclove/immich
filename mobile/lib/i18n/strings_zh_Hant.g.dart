@@ -36,8 +36,8 @@ class TranslationsZhHant extends Translations {
 
 	// Translations
 	@override String get about => '關於';
-	@override String get account => '賬號';
-	@override String get account_settings => '賬號設定';
+	@override String get account => '帳號';
+	@override String get account_settings => '帳號設定';
 	@override String get acknowledge => '收到';
 	@override String get action => '操作';
 	@override String get actions => '操作';
@@ -197,7 +197,7 @@ class TranslationsZhHant extends Translations {
 	@override String get confirm_password => '確認密碼';
 	@override String get contain => '包含';
 	@override String get context => '情境';
-	@override String get continue_text => '繼續';
+	@override String get kContinue => '繼續';
 	@override String get copied_image_to_clipboard => '圖片已複製到剪貼簿。';
 	@override String get copied_to_clipboard => '已複製到剪貼簿！';
 	@override String get copy_error => '複製錯誤';
@@ -947,6 +947,11 @@ class _TranslationsAdminZhHant extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => '確定要停用所有登入方式嗎？這樣會完全無法登入。';
 	@override String get authentication_settings_reenable => '如需重新啟用，請使用 <link>伺服器指令</link>。';
 	@override String get background_task_job => '背景任務';
+	@override String get backup_database => '備份資料庫';
+	@override String get backup_database_enable_description => '啟用資料庫備份';
+	@override String get backup_keep_last_amount => '保留先前備份的數量';
+	@override String get backup_settings => '備份設定';
+	@override String get backup_settings_description => '管理資料庫備份設定';
 	@override String get check_all => '全選';
 	@override String get cleared_jobs => '已為「{job}」清除作業';
 	@override String get config_set_by_file => '目前的設定已透過配置文檔調整';
@@ -956,6 +961,9 @@ class _TranslationsAdminZhHant extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => '確定要重新處理所有臉孔嗎？這會清除已命名的人物。';
 	@override String get confirm_user_password_reset => '您確定要重設 {user} 的密碼嗎？';
 	@override String get create_job => '建立作業';
+	@override String get cron_expression => 'Cron 運算式';
+	@override String get cron_expression_description => '以 Cron 格式設定掃描時段。詳細資訊請參閱 <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => '現成的 Cron 運算式';
 	@override String get crontab_guru => '';
 	@override String get disable_login => '停用登入';
 	@override String get disabled => '已禁用';
@@ -1430,8 +1438,8 @@ extension on TranslationsZhHant {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'about': return '關於';
-			case 'account': return '賬號';
-			case 'account_settings': return '賬號設定';
+			case 'account': return '帳號';
+			case 'account_settings': return '帳號設定';
 			case 'acknowledge': return '收到';
 			case 'action': return '操作';
 			case 'actions': return '操作';
@@ -1463,6 +1471,11 @@ extension on TranslationsZhHant {
 			case 'admin.authentication_settings_disable_all': return '確定要停用所有登入方式嗎？這樣會完全無法登入。';
 			case 'admin.authentication_settings_reenable': return '如需重新啟用，請使用 <link>伺服器指令</link>。';
 			case 'admin.background_task_job': return '背景任務';
+			case 'admin.backup_database': return '備份資料庫';
+			case 'admin.backup_database_enable_description': return '啟用資料庫備份';
+			case 'admin.backup_keep_last_amount': return '保留先前備份的數量';
+			case 'admin.backup_settings': return '備份設定';
+			case 'admin.backup_settings_description': return '管理資料庫備份設定';
 			case 'admin.check_all': return '全選';
 			case 'admin.cleared_jobs': return '已為「{job}」清除作業';
 			case 'admin.config_set_by_file': return '目前的設定已透過配置文檔調整';
@@ -1472,6 +1485,9 @@ extension on TranslationsZhHant {
 			case 'admin.confirm_reprocess_all_faces': return '確定要重新處理所有臉孔嗎？這會清除已命名的人物。';
 			case 'admin.confirm_user_password_reset': return '您確定要重設 {user} 的密碼嗎？';
 			case 'admin.create_job': return '建立作業';
+			case 'admin.cron_expression': return 'Cron 運算式';
+			case 'admin.cron_expression_description': return '以 Cron 格式設定掃描時段。詳細資訊請參閱 <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return '現成的 Cron 運算式';
 			case 'admin.crontab_guru': return '';
 			case 'admin.disable_login': return '停用登入';
 			case 'admin.disabled': return '已禁用';
@@ -1911,7 +1927,7 @@ extension on TranslationsZhHant {
 			case 'confirm_password': return '確認密碼';
 			case 'contain': return '包含';
 			case 'context': return '情境';
-			case 'continue_text': return '繼續';
+			case 'kContinue': return '繼續';
 			case 'copied_image_to_clipboard': return '圖片已複製到剪貼簿。';
 			case 'copied_to_clipboard': return '已複製到剪貼簿！';
 			case 'copy_error': return '複製錯誤';

@@ -197,7 +197,7 @@ class TranslationsUk extends Translations {
 	@override String get confirm_password => 'Підтвердити пароль';
 	@override String get contain => 'Містити';
 	@override String get context => 'Контекст';
-	@override String get continue_text => 'Продовжуйте';
+	@override String get kContinue => 'Продовжуйте';
 	@override String get copied_image_to_clipboard => 'Копіюємо зображення в буфер обміну.';
 	@override String get copied_to_clipboard => 'Скопійовано в буфер обміну!';
 	@override String get copy_error => 'Помилка копіювання';
@@ -979,6 +979,11 @@ class _TranslationsAdminUk extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Ви впевнені, що хочете вимкнути всі методи входу? Вхід буде повністю вимкнений.';
 	@override String get authentication_settings_reenable => 'Для повторного ввімкнення використовуйте <link>Команду сервера</link>.';
 	@override String get background_task_job => 'Фонові Завдання';
+	@override String get backup_database => 'Резервна копія бази даних';
+	@override String get backup_database_enable_description => 'Увімкнути резервне копіювання бази даних';
+	@override String get backup_keep_last_amount => 'Кількість резервних копій для зберігання';
+	@override String get backup_settings => 'Налаштування резервного копіювання';
+	@override String get backup_settings_description => 'Керування налаштуваннями резервного копіювання бази даних';
 	@override String get check_all => 'Перевірити все';
 	@override String get cleared_jobs => 'Очищені завдання для: {job}';
 	@override String get config_set_by_file => 'Налаштовано за допомогою конфіг-файлу';
@@ -988,6 +993,9 @@ class _TranslationsAdminUk extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Ви впевнені, що хочете повторно визначити всі обличчя? Це також призведе до видалення імен з усіх облич.';
 	@override String get confirm_user_password_reset => 'Ви впевнені, що хочете скинути пароль користувача {user}?';
 	@override String get create_job => 'Створити завдання';
+	@override String get cron_expression => 'Cron вираз';
+	@override String get cron_expression_description => 'Встановіть інтервал сканування, використовуючи формат cron. Для отримання додаткової інформації зверніться до напр. <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Попередні налаштування cron виразів';
 	@override String get crontab_guru => '';
 	@override String get disable_login => 'Вимкнути вхід';
 	@override String get disabled => '';
@@ -1495,6 +1503,11 @@ extension on TranslationsUk {
 			case 'admin.authentication_settings_disable_all': return 'Ви впевнені, що хочете вимкнути всі методи входу? Вхід буде повністю вимкнений.';
 			case 'admin.authentication_settings_reenable': return 'Для повторного ввімкнення використовуйте <link>Команду сервера</link>.';
 			case 'admin.background_task_job': return 'Фонові Завдання';
+			case 'admin.backup_database': return 'Резервна копія бази даних';
+			case 'admin.backup_database_enable_description': return 'Увімкнути резервне копіювання бази даних';
+			case 'admin.backup_keep_last_amount': return 'Кількість резервних копій для зберігання';
+			case 'admin.backup_settings': return 'Налаштування резервного копіювання';
+			case 'admin.backup_settings_description': return 'Керування налаштуваннями резервного копіювання бази даних';
 			case 'admin.check_all': return 'Перевірити все';
 			case 'admin.cleared_jobs': return 'Очищені завдання для: {job}';
 			case 'admin.config_set_by_file': return 'Налаштовано за допомогою конфіг-файлу';
@@ -1504,6 +1517,9 @@ extension on TranslationsUk {
 			case 'admin.confirm_reprocess_all_faces': return 'Ви впевнені, що хочете повторно визначити всі обличчя? Це також призведе до видалення імен з усіх облич.';
 			case 'admin.confirm_user_password_reset': return 'Ви впевнені, що хочете скинути пароль користувача {user}?';
 			case 'admin.create_job': return 'Створити завдання';
+			case 'admin.cron_expression': return 'Cron вираз';
+			case 'admin.cron_expression_description': return 'Встановіть інтервал сканування, використовуючи формат cron. Для отримання додаткової інформації зверніться до напр. <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Попередні налаштування cron виразів';
 			case 'admin.crontab_guru': return '';
 			case 'admin.disable_login': return 'Вимкнути вхід';
 			case 'admin.disabled': return '';
@@ -1943,7 +1959,7 @@ extension on TranslationsUk {
 			case 'confirm_password': return 'Підтвердити пароль';
 			case 'contain': return 'Містити';
 			case 'context': return 'Контекст';
-			case 'continue_text': return 'Продовжуйте';
+			case 'kContinue': return 'Продовжуйте';
 			case 'copied_image_to_clipboard': return 'Копіюємо зображення в буфер обміну.';
 			case 'copied_to_clipboard': return 'Скопійовано в буфер обміну!';
 			case 'copy_error': return 'Помилка копіювання';

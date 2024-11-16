@@ -147,7 +147,7 @@ class TranslationsHe extends Translations {
 	@override String get blurred_background => 'רקע מטושטש';
 	@override String get bugs_and_feature_requests => 'באגים & בקשות לתכונות';
 	@override String get build => 'Build';
-	@override String get build_image => 'Build Image';
+	@override String get build_image => 'בניית Image';
 	@override String get bulk_delete_duplicates_confirmation => 'האם את/ה בטוח/ה שברצונך למחוק בכמות גדולה {count, plural, one {נכס # כפול} other {# נכסים כפולים}}? זה ישמור על הנכס הכי גדול של כל קבוצה וימחק לצמיתות את כל שאר הכפילויות. את/ה לא יכול/ה לבטל את הפעולה הזו!';
 	@override String get bulk_keep_duplicates_confirmation => 'האם את/ה בטוח/ה שברצונך להשאיר {count, plural, one {נכס # כפול} other {# נכסים כפולים}}? זה יפתור את כל הקבוצות הכפולות מבלי למחוק דבר.';
 	@override String get bulk_trash_duplicates_confirmation => 'האם את/ה בטוח/ה שברצונך להעביר לאשפה בכמות גדולה {count, plural, one {נכס # כפול} other {# נכסים כפולים}}? זה ישמור על הנכס הגדול ביותר של כל קבוצה ויעביר לאשפה את כל שאר הכפילויות.';
@@ -198,7 +198,7 @@ class TranslationsHe extends Translations {
 	@override String get confirm_password => 'אשר סיסמה';
 	@override String get contain => 'מכיל';
 	@override String get context => 'הקשר';
-	@override String get continue_text => 'המשך';
+	@override String get kContinue => 'המשך';
 	@override String get copied_image_to_clipboard => 'תמונה הועתקה ללוח.';
 	@override String get copied_to_clipboard => 'הועתק ללוח!';
 	@override String get copy_error => 'שגיאת העתקה';
@@ -959,7 +959,7 @@ class TranslationsHe extends Translations {
 	@override String get warning => 'אזהרה';
 	@override String get week => 'שבוע';
 	@override String get welcome => 'ברוכים הבאים';
-	@override String get welcome_to_immich => 'ברוכים הבאים אל immich';
+	@override String get welcome_to_immich => 'ברוכים הבאים לimmich';
 	@override String get year => 'שנה';
 	@override String get years_ago => 'לפני {years, plural, one {שנה #} other {# שנים}}';
 	@override String get yes => 'כן';
@@ -1895,7 +1895,7 @@ extension on TranslationsHe {
 			case 'blurred_background': return 'רקע מטושטש';
 			case 'bugs_and_feature_requests': return 'באגים & בקשות לתכונות';
 			case 'build': return 'Build';
-			case 'build_image': return 'Build Image';
+			case 'build_image': return 'בניית Image';
 			case 'bulk_delete_duplicates_confirmation': return 'האם את/ה בטוח/ה שברצונך למחוק בכמות גדולה {count, plural, one {נכס # כפול} other {# נכסים כפולים}}? זה ישמור על הנכס הכי גדול של כל קבוצה וימחק לצמיתות את כל שאר הכפילויות. את/ה לא יכול/ה לבטל את הפעולה הזו!';
 			case 'bulk_keep_duplicates_confirmation': return 'האם את/ה בטוח/ה שברצונך להשאיר {count, plural, one {נכס # כפול} other {# נכסים כפולים}}? זה יפתור את כל הקבוצות הכפולות מבלי למחוק דבר.';
 			case 'bulk_trash_duplicates_confirmation': return 'האם את/ה בטוח/ה שברצונך להעביר לאשפה בכמות גדולה {count, plural, one {נכס # כפול} other {# נכסים כפולים}}? זה ישמור על הנכס הגדול ביותר של כל קבוצה ויעביר לאשפה את כל שאר הכפילויות.';
@@ -1946,7 +1946,7 @@ extension on TranslationsHe {
 			case 'confirm_password': return 'אשר סיסמה';
 			case 'contain': return 'מכיל';
 			case 'context': return 'הקשר';
-			case 'continue_text': return 'המשך';
+			case 'kContinue': return 'המשך';
 			case 'copied_image_to_clipboard': return 'תמונה הועתקה ללוח.';
 			case 'copied_to_clipboard': return 'הועתק ללוח!';
 			case 'copy_error': return 'שגיאת העתקה';
@@ -2838,7 +2838,7 @@ extension on TranslationsHe {
 			case 'warning': return 'אזהרה';
 			case 'week': return 'שבוע';
 			case 'welcome': return 'ברוכים הבאים';
-			case 'welcome_to_immich': return 'ברוכים הבאים אל immich';
+			case 'welcome_to_immich': return 'ברוכים הבאים לimmich';
 			case 'year': return 'שנה';
 			case 'years_ago': return 'לפני {years, plural, one {שנה #} other {# שנים}}';
 			case 'yes': return 'כן';

@@ -198,7 +198,7 @@ class TranslationsFr extends Translations {
 	@override String get confirm_password => 'Confirmer le mot de passe';
 	@override String get contain => 'Contenu';
 	@override String get context => 'Contexte';
-	@override String get continue_text => 'Continuer';
+	@override String get kContinue => 'Continuer';
 	@override String get copied_image_to_clipboard => 'Image copiée dans le presse-papiers.';
 	@override String get copied_to_clipboard => 'Copié dans le presse-papiers !';
 	@override String get copy_error => 'Copier l\'erreur';
@@ -981,6 +981,11 @@ class _TranslationsAdminFr extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Êtes-vous sûr de vouloir désactiver toutes les méthodes de connexion ? La connexion sera complètement désactivée.';
 	@override String get authentication_settings_reenable => 'Pour réactiver, utilisez une <link>Commande Serveur</link>.';
 	@override String get background_task_job => 'Tâches de fond';
+	@override String get backup_database => 'Sauvegarde de la base de données';
+	@override String get backup_database_enable_description => 'Activer la sauvegarde';
+	@override String get backup_keep_last_amount => 'Nombre de sauvegardes à conserver';
+	@override String get backup_settings => 'Paramètres de la sauvegarde';
+	@override String get backup_settings_description => 'Gérer les paramètres de la sauvegarde';
 	@override String get check_all => 'Vérifier tout';
 	@override String get cleared_jobs => 'Tâches supprimées pour : {job}';
 	@override String get config_set_by_file => 'La configuration est actuellement définie par un fichier de configuration';
@@ -990,6 +995,9 @@ class _TranslationsAdminFr extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Êtes-vous sûr de vouloir retraiter tous les visages ? Cela effacera également les personnes déjà identifiées.';
 	@override String get confirm_user_password_reset => 'Êtes-vous sûr de vouloir réinitialiser le mot de passe de {user} ?';
 	@override String get create_job => 'Créer une tâche';
+	@override String get cron_expression => 'Expression cron';
+	@override String get cron_expression_description => 'Définir l\'intervalle d\'analyse à l\'aide d\'une expression cron. Pour plus d\'informations, voir <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Préréglages expression cron';
 	@override String get crontab_guru => 'Générateur de règles Cron';
 	@override String get disable_login => 'Désactiver la connexion';
 	@override String get disabled => 'Désactivé';
@@ -1497,6 +1505,11 @@ extension on TranslationsFr {
 			case 'admin.authentication_settings_disable_all': return 'Êtes-vous sûr de vouloir désactiver toutes les méthodes de connexion ? La connexion sera complètement désactivée.';
 			case 'admin.authentication_settings_reenable': return 'Pour réactiver, utilisez une <link>Commande Serveur</link>.';
 			case 'admin.background_task_job': return 'Tâches de fond';
+			case 'admin.backup_database': return 'Sauvegarde de la base de données';
+			case 'admin.backup_database_enable_description': return 'Activer la sauvegarde';
+			case 'admin.backup_keep_last_amount': return 'Nombre de sauvegardes à conserver';
+			case 'admin.backup_settings': return 'Paramètres de la sauvegarde';
+			case 'admin.backup_settings_description': return 'Gérer les paramètres de la sauvegarde';
 			case 'admin.check_all': return 'Vérifier tout';
 			case 'admin.cleared_jobs': return 'Tâches supprimées pour : {job}';
 			case 'admin.config_set_by_file': return 'La configuration est actuellement définie par un fichier de configuration';
@@ -1506,6 +1519,9 @@ extension on TranslationsFr {
 			case 'admin.confirm_reprocess_all_faces': return 'Êtes-vous sûr de vouloir retraiter tous les visages ? Cela effacera également les personnes déjà identifiées.';
 			case 'admin.confirm_user_password_reset': return 'Êtes-vous sûr de vouloir réinitialiser le mot de passe de {user} ?';
 			case 'admin.create_job': return 'Créer une tâche';
+			case 'admin.cron_expression': return 'Expression cron';
+			case 'admin.cron_expression_description': return 'Définir l\'intervalle d\'analyse à l\'aide d\'une expression cron. Pour plus d\'informations, voir <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Préréglages expression cron';
 			case 'admin.crontab_guru': return 'Générateur de règles Cron';
 			case 'admin.disable_login': return 'Désactiver la connexion';
 			case 'admin.disabled': return 'Désactivé';
@@ -1946,7 +1962,7 @@ extension on TranslationsFr {
 			case 'confirm_password': return 'Confirmer le mot de passe';
 			case 'contain': return 'Contenu';
 			case 'context': return 'Contexte';
-			case 'continue_text': return 'Continuer';
+			case 'kContinue': return 'Continuer';
 			case 'copied_image_to_clipboard': return 'Image copiée dans le presse-papiers.';
 			case 'copied_to_clipboard': return 'Copié dans le presse-papiers !';
 			case 'copy_error': return 'Copier l\'erreur';

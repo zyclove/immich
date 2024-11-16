@@ -194,7 +194,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	String get confirm_password => 'Confirm password';
 	String get contain => 'Contain';
 	String get context => 'Context';
-	String get continue_text => 'Continue';
+	String get kContinue => 'Continue';
 	String get copied_image_to_clipboard => 'Copied image to clipboard.';
 	String get copied_to_clipboard => 'Copied to clipboard!';
 	String get copy_error => 'Copy error';
@@ -875,7 +875,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	String get variables => 'Variables';
 	String get version => 'Version';
 	String get version_announcement_closing => 'Your friend, Alex';
-	String get version_announcement_message => 'Hi friend, there is a new version of the application please take your time to visit the <link>release notes</link> and ensure your <code>docker-compose.yml</code>, and <code>.env</code> setup is up-to-date to prevent any misconfigurations, especially if you use WatchTower or any mechanism that handles updating your application automatically.';
+	String get version_announcement_message => 'Hi there! A new version of Immich is available. Please take some time to read the <link>release notes</link> to ensure your setup is up-to-date to prevent any misconfigurations, especially if you use WatchTower or any mechanism that handles updating your Immich instance automatically.';
 	String get version_history => 'Version History';
 	String get version_history_item => 'Installed {version} on {date}';
 	String get video => 'Video';
@@ -1854,7 +1854,7 @@ extension on Translations {
 			case 'confirm_password': return 'Confirm password';
 			case 'contain': return 'Contain';
 			case 'context': return 'Context';
-			case 'continue_text': return 'Continue';
+			case 'kContinue': return 'Continue';
 			case 'copied_image_to_clipboard': return 'Copied image to clipboard.';
 			case 'copied_to_clipboard': return 'Copied to clipboard!';
 			case 'copy_error': return 'Copy error';
@@ -2662,7 +2662,7 @@ extension on Translations {
 			case 'variables': return 'Variables';
 			case 'version': return 'Version';
 			case 'version_announcement_closing': return 'Your friend, Alex';
-			case 'version_announcement_message': return 'Hi friend, there is a new version of the application please take your time to visit the <link>release notes</link> and ensure your <code>docker-compose.yml</code>, and <code>.env</code> setup is up-to-date to prevent any misconfigurations, especially if you use WatchTower or any mechanism that handles updating your application automatically.';
+			case 'version_announcement_message': return 'Hi there! A new version of Immich is available. Please take some time to read the <link>release notes</link> to ensure your setup is up-to-date to prevent any misconfigurations, especially if you use WatchTower or any mechanism that handles updating your Immich instance automatically.';
 			case 'version_history': return 'Version History';
 			case 'version_history_item': return 'Installed {version} on {date}';
 			case 'video': return 'Video';

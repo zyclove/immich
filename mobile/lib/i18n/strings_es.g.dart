@@ -198,7 +198,7 @@ class TranslationsEs extends Translations {
 	@override String get confirm_password => 'Confirmar contraseña';
 	@override String get contain => 'Incluido';
 	@override String get context => 'Contexto';
-	@override String get continue_text => 'Continuar';
+	@override String get kContinue => 'Continuar';
 	@override String get copied_image_to_clipboard => 'Imagen copiada al portapapeles.';
 	@override String get copied_to_clipboard => '¡Copiado al portapapeles!';
 	@override String get copy_error => 'Error de copiado';
@@ -981,6 +981,11 @@ class _TranslationsAdminEs extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => '¿Está seguro de que deseas desactivar todos los métodos de inicio de sesión? El inicio de sesión se desactivará por completo.';
 	@override String get authentication_settings_reenable => 'Para volver a activarlo, utiliza un <link> Comando del servidor </link>.';
 	@override String get background_task_job => 'Tareas en segundo plano';
+	@override String get backup_database => 'Respaldar base de datos';
+	@override String get backup_database_enable_description => 'Activar respaldo de base de datos';
+	@override String get backup_keep_last_amount => 'Cantidad de respaldos previos a mantener';
+	@override String get backup_settings => 'Ajustes de respaldo';
+	@override String get backup_settings_description => 'Administrar configuración de respaldo de base de datos';
 	@override String get check_all => 'Verificar todo';
 	@override String get cleared_jobs => 'Trabajos borrados para: {job}';
 	@override String get config_set_by_file => 'La configuración está definida por un archivo de configuración';
@@ -990,6 +995,9 @@ class _TranslationsAdminEs extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => '¿Estás seguro de que deseas reprocesar todas las caras? Esto borrará a todas las personas que nombraste.';
 	@override String get confirm_user_password_reset => '¿Estás seguro de que quieres restablecer la contraseña de {user}?';
 	@override String get create_job => 'Crear trabajo';
+	@override String get cron_expression => 'Expresión CRON';
+	@override String get cron_expression_description => 'Establece el intervalo de escaneo utilizando el formato CRON. Para más información puede consultar, por ejemplo, <link> Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Valores predefinidos de expresión cron';
 	@override String get crontab_guru => 'Crontab Guru';
 	@override String get disable_login => 'Deshabilitar inicio de sesión';
 	@override String get disabled => 'Deshabilitado';
@@ -1497,6 +1505,11 @@ extension on TranslationsEs {
 			case 'admin.authentication_settings_disable_all': return '¿Está seguro de que deseas desactivar todos los métodos de inicio de sesión? El inicio de sesión se desactivará por completo.';
 			case 'admin.authentication_settings_reenable': return 'Para volver a activarlo, utiliza un <link> Comando del servidor </link>.';
 			case 'admin.background_task_job': return 'Tareas en segundo plano';
+			case 'admin.backup_database': return 'Respaldar base de datos';
+			case 'admin.backup_database_enable_description': return 'Activar respaldo de base de datos';
+			case 'admin.backup_keep_last_amount': return 'Cantidad de respaldos previos a mantener';
+			case 'admin.backup_settings': return 'Ajustes de respaldo';
+			case 'admin.backup_settings_description': return 'Administrar configuración de respaldo de base de datos';
 			case 'admin.check_all': return 'Verificar todo';
 			case 'admin.cleared_jobs': return 'Trabajos borrados para: {job}';
 			case 'admin.config_set_by_file': return 'La configuración está definida por un archivo de configuración';
@@ -1506,6 +1519,9 @@ extension on TranslationsEs {
 			case 'admin.confirm_reprocess_all_faces': return '¿Estás seguro de que deseas reprocesar todas las caras? Esto borrará a todas las personas que nombraste.';
 			case 'admin.confirm_user_password_reset': return '¿Estás seguro de que quieres restablecer la contraseña de {user}?';
 			case 'admin.create_job': return 'Crear trabajo';
+			case 'admin.cron_expression': return 'Expresión CRON';
+			case 'admin.cron_expression_description': return 'Establece el intervalo de escaneo utilizando el formato CRON. Para más información puede consultar, por ejemplo, <link> Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Valores predefinidos de expresión cron';
 			case 'admin.crontab_guru': return 'Crontab Guru';
 			case 'admin.disable_login': return 'Deshabilitar inicio de sesión';
 			case 'admin.disabled': return 'Deshabilitado';
@@ -1946,7 +1962,7 @@ extension on TranslationsEs {
 			case 'confirm_password': return 'Confirmar contraseña';
 			case 'contain': return 'Incluido';
 			case 'context': return 'Contexto';
-			case 'continue_text': return 'Continuar';
+			case 'kContinue': return 'Continuar';
 			case 'copied_image_to_clipboard': return 'Imagen copiada al portapapeles.';
 			case 'copied_to_clipboard': return '¡Copiado al portapapeles!';
 			case 'copy_error': return 'Error de copiado';

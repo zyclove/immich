@@ -137,7 +137,7 @@ class TranslationsTh extends Translations {
 	@override String get confirm_password => 'ยืนยันรหัสผ่าน';
 	@override String get contain => 'มี';
 	@override String get context => 'บริบท';
-	@override String get continue_text => 'ต่อไป';
+	@override String get kContinue => 'ต่อไป';
 	@override String get copied_image_to_clipboard => 'คัดลอกภาพไปยังคลิปบอร์ดแล้ว';
 	@override String get copy_error => 'คัดลอกข้อผิดพลาด';
 	@override String get copy_file_path => 'คัดลอกพาธของไฟล์';
@@ -1344,7 +1344,7 @@ extension on TranslationsTh {
 			case 'confirm_password': return 'ยืนยันรหัสผ่าน';
 			case 'contain': return 'มี';
 			case 'context': return 'บริบท';
-			case 'continue_text': return 'ต่อไป';
+			case 'kContinue': return 'ต่อไป';
 			case 'copied_image_to_clipboard': return 'คัดลอกภาพไปยังคลิปบอร์ดแล้ว';
 			case 'copy_error': return 'คัดลอกข้อผิดพลาด';
 			case 'copy_file_path': return 'คัดลอกพาธของไฟล์';

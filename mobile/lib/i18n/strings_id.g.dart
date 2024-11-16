@@ -198,7 +198,7 @@ class TranslationsId extends Translations {
 	@override String get confirm_password => 'Konfirmasi kata sandi';
 	@override String get contain => 'Berisi';
 	@override String get context => 'Konteks';
-	@override String get continue_text => 'Lanjutkan';
+	@override String get kContinue => 'Lanjutkan';
 	@override String get copied_image_to_clipboard => 'Gambar disalin ke papan klip.';
 	@override String get copied_to_clipboard => 'Disalin ke papan klip!';
 	@override String get copy_error => 'Salin eror';
@@ -964,6 +964,11 @@ class _TranslationsAdminId extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Anda yakin untuk menonaktifkan semua cara login? Login akan dinonaktikan secara menyeluruh.';
 	@override String get authentication_settings_reenable => 'Untuk mengaktifkan ulang, gunakan <link>Perintah Server</link>.';
 	@override String get background_task_job => 'Tugas Latar Belakang';
+	@override String get backup_database => 'Basis Data Cadangan';
+	@override String get backup_database_enable_description => 'Aktifkan pencadangan basis data';
+	@override String get backup_keep_last_amount => 'Jumlah cadangan untuk disimpan';
+	@override String get backup_settings => 'Pengaturan Pencadangan';
+	@override String get backup_settings_description => 'Kelola pengaturan pencadangan basis data';
 	@override String get check_all => 'Periksa Semua';
 	@override String get cleared_jobs => 'Tugas terselesaikan untuk: {job}';
 	@override String get config_set_by_file => 'Konfigurasi saat ini ditetapkan oleh berkas konfigurasi';
@@ -973,6 +978,9 @@ class _TranslationsAdminId extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Apakah Anda yakin ingin memproses semua wajah? Ini juga akan menghapus nama orang.';
 	@override String get confirm_user_password_reset => 'Apakah Anda yakin ingin mengatur ulang kata sandi {user}?';
 	@override String get create_job => 'Buat tugas';
+	@override String get cron_expression => 'Ekspresi cron';
+	@override String get cron_expression_description => 'Tetapkan interval pemindaian menggunakan format cron. Untuk informasi lebih lanjut, silakan merujuk misalnya ke <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Prasetel ekspresi cron';
 	@override String get disable_login => 'Nonaktifkan log masuk';
 	@override String get duplicate_detection_job_description => 'Jalankan pembelajaran mesin pada aset untuk mendeteksi gambar yang serupa. Bergantung pada Pencarian Pintar';
 	@override String get exclusion_pattern_description => 'Pola pengecualian memungkinkan Anda mengabaikan berkas dan folder ketika memindai pustaka Anda. Ini berguna jika Anda memiliki folder yang berisi berkas yang tidak ingin diimpor, seperti berkas RAW.';
@@ -1473,6 +1481,11 @@ extension on TranslationsId {
 			case 'admin.authentication_settings_disable_all': return 'Anda yakin untuk menonaktifkan semua cara login? Login akan dinonaktikan secara menyeluruh.';
 			case 'admin.authentication_settings_reenable': return 'Untuk mengaktifkan ulang, gunakan <link>Perintah Server</link>.';
 			case 'admin.background_task_job': return 'Tugas Latar Belakang';
+			case 'admin.backup_database': return 'Basis Data Cadangan';
+			case 'admin.backup_database_enable_description': return 'Aktifkan pencadangan basis data';
+			case 'admin.backup_keep_last_amount': return 'Jumlah cadangan untuk disimpan';
+			case 'admin.backup_settings': return 'Pengaturan Pencadangan';
+			case 'admin.backup_settings_description': return 'Kelola pengaturan pencadangan basis data';
 			case 'admin.check_all': return 'Periksa Semua';
 			case 'admin.cleared_jobs': return 'Tugas terselesaikan untuk: {job}';
 			case 'admin.config_set_by_file': return 'Konfigurasi saat ini ditetapkan oleh berkas konfigurasi';
@@ -1482,6 +1495,9 @@ extension on TranslationsId {
 			case 'admin.confirm_reprocess_all_faces': return 'Apakah Anda yakin ingin memproses semua wajah? Ini juga akan menghapus nama orang.';
 			case 'admin.confirm_user_password_reset': return 'Apakah Anda yakin ingin mengatur ulang kata sandi {user}?';
 			case 'admin.create_job': return 'Buat tugas';
+			case 'admin.cron_expression': return 'Ekspresi cron';
+			case 'admin.cron_expression_description': return 'Tetapkan interval pemindaian menggunakan format cron. Untuk informasi lebih lanjut, silakan merujuk misalnya ke <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Prasetel ekspresi cron';
 			case 'admin.disable_login': return 'Nonaktifkan log masuk';
 			case 'admin.duplicate_detection_job_description': return 'Jalankan pembelajaran mesin pada aset untuk mendeteksi gambar yang serupa. Bergantung pada Pencarian Pintar';
 			case 'admin.exclusion_pattern_description': return 'Pola pengecualian memungkinkan Anda mengabaikan berkas dan folder ketika memindai pustaka Anda. Ini berguna jika Anda memiliki folder yang berisi berkas yang tidak ingin diimpor, seperti berkas RAW.';
@@ -1919,7 +1935,7 @@ extension on TranslationsId {
 			case 'confirm_password': return 'Konfirmasi kata sandi';
 			case 'contain': return 'Berisi';
 			case 'context': return 'Konteks';
-			case 'continue_text': return 'Lanjutkan';
+			case 'kContinue': return 'Lanjutkan';
 			case 'copied_image_to_clipboard': return 'Gambar disalin ke papan klip.';
 			case 'copied_to_clipboard': return 'Disalin ke papan klip!';
 			case 'copy_error': return 'Salin eror';

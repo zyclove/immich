@@ -198,7 +198,7 @@ class TranslationsCs extends Translations {
 	@override String get confirm_password => 'Potvrzení hesla';
 	@override String get contain => 'Obsah';
 	@override String get context => 'Kontext';
-	@override String get continue_text => 'Pokračovat';
+	@override String get kContinue => 'Pokračovat';
 	@override String get copied_image_to_clipboard => 'Obrázek zkopírován do schránky.';
 	@override String get copied_to_clipboard => 'Zkopírováno do schránky!';
 	@override String get copy_error => 'Chyba kopírování';
@@ -982,6 +982,11 @@ class _TranslationsAdminCs extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Opravdu chcete zakázat všechny metody přihlášení? Přihlašování bude úplně zakázáno.';
 	@override String get authentication_settings_reenable => 'Pro opětovné povolení použijte příkaz <link>Příkaz serveru</link>.';
 	@override String get background_task_job => 'Úkoly na pozadí';
+	@override String get backup_database => 'Zálohování databáze';
+	@override String get backup_database_enable_description => 'Povolit zálohování databáze';
+	@override String get backup_keep_last_amount => 'Počet předchozích záloh k uchování';
+	@override String get backup_settings => 'Nastavení zálohování';
+	@override String get backup_settings_description => 'Spravovat nastavení zálohování databáze';
 	@override String get check_all => 'Vše zkontrolovat';
 	@override String get cleared_jobs => 'Hotové úlohy pro: {job}';
 	@override String get config_set_by_file => 'Konfigurace je aktuálně prováděna konfiguračním souborem';
@@ -991,6 +996,9 @@ class _TranslationsAdminCs extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Opravdu chcete znovu zpracovat všechny obličeje? Tím se vymažou i pojmenované osoby.';
 	@override String get confirm_user_password_reset => 'Opravdu chcete obnovit heslo uživatele {user}?';
 	@override String get create_job => 'Vytvořit úlohu';
+	@override String get cron_expression => 'Výraz cron';
+	@override String get cron_expression_description => 'Nastavte interval prohledávání pomocí cron formátu. Další informace naleznete např. v <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Předvolby výrazů cron';
 	@override String get crontab_guru => 'Crontab Guru';
 	@override String get disable_login => 'Zakázat přihlášení';
 	@override String get disabled => 'Zakázáno';
@@ -1498,6 +1506,11 @@ extension on TranslationsCs {
 			case 'admin.authentication_settings_disable_all': return 'Opravdu chcete zakázat všechny metody přihlášení? Přihlašování bude úplně zakázáno.';
 			case 'admin.authentication_settings_reenable': return 'Pro opětovné povolení použijte příkaz <link>Příkaz serveru</link>.';
 			case 'admin.background_task_job': return 'Úkoly na pozadí';
+			case 'admin.backup_database': return 'Zálohování databáze';
+			case 'admin.backup_database_enable_description': return 'Povolit zálohování databáze';
+			case 'admin.backup_keep_last_amount': return 'Počet předchozích záloh k uchování';
+			case 'admin.backup_settings': return 'Nastavení zálohování';
+			case 'admin.backup_settings_description': return 'Spravovat nastavení zálohování databáze';
 			case 'admin.check_all': return 'Vše zkontrolovat';
 			case 'admin.cleared_jobs': return 'Hotové úlohy pro: {job}';
 			case 'admin.config_set_by_file': return 'Konfigurace je aktuálně prováděna konfiguračním souborem';
@@ -1507,6 +1520,9 @@ extension on TranslationsCs {
 			case 'admin.confirm_reprocess_all_faces': return 'Opravdu chcete znovu zpracovat všechny obličeje? Tím se vymažou i pojmenované osoby.';
 			case 'admin.confirm_user_password_reset': return 'Opravdu chcete obnovit heslo uživatele {user}?';
 			case 'admin.create_job': return 'Vytvořit úlohu';
+			case 'admin.cron_expression': return 'Výraz cron';
+			case 'admin.cron_expression_description': return 'Nastavte interval prohledávání pomocí cron formátu. Další informace naleznete např. v <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Předvolby výrazů cron';
 			case 'admin.crontab_guru': return 'Crontab Guru';
 			case 'admin.disable_login': return 'Zakázat přihlášení';
 			case 'admin.disabled': return 'Zakázáno';
@@ -1947,7 +1963,7 @@ extension on TranslationsCs {
 			case 'confirm_password': return 'Potvrzení hesla';
 			case 'contain': return 'Obsah';
 			case 'context': return 'Kontext';
-			case 'continue_text': return 'Pokračovat';
+			case 'kContinue': return 'Pokračovat';
 			case 'copied_image_to_clipboard': return 'Obrázek zkopírován do schránky.';
 			case 'copied_to_clipboard': return 'Zkopírováno do schránky!';
 			case 'copy_error': return 'Chyba kopírování';

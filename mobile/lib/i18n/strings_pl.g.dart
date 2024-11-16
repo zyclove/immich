@@ -198,7 +198,7 @@ class TranslationsPl extends Translations {
 	@override String get confirm_password => 'Potwierdź hasło';
 	@override String get contain => 'Zawiera';
 	@override String get context => 'Kontekst';
-	@override String get continue_text => 'Kontynuuj';
+	@override String get kContinue => 'Kontynuuj';
 	@override String get copied_image_to_clipboard => 'Skopiowano obraz do schowka.';
 	@override String get copied_to_clipboard => 'Skopiowano do schowka!';
 	@override String get copy_error => 'Błąd kopiowania';
@@ -952,6 +952,11 @@ class _TranslationsAdminPl extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Czy jesteś pewny, że chcesz wyłączyć wszystkie metody logowania? Logowanie będzie całkowicie wyłączone.';
 	@override String get authentication_settings_reenable => 'Aby ponownie włączyć, użyj <link>Polecenia serwera</link>.';
 	@override String get background_task_job => 'Zadania w Tle';
+	@override String get backup_database => 'Kopia zapasowa bazy danych';
+	@override String get backup_database_enable_description => 'Włącz kopię zapasową bazy danych';
+	@override String get backup_keep_last_amount => 'Ile poprzednich kopii zapasowych przechowywać';
+	@override String get backup_settings => 'Ustawienia kopii zapasowej';
+	@override String get backup_settings_description => 'Zarządzaj ustawieniami kopii zapasowej bazy dnaych';
 	@override String get check_all => 'Zaznacz Wszystko';
 	@override String get cleared_jobs => 'Usunięto zadania dla: {job}';
 	@override String get config_set_by_file => 'Konfiguracja pochodzi z pliku konfiguracyjnego';
@@ -961,6 +966,9 @@ class _TranslationsAdminPl extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Czy na pewno chcesz ponownie przetworzyć wszystkie twarze? Spowoduje to utratę nazwanych osób.';
 	@override String get confirm_user_password_reset => 'Czy na pewno chcesz zresetować hasło użytkownika {user}?';
 	@override String get create_job => 'Utwórz zadanie';
+	@override String get cron_expression => 'Wyrażenie Cron';
+	@override String get cron_expression_description => 'Ustaw intwerwał skanowania przy pomocy formatu Cron\'a. Po więcej informacji na temat formatu Cron zobacz . <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Predefiniowane wyrażenia Cron\'a';
 	@override String get crontab_guru => 'Crontab Guru';
 	@override String get disable_login => 'Wyłącz logowanie';
 	@override String get disabled => 'Wyłączone';
@@ -1468,6 +1476,11 @@ extension on TranslationsPl {
 			case 'admin.authentication_settings_disable_all': return 'Czy jesteś pewny, że chcesz wyłączyć wszystkie metody logowania? Logowanie będzie całkowicie wyłączone.';
 			case 'admin.authentication_settings_reenable': return 'Aby ponownie włączyć, użyj <link>Polecenia serwera</link>.';
 			case 'admin.background_task_job': return 'Zadania w Tle';
+			case 'admin.backup_database': return 'Kopia zapasowa bazy danych';
+			case 'admin.backup_database_enable_description': return 'Włącz kopię zapasową bazy danych';
+			case 'admin.backup_keep_last_amount': return 'Ile poprzednich kopii zapasowych przechowywać';
+			case 'admin.backup_settings': return 'Ustawienia kopii zapasowej';
+			case 'admin.backup_settings_description': return 'Zarządzaj ustawieniami kopii zapasowej bazy dnaych';
 			case 'admin.check_all': return 'Zaznacz Wszystko';
 			case 'admin.cleared_jobs': return 'Usunięto zadania dla: {job}';
 			case 'admin.config_set_by_file': return 'Konfiguracja pochodzi z pliku konfiguracyjnego';
@@ -1477,6 +1490,9 @@ extension on TranslationsPl {
 			case 'admin.confirm_reprocess_all_faces': return 'Czy na pewno chcesz ponownie przetworzyć wszystkie twarze? Spowoduje to utratę nazwanych osób.';
 			case 'admin.confirm_user_password_reset': return 'Czy na pewno chcesz zresetować hasło użytkownika {user}?';
 			case 'admin.create_job': return 'Utwórz zadanie';
+			case 'admin.cron_expression': return 'Wyrażenie Cron';
+			case 'admin.cron_expression_description': return 'Ustaw intwerwał skanowania przy pomocy formatu Cron\'a. Po więcej informacji na temat formatu Cron zobacz . <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Predefiniowane wyrażenia Cron\'a';
 			case 'admin.crontab_guru': return 'Crontab Guru';
 			case 'admin.disable_login': return 'Wyłącz logowanie';
 			case 'admin.disabled': return 'Wyłączone';
@@ -1917,7 +1933,7 @@ extension on TranslationsPl {
 			case 'confirm_password': return 'Potwierdź hasło';
 			case 'contain': return 'Zawiera';
 			case 'context': return 'Kontekst';
-			case 'continue_text': return 'Kontynuuj';
+			case 'kContinue': return 'Kontynuuj';
 			case 'copied_image_to_clipboard': return 'Skopiowano obraz do schowka.';
 			case 'copied_to_clipboard': return 'Skopiowano do schowka!';
 			case 'copy_error': return 'Błąd kopiowania';

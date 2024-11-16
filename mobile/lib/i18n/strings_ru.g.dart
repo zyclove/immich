@@ -198,7 +198,7 @@ class TranslationsRu extends Translations {
 	@override String get confirm_password => 'Подтвердите пароль';
 	@override String get contain => 'Вместить';
 	@override String get context => 'Контекст';
-	@override String get continue_text => 'Продолжить';
+	@override String get kContinue => 'Продолжить';
 	@override String get copied_image_to_clipboard => 'Изображение скопировано в буфер обмена.';
 	@override String get copied_to_clipboard => 'Скопировано в буфер обмена!';
 	@override String get copy_error => 'Ошибка копирования';
@@ -349,7 +349,7 @@ class TranslationsRu extends Translations {
 	@override String get fix_incorrect_match => 'Исправить неправильное соответствие';
 	@override String get folders => 'Папки';
 	@override String get folders_feature_description => 'Просмотр папок с фотографиями и видео в файловой системе';
-	@override String get forward => 'Переслать';
+	@override String get forward => 'Вперёд';
 	@override String get general => 'Общие';
 	@override String get get_help => 'Получить помощь';
 	@override String get getting_started => 'Приступая к работе';
@@ -981,6 +981,11 @@ class _TranslationsAdminRu extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Вы уверены, что хотите отключить все методы входа? Вход будет полностью отключен.';
 	@override String get authentication_settings_reenable => 'Чтобы снова включить, используйте <link>Команда Сервера</link>.';
 	@override String get background_task_job => 'Фоновые задачи';
+	@override String get backup_database => 'Резервное копирование базы данных';
+	@override String get backup_database_enable_description => 'Включить резервное копирование базы данных';
+	@override String get backup_keep_last_amount => 'Количество хранимых резервных копий';
+	@override String get backup_settings => 'Настройки резервного копирования';
+	@override String get backup_settings_description => 'Управление настройками резервного копирования базы данных';
 	@override String get check_all => 'Проверить все';
 	@override String get cleared_jobs => 'Очищены задачи для: {job}';
 	@override String get config_set_by_file => 'Настроено с помощью файла конфигурации';
@@ -990,6 +995,9 @@ class _TranslationsAdminRu extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Вы уверены, что хотите повторно определить все лица? Будут также удалены имена со всех лиц.';
 	@override String get confirm_user_password_reset => 'Вы уверены, что хотите сбросить пароль пользователя {user}?';
 	@override String get create_job => 'Создать задание';
+	@override String get cron_expression => 'Выражение cron';
+	@override String get cron_expression_description => 'Задайте интервал сканирований в формате cron. Для получения дополнительной информации, ознакомьтесь с <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Предустановки выражений cron';
 	@override String get crontab_guru => 'Crontab Guru';
 	@override String get disable_login => 'Отключить вход';
 	@override String get disabled => 'Выключено';
@@ -1497,6 +1505,11 @@ extension on TranslationsRu {
 			case 'admin.authentication_settings_disable_all': return 'Вы уверены, что хотите отключить все методы входа? Вход будет полностью отключен.';
 			case 'admin.authentication_settings_reenable': return 'Чтобы снова включить, используйте <link>Команда Сервера</link>.';
 			case 'admin.background_task_job': return 'Фоновые задачи';
+			case 'admin.backup_database': return 'Резервное копирование базы данных';
+			case 'admin.backup_database_enable_description': return 'Включить резервное копирование базы данных';
+			case 'admin.backup_keep_last_amount': return 'Количество хранимых резервных копий';
+			case 'admin.backup_settings': return 'Настройки резервного копирования';
+			case 'admin.backup_settings_description': return 'Управление настройками резервного копирования базы данных';
 			case 'admin.check_all': return 'Проверить все';
 			case 'admin.cleared_jobs': return 'Очищены задачи для: {job}';
 			case 'admin.config_set_by_file': return 'Настроено с помощью файла конфигурации';
@@ -1506,6 +1519,9 @@ extension on TranslationsRu {
 			case 'admin.confirm_reprocess_all_faces': return 'Вы уверены, что хотите повторно определить все лица? Будут также удалены имена со всех лиц.';
 			case 'admin.confirm_user_password_reset': return 'Вы уверены, что хотите сбросить пароль пользователя {user}?';
 			case 'admin.create_job': return 'Создать задание';
+			case 'admin.cron_expression': return 'Выражение cron';
+			case 'admin.cron_expression_description': return 'Задайте интервал сканирований в формате cron. Для получения дополнительной информации, ознакомьтесь с <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Предустановки выражений cron';
 			case 'admin.crontab_guru': return 'Crontab Guru';
 			case 'admin.disable_login': return 'Отключить вход';
 			case 'admin.disabled': return 'Выключено';
@@ -1946,7 +1962,7 @@ extension on TranslationsRu {
 			case 'confirm_password': return 'Подтвердите пароль';
 			case 'contain': return 'Вместить';
 			case 'context': return 'Контекст';
-			case 'continue_text': return 'Продолжить';
+			case 'kContinue': return 'Продолжить';
 			case 'copied_image_to_clipboard': return 'Изображение скопировано в буфер обмена.';
 			case 'copied_to_clipboard': return 'Скопировано в буфер обмена!';
 			case 'copy_error': return 'Ошибка копирования';
@@ -2223,7 +2239,7 @@ extension on TranslationsRu {
 			case 'fix_incorrect_match': return 'Исправить неправильное соответствие';
 			case 'folders': return 'Папки';
 			case 'folders_feature_description': return 'Просмотр папок с фотографиями и видео в файловой системе';
-			case 'forward': return 'Переслать';
+			case 'forward': return 'Вперёд';
 			case 'general': return 'Общие';
 			case 'get_help': return 'Получить помощь';
 			case 'getting_started': return 'Приступая к работе';

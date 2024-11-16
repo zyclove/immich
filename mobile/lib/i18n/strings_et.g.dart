@@ -192,7 +192,7 @@ class TranslationsEt extends Translations {
 	@override String get confirm_password => 'Kinnita parool';
 	@override String get contain => 'Mahuta ära';
 	@override String get context => 'Kontekst';
-	@override String get continue_text => 'Jätka';
+	@override String get kContinue => 'Jätka';
 	@override String get copied_image_to_clipboard => 'Pilt kopeeritud lõikelauale.';
 	@override String get copied_to_clipboard => 'Kopeeritud lõikelauale!';
 	@override String get copy_error => 'Kopeeri viga';
@@ -700,6 +700,7 @@ class TranslationsEt extends Translations {
 	@override String get server_online => 'Server ühendatud';
 	@override String get server_stats => 'Serveri statistika';
 	@override String get server_version => 'Serveri versioon';
+	@override String get set => 'Määra';
 	@override String get set_as_album_cover => 'Sea albumi kaanepildiks';
 	@override String get set_as_profile_picture => 'Sea profiilipildiks';
 	@override String get set_date_of_birth => 'Määra sünnikuupäev';
@@ -901,6 +902,11 @@ class _TranslationsAdminEt extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Kas oled kindel, et soovid kõik sisselogimismeetodid välja lülitada? Sisselogimine lülitatakse täielikult välja.';
 	@override String get authentication_settings_reenable => 'Et taas lubada, kasuta <link>serveri käsku</link>.';
 	@override String get background_task_job => 'Tausttegumid';
+	@override String get backup_database => 'Varunda andmebaas';
+	@override String get backup_database_enable_description => 'Luba andmebaasi varundamine';
+	@override String get backup_keep_last_amount => 'Varukoopiate arv, mida alles hoida';
+	@override String get backup_settings => 'Varundamise seaded';
+	@override String get backup_settings_description => 'Halda andmebaasi varundamise seadeid';
 	@override String get check_all => 'Märgi kõik';
 	@override String get cleared_jobs => 'Tööted eemaldatud: {job}';
 	@override String get config_set_by_file => 'Konfiguratsioon on määratud konfifaili abil';
@@ -910,6 +916,9 @@ class _TranslationsAdminEt extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Kas oled kindel, et soovid kõik näod uuesti töödelda? See eemaldab kõik nimega isikud.';
 	@override String get confirm_user_password_reset => 'Kas oled kindel, et soovid kasutaja {user} parooli lähtestada?';
 	@override String get create_job => 'Lisa tööde';
+	@override String get cron_expression => 'Cron avaldis';
+	@override String get cron_expression_description => 'Sea skaneerimise intervall cron formaadis. Rohkema info jaoks vaata nt. <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Eelseadistatud cron avaldised';
 	@override String get disable_login => 'Keela sisselogimine';
 	@override String get duplicate_detection_job_description => 'Rakenda üksustele masinõpet, et leida sarnaseid pilte. Kasutab nutiotsingut';
 	@override String get exclusion_pattern_description => 'Välistamismustrid võimaldavad ignoreerida faile ja kaustu kogu skaneerimisel. See on kasulik, kui sul on kaustu, mis sisaldavad faile, mida sa ei soovi importida, nagu RAW failid.';
@@ -1408,6 +1417,11 @@ extension on TranslationsEt {
 			case 'admin.authentication_settings_disable_all': return 'Kas oled kindel, et soovid kõik sisselogimismeetodid välja lülitada? Sisselogimine lülitatakse täielikult välja.';
 			case 'admin.authentication_settings_reenable': return 'Et taas lubada, kasuta <link>serveri käsku</link>.';
 			case 'admin.background_task_job': return 'Tausttegumid';
+			case 'admin.backup_database': return 'Varunda andmebaas';
+			case 'admin.backup_database_enable_description': return 'Luba andmebaasi varundamine';
+			case 'admin.backup_keep_last_amount': return 'Varukoopiate arv, mida alles hoida';
+			case 'admin.backup_settings': return 'Varundamise seaded';
+			case 'admin.backup_settings_description': return 'Halda andmebaasi varundamise seadeid';
 			case 'admin.check_all': return 'Märgi kõik';
 			case 'admin.cleared_jobs': return 'Tööted eemaldatud: {job}';
 			case 'admin.config_set_by_file': return 'Konfiguratsioon on määratud konfifaili abil';
@@ -1417,6 +1431,9 @@ extension on TranslationsEt {
 			case 'admin.confirm_reprocess_all_faces': return 'Kas oled kindel, et soovid kõik näod uuesti töödelda? See eemaldab kõik nimega isikud.';
 			case 'admin.confirm_user_password_reset': return 'Kas oled kindel, et soovid kasutaja {user} parooli lähtestada?';
 			case 'admin.create_job': return 'Lisa tööde';
+			case 'admin.cron_expression': return 'Cron avaldis';
+			case 'admin.cron_expression_description': return 'Sea skaneerimise intervall cron formaadis. Rohkema info jaoks vaata nt. <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Eelseadistatud cron avaldised';
 			case 'admin.disable_login': return 'Keela sisselogimine';
 			case 'admin.duplicate_detection_job_description': return 'Rakenda üksustele masinõpet, et leida sarnaseid pilte. Kasutab nutiotsingut';
 			case 'admin.exclusion_pattern_description': return 'Välistamismustrid võimaldavad ignoreerida faile ja kaustu kogu skaneerimisel. See on kasulik, kui sul on kaustu, mis sisaldavad faile, mida sa ei soovi importida, nagu RAW failid.';
@@ -1847,7 +1864,7 @@ extension on TranslationsEt {
 			case 'confirm_password': return 'Kinnita parool';
 			case 'contain': return 'Mahuta ära';
 			case 'context': return 'Kontekst';
-			case 'continue_text': return 'Jätka';
+			case 'kContinue': return 'Jätka';
 			case 'copied_image_to_clipboard': return 'Pilt kopeeritud lõikelauale.';
 			case 'copied_to_clipboard': return 'Kopeeritud lõikelauale!';
 			case 'copy_error': return 'Kopeeri viga';
@@ -2481,6 +2498,7 @@ extension on TranslationsEt {
 			case 'server_online': return 'Server ühendatud';
 			case 'server_stats': return 'Serveri statistika';
 			case 'server_version': return 'Serveri versioon';
+			case 'set': return 'Määra';
 			case 'set_as_album_cover': return 'Sea albumi kaanepildiks';
 			case 'set_as_profile_picture': return 'Sea profiilipildiks';
 			case 'set_date_of_birth': return 'Määra sünnikuupäev';

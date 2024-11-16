@@ -198,7 +198,7 @@ class TranslationsPt extends Translations {
 	@override String get confirm_password => 'Confirmar a palavra-passe';
 	@override String get contain => 'Ajustar';
 	@override String get context => 'Contexto';
-	@override String get continue_text => 'Continuar';
+	@override String get kContinue => 'Continuar';
 	@override String get copied_image_to_clipboard => 'Imagem copiada para a área de transferência.';
 	@override String get copied_to_clipboard => 'Copiado para a área de transferência!';
 	@override String get copy_error => 'Copiar erro';
@@ -950,6 +950,11 @@ class _TranslationsAdminPt extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Tem a certeza que deseja desativar todos os métodos de início de sessão? O início de sessão será completamente desativado.';
 	@override String get authentication_settings_reenable => 'Para reativar, use um <link>Comando de servidor</link>.';
 	@override String get background_task_job => 'Tarefas em segundo plano';
+	@override String get backup_database => 'Cópia de Segurança da Base de Dados';
+	@override String get backup_database_enable_description => 'Ativar cópias de segurança da base de dados';
+	@override String get backup_keep_last_amount => 'Quantidade de cópias de segurança anteriores a manter';
+	@override String get backup_settings => 'Definições de Cópia de Segurança';
+	@override String get backup_settings_description => 'Gerir definições de cópia de segurança da base de dados';
 	@override String get check_all => 'Selecionar Tudo';
 	@override String get cleared_jobs => 'Eliminadas as tarefas de: {job}';
 	@override String get config_set_by_file => 'A configuração está atualmente definida por um ficheiro de configuração';
@@ -959,6 +964,9 @@ class _TranslationsAdminPt extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Tem a certeza de que deseja reprocessar todos os rostos? Isto também limpará os nomes das pessoas.';
 	@override String get confirm_user_password_reset => 'Tem a certeza de que deseja redefinir a palavra-passe de {user}?';
 	@override String get create_job => 'Criar tarefa';
+	@override String get cron_expression => 'Expressão Cron';
+	@override String get cron_expression_description => 'Definir o intervalo de análise utilizando o formato Cron. Para mais informações, por favor veja o <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Predefinições das expressões Cron';
 	@override String get crontab_guru => 'Guru do Crontab';
 	@override String get disable_login => 'Desativar inicio de sessão';
 	@override String get disabled => '';
@@ -1466,6 +1474,11 @@ extension on TranslationsPt {
 			case 'admin.authentication_settings_disable_all': return 'Tem a certeza que deseja desativar todos os métodos de início de sessão? O início de sessão será completamente desativado.';
 			case 'admin.authentication_settings_reenable': return 'Para reativar, use um <link>Comando de servidor</link>.';
 			case 'admin.background_task_job': return 'Tarefas em segundo plano';
+			case 'admin.backup_database': return 'Cópia de Segurança da Base de Dados';
+			case 'admin.backup_database_enable_description': return 'Ativar cópias de segurança da base de dados';
+			case 'admin.backup_keep_last_amount': return 'Quantidade de cópias de segurança anteriores a manter';
+			case 'admin.backup_settings': return 'Definições de Cópia de Segurança';
+			case 'admin.backup_settings_description': return 'Gerir definições de cópia de segurança da base de dados';
 			case 'admin.check_all': return 'Selecionar Tudo';
 			case 'admin.cleared_jobs': return 'Eliminadas as tarefas de: {job}';
 			case 'admin.config_set_by_file': return 'A configuração está atualmente definida por um ficheiro de configuração';
@@ -1475,6 +1488,9 @@ extension on TranslationsPt {
 			case 'admin.confirm_reprocess_all_faces': return 'Tem a certeza de que deseja reprocessar todos os rostos? Isto também limpará os nomes das pessoas.';
 			case 'admin.confirm_user_password_reset': return 'Tem a certeza de que deseja redefinir a palavra-passe de {user}?';
 			case 'admin.create_job': return 'Criar tarefa';
+			case 'admin.cron_expression': return 'Expressão Cron';
+			case 'admin.cron_expression_description': return 'Definir o intervalo de análise utilizando o formato Cron. Para mais informações, por favor veja o <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Predefinições das expressões Cron';
 			case 'admin.crontab_guru': return 'Guru do Crontab';
 			case 'admin.disable_login': return 'Desativar inicio de sessão';
 			case 'admin.disabled': return '';
@@ -1915,7 +1931,7 @@ extension on TranslationsPt {
 			case 'confirm_password': return 'Confirmar a palavra-passe';
 			case 'contain': return 'Ajustar';
 			case 'context': return 'Contexto';
-			case 'continue_text': return 'Continuar';
+			case 'kContinue': return 'Continuar';
 			case 'copied_image_to_clipboard': return 'Imagem copiada para a área de transferência.';
 			case 'copied_to_clipboard': return 'Copiado para a área de transferência!';
 			case 'copy_error': return 'Copiar erro';

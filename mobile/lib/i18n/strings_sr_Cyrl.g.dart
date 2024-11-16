@@ -198,7 +198,7 @@ class TranslationsSrCyrl extends Translations {
 	@override String get confirm_password => 'Поново унеси шифру';
 	@override String get contain => 'Обухвати';
 	@override String get context => 'Контекст';
-	@override String get continue_text => 'Настави';
+	@override String get kContinue => 'Настави';
 	@override String get copied_image_to_clipboard => 'Копирана слика у међуспремник (цлипбоард).';
 	@override String get copied_to_clipboard => 'Копирано у међуспремник (цлипбоард)!';
 	@override String get copy_error => 'Грешка при копирању';
@@ -981,6 +981,11 @@ class _TranslationsAdminSrCyrl extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Да ли сте сигурни да желите да oneмогућите све методе пријављивања? Пријава ће бити потпуно oneмогућена.';
 	@override String get authentication_settings_reenable => 'Да бисте поново омогућили, користите <link>команду сервера</link>.';
 	@override String get background_task_job => 'Позадински задаци';
+	@override String get backup_database => 'Резервна копија базе података';
+	@override String get backup_database_enable_description => 'Омогућите резервне копије базе података';
+	@override String get backup_keep_last_amount => 'Количина претходних резервних копија за чување';
+	@override String get backup_settings => 'Подешавања резервне копије';
+	@override String get backup_settings_description => 'Управљајте поставкама резервне копије базе података';
 	@override String get check_all => 'Провери све';
 	@override String get cleared_jobs => 'Очишћени послови за {job}';
 	@override String get config_set_by_file => 'Конфигурацију тренутно поставља конфигурациони фајл';
@@ -990,6 +995,9 @@ class _TranslationsAdminSrCyrl extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Да ли сте сигурни да желите да поново обрадите сва лица? Ово ће такође обрисати именоване особе.';
 	@override String get confirm_user_password_reset => 'Да ли сте сигурни да желите да ресетујете лозинку корисника {user}?';
 	@override String get create_job => 'Креирајте посао';
+	@override String get cron_expression => 'Cron израз (expression)';
+	@override String get cron_expression_description => 'Подесите интервал скенирања користећи cron формат. За више информација погледајте нпр. <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Предефинисана подешавања Cron израза (expression)';
 	@override String get crontab_guru => 'Guru servisnih zadataka';
 	@override String get disable_login => 'oneмогући пријаву';
 	@override String get disabled => '';
@@ -1497,6 +1505,11 @@ extension on TranslationsSrCyrl {
 			case 'admin.authentication_settings_disable_all': return 'Да ли сте сигурни да желите да oneмогућите све методе пријављивања? Пријава ће бити потпуно oneмогућена.';
 			case 'admin.authentication_settings_reenable': return 'Да бисте поново омогућили, користите <link>команду сервера</link>.';
 			case 'admin.background_task_job': return 'Позадински задаци';
+			case 'admin.backup_database': return 'Резервна копија базе података';
+			case 'admin.backup_database_enable_description': return 'Омогућите резервне копије базе података';
+			case 'admin.backup_keep_last_amount': return 'Количина претходних резервних копија за чување';
+			case 'admin.backup_settings': return 'Подешавања резервне копије';
+			case 'admin.backup_settings_description': return 'Управљајте поставкама резервне копије базе података';
 			case 'admin.check_all': return 'Провери све';
 			case 'admin.cleared_jobs': return 'Очишћени послови за {job}';
 			case 'admin.config_set_by_file': return 'Конфигурацију тренутно поставља конфигурациони фајл';
@@ -1506,6 +1519,9 @@ extension on TranslationsSrCyrl {
 			case 'admin.confirm_reprocess_all_faces': return 'Да ли сте сигурни да желите да поново обрадите сва лица? Ово ће такође обрисати именоване особе.';
 			case 'admin.confirm_user_password_reset': return 'Да ли сте сигурни да желите да ресетујете лозинку корисника {user}?';
 			case 'admin.create_job': return 'Креирајте посао';
+			case 'admin.cron_expression': return 'Cron израз (expression)';
+			case 'admin.cron_expression_description': return 'Подесите интервал скенирања користећи cron формат. За више информација погледајте нпр. <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Предефинисана подешавања Cron израза (expression)';
 			case 'admin.crontab_guru': return 'Guru servisnih zadataka';
 			case 'admin.disable_login': return 'oneмогући пријаву';
 			case 'admin.disabled': return '';
@@ -1946,7 +1962,7 @@ extension on TranslationsSrCyrl {
 			case 'confirm_password': return 'Поново унеси шифру';
 			case 'contain': return 'Обухвати';
 			case 'context': return 'Контекст';
-			case 'continue_text': return 'Настави';
+			case 'kContinue': return 'Настави';
 			case 'copied_image_to_clipboard': return 'Копирана слика у међуспремник (цлипбоард).';
 			case 'copied_to_clipboard': return 'Копирано у међуспремник (цлипбоард)!';
 			case 'copy_error': return 'Грешка при копирању';

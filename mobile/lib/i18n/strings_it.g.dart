@@ -198,7 +198,7 @@ class TranslationsIt extends Translations {
 	@override String get confirm_password => 'Conferma password';
 	@override String get contain => 'Adatta';
 	@override String get context => 'Contesto';
-	@override String get continue_text => 'Continua';
+	@override String get kContinue => 'Continua';
 	@override String get copied_image_to_clipboard => 'Immagine copiata negli appunti.';
 	@override String get copied_to_clipboard => 'Copiato negli appunti!';
 	@override String get copy_error => 'Errore nella copia';
@@ -1945,7 +1945,7 @@ extension on TranslationsIt {
 			case 'confirm_password': return 'Conferma password';
 			case 'contain': return 'Adatta';
 			case 'context': return 'Contesto';
-			case 'continue_text': return 'Continua';
+			case 'kContinue': return 'Continua';
 			case 'copied_image_to_clipboard': return 'Immagine copiata negli appunti.';
 			case 'copied_to_clipboard': return 'Copiato negli appunti!';
 			case 'copy_error': return 'Errore nella copia';

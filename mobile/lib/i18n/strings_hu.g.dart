@@ -198,7 +198,7 @@ class TranslationsHu extends Translations {
 	@override String get confirm_password => 'Jelszó megerősítése';
 	@override String get contain => 'Belül';
 	@override String get context => 'Kontextus';
-	@override String get continue_text => 'Folytatás';
+	@override String get kContinue => 'Folytatás';
 	@override String get copied_image_to_clipboard => 'Kép a vágólapra másolva.';
 	@override String get copied_to_clipboard => 'Vágólapra másolva!';
 	@override String get copy_error => 'Másolási hiba';
@@ -949,6 +949,11 @@ class _TranslationsAdminHu extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Biztosan letiltod az összes bejelentkezési módot? A bejelentkezés teljesen le lesz tiltva.';
 	@override String get authentication_settings_reenable => 'Az újbóli engedélyezéshez használj egy<link>Szerver Parancsot</link>.';
 	@override String get background_task_job => 'Háttérfeladatok';
+	@override String get backup_database => 'Tartalék Adatbázis';
+	@override String get backup_database_enable_description => 'Adatbázis biztonsági mentések engedélyezése';
+	@override String get backup_keep_last_amount => 'Megőrizendő korábbi biztonsági mentések száma';
+	@override String get backup_settings => 'Biztonsági mentés beállításai';
+	@override String get backup_settings_description => 'Adatbázis mentési beállításainak kezelése';
 	@override String get check_all => 'Összes Kipiálása';
 	@override String get cleared_jobs => '{job}: feladatai törölve';
 	@override String get config_set_by_file => 'A konfigurációt jelenleg egy konfigurációs fájl állítja be';
@@ -958,6 +963,9 @@ class _TranslationsAdminHu extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Biztos vagy benne, hogy újra fel szeretnéd dolgozni az összes arcot? Ez a már elnevezett személyeket is törli.';
 	@override String get confirm_user_password_reset => 'Biztosan vissza szeretnéd állítani {user} jelszavát?';
 	@override String get create_job => 'Feladat létrehozása';
+	@override String get cron_expression => 'Cron kifejezés';
+	@override String get cron_expression_description => 'A beolvasási időköz beállítása a cron formátummal. További információért lásd pl. <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Cron kifejezés előbeállítások';
 	@override String get crontab_guru => 'Crontab Guru';
 	@override String get disable_login => 'Belépés letiltása';
 	@override String get disabled => 'Letiltva';
@@ -1465,6 +1473,11 @@ extension on TranslationsHu {
 			case 'admin.authentication_settings_disable_all': return 'Biztosan letiltod az összes bejelentkezési módot? A bejelentkezés teljesen le lesz tiltva.';
 			case 'admin.authentication_settings_reenable': return 'Az újbóli engedélyezéshez használj egy<link>Szerver Parancsot</link>.';
 			case 'admin.background_task_job': return 'Háttérfeladatok';
+			case 'admin.backup_database': return 'Tartalék Adatbázis';
+			case 'admin.backup_database_enable_description': return 'Adatbázis biztonsági mentések engedélyezése';
+			case 'admin.backup_keep_last_amount': return 'Megőrizendő korábbi biztonsági mentések száma';
+			case 'admin.backup_settings': return 'Biztonsági mentés beállításai';
+			case 'admin.backup_settings_description': return 'Adatbázis mentési beállításainak kezelése';
 			case 'admin.check_all': return 'Összes Kipiálása';
 			case 'admin.cleared_jobs': return '{job}: feladatai törölve';
 			case 'admin.config_set_by_file': return 'A konfigurációt jelenleg egy konfigurációs fájl állítja be';
@@ -1474,6 +1487,9 @@ extension on TranslationsHu {
 			case 'admin.confirm_reprocess_all_faces': return 'Biztos vagy benne, hogy újra fel szeretnéd dolgozni az összes arcot? Ez a már elnevezett személyeket is törli.';
 			case 'admin.confirm_user_password_reset': return 'Biztosan vissza szeretnéd állítani {user} jelszavát?';
 			case 'admin.create_job': return 'Feladat létrehozása';
+			case 'admin.cron_expression': return 'Cron kifejezés';
+			case 'admin.cron_expression_description': return 'A beolvasási időköz beállítása a cron formátummal. További információért lásd pl. <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Cron kifejezés előbeállítások';
 			case 'admin.crontab_guru': return 'Crontab Guru';
 			case 'admin.disable_login': return 'Belépés letiltása';
 			case 'admin.disabled': return 'Letiltva';
@@ -1914,7 +1930,7 @@ extension on TranslationsHu {
 			case 'confirm_password': return 'Jelszó megerősítése';
 			case 'contain': return 'Belül';
 			case 'context': return 'Kontextus';
-			case 'continue_text': return 'Folytatás';
+			case 'kContinue': return 'Folytatás';
 			case 'copied_image_to_clipboard': return 'Kép a vágólapra másolva.';
 			case 'copied_to_clipboard': return 'Vágólapra másolva!';
 			case 'copy_error': return 'Másolási hiba';

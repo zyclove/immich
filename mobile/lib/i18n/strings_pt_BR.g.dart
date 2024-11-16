@@ -198,7 +198,7 @@ class TranslationsPtBr extends Translations {
 	@override String get confirm_password => 'Confirme a senha';
 	@override String get contain => 'Caber';
 	@override String get context => 'Contexto';
-	@override String get continue_text => 'Continuar';
+	@override String get kContinue => 'Continuar';
 	@override String get copied_image_to_clipboard => 'Imagem copiada para a área de transferência.';
 	@override String get copied_to_clipboard => 'Copiado para a área de transferência!';
 	@override String get copy_error => 'Copiar erro';
@@ -1945,7 +1945,7 @@ extension on TranslationsPtBr {
 			case 'confirm_password': return 'Confirme a senha';
 			case 'contain': return 'Caber';
 			case 'context': return 'Contexto';
-			case 'continue_text': return 'Continuar';
+			case 'kContinue': return 'Continuar';
 			case 'copied_image_to_clipboard': return 'Imagem copiada para a área de transferência.';
 			case 'copied_to_clipboard': return 'Copiado para a área de transferência!';
 			case 'copy_error': return 'Copiar erro';

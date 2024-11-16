@@ -137,7 +137,7 @@ class TranslationsFa extends Translations {
 	@override String get confirm_password => '';
 	@override String get contain => '';
 	@override String get context => '';
-	@override String get continue_text => '';
+	@override String get kContinue => '';
 	@override String get copied_image_to_clipboard => '';
 	@override String get copied_to_clipboard => '';
 	@override String get copy_error => '';
@@ -1428,7 +1428,7 @@ extension on TranslationsFa {
 			case 'confirm_password': return '';
 			case 'contain': return '';
 			case 'context': return '';
-			case 'continue_text': return '';
+			case 'kContinue': return '';
 			case 'copied_image_to_clipboard': return '';
 			case 'copied_to_clipboard': return '';
 			case 'copy_error': return '';

@@ -196,7 +196,7 @@ class TranslationsRo extends Translations {
 	@override String get confirm_password => 'Confirmați parola';
 	@override String get contain => 'Încadrează';
 	@override String get context => 'Context';
-	@override String get continue_text => 'Continuați';
+	@override String get kContinue => 'Continuați';
 	@override String get copied_image_to_clipboard => 'Imaginea copiată în clipboard.';
 	@override String get copied_to_clipboard => 'Copiat în clipboard!';
 	@override String get copy_error => 'Eroare de copiere';
@@ -1640,7 +1640,7 @@ extension on TranslationsRo {
 			case 'confirm_password': return 'Confirmați parola';
 			case 'contain': return 'Încadrează';
 			case 'context': return 'Context';
-			case 'continue_text': return 'Continuați';
+			case 'kContinue': return 'Continuați';
 			case 'copied_image_to_clipboard': return 'Imaginea copiată în clipboard.';
 			case 'copied_to_clipboard': return 'Copiat în clipboard!';
 			case 'copy_error': return 'Eroare de copiere';

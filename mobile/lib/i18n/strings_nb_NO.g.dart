@@ -180,7 +180,7 @@ class TranslationsNbNo extends Translations {
 	@override String get confirm_password => 'Bekreft passord';
 	@override String get contain => 'Inneholder';
 	@override String get context => 'Kontekst';
-	@override String get continue_text => 'Fortsett';
+	@override String get kContinue => 'Fortsett';
 	@override String get copied_image_to_clipboard => 'Bildet er kopiert til utklippstavlen.';
 	@override String get copied_to_clipboard => 'Kopiert til utklippstavlen!';
 	@override String get copy_error => 'Kopi feil';
@@ -1543,7 +1543,7 @@ extension on TranslationsNbNo {
 			case 'confirm_password': return 'Bekreft passord';
 			case 'contain': return 'Inneholder';
 			case 'context': return 'Kontekst';
-			case 'continue_text': return 'Fortsett';
+			case 'kContinue': return 'Fortsett';
 			case 'copied_image_to_clipboard': return 'Bildet er kopiert til utklippstavlen.';
 			case 'copied_to_clipboard': return 'Kopiert til utklippstavlen!';
 			case 'copy_error': return 'Kopi feil';

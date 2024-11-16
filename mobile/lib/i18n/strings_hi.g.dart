@@ -167,7 +167,7 @@ class TranslationsHi extends Translations {
 	@override String get confirm_password => 'पासवर्ड की पुष्टि कीजिये';
 	@override String get contain => 'समाहित';
 	@override String get context => 'संदर्भ';
-	@override String get continue_text => 'जारी';
+	@override String get kContinue => 'जारी';
 	@override String get copied_image_to_clipboard => 'छवि को क्लिपबोर्ड पर कॉपी किया गया।';
 	@override String get copied_to_clipboard => 'क्लिपबोर्ड पर नकल!';
 	@override String get copy_error => 'प्रतिलिपि त्रुटि';
@@ -1648,7 +1648,7 @@ extension on TranslationsHi {
 			case 'confirm_password': return 'पासवर्ड की पुष्टि कीजिये';
 			case 'contain': return 'समाहित';
 			case 'context': return 'संदर्भ';
-			case 'continue_text': return 'जारी';
+			case 'kContinue': return 'जारी';
 			case 'copied_image_to_clipboard': return 'छवि को क्लिपबोर्ड पर कॉपी किया गया।';
 			case 'copied_to_clipboard': return 'क्लिपबोर्ड पर नकल!';
 			case 'copy_error': return 'प्रतिलिपि त्रुटि';

@@ -195,7 +195,7 @@ class TranslationsJa extends Translations {
 	@override String get confirm_password => '確認';
 	@override String get contain => '収める';
 	@override String get context => '状況';
-	@override String get continue_text => '続ける';
+	@override String get kContinue => '続ける';
 	@override String get copied_image_to_clipboard => '画像をクリップボードにコピーしました。';
 	@override String get copied_to_clipboard => 'クリップボードにコピーしました!';
 	@override String get copy_error => 'コピーのエラー';
@@ -1844,7 +1844,7 @@ extension on TranslationsJa {
 			case 'confirm_password': return '確認';
 			case 'contain': return '収める';
 			case 'context': return '状況';
-			case 'continue_text': return '続ける';
+			case 'kContinue': return '続ける';
 			case 'copied_image_to_clipboard': return '画像をクリップボードにコピーしました。';
 			case 'copied_to_clipboard': return 'クリップボードにコピーしました!';
 			case 'copy_error': return 'コピーのエラー';

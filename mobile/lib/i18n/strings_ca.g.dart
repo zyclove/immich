@@ -197,7 +197,7 @@ class TranslationsCa extends Translations {
 	@override String get confirm_password => 'Confirmació de contrasenya';
 	@override String get contain => 'Contingut';
 	@override String get context => 'Context';
-	@override String get continue_text => 'Continuar';
+	@override String get kContinue => 'Continuar';
 	@override String get copied_image_to_clipboard => 'Imatge copiada a porta-retalls.';
 	@override String get copied_to_clipboard => 'Copiada a porta-retalls!';
 	@override String get copy_error => 'Error de còpia';
@@ -1926,7 +1926,7 @@ extension on TranslationsCa {
 			case 'confirm_password': return 'Confirmació de contrasenya';
 			case 'contain': return 'Contingut';
 			case 'context': return 'Context';
-			case 'continue_text': return 'Continuar';
+			case 'kContinue': return 'Continuar';
 			case 'copied_image_to_clipboard': return 'Imatge copiada a porta-retalls.';
 			case 'copied_to_clipboard': return 'Copiada a porta-retalls!';
 			case 'copy_error': return 'Error de còpia';

@@ -198,7 +198,7 @@ class TranslationsSrLatn extends Translations {
 	@override String get confirm_password => 'Ponovo unesi šifru';
 	@override String get contain => 'Obuhvati';
 	@override String get context => 'Kontekst';
-	@override String get continue_text => 'Nastavi';
+	@override String get kContinue => 'Nastavi';
 	@override String get copied_image_to_clipboard => 'Kopirana slika u međuspremnik (clipboard).';
 	@override String get copied_to_clipboard => 'Kopirano u međuspremnik (clipboard)!';
 	@override String get copy_error => 'Greška pri kopiranju';
@@ -981,6 +981,11 @@ class _TranslationsAdminSrLatn extends TranslationsAdminEn {
 	@override String get authentication_settings_disable_all => 'Da li ste sigurni da želite da onemogućite sve metode prijavljivanja? Prijava će biti potpuno onemogućena.';
 	@override String get authentication_settings_reenable => 'Da biste ponovo omogućili, koristite <link>komandu servera</link>.';
 	@override String get background_task_job => 'Pozadinski zadaci';
+	@override String get backup_database => 'Rezervna kopija baze podataka';
+	@override String get backup_database_enable_description => 'Omogućite rezervne kopije baze podataka';
+	@override String get backup_keep_last_amount => 'Količina prethodnih rezervnih kopija za čuvanje';
+	@override String get backup_settings => 'Podešavanja rezervne kopije';
+	@override String get backup_settings_description => 'Upravljajte postavkama rezervne kopije baze podataka';
 	@override String get check_all => 'Proveri sve';
 	@override String get cleared_jobs => 'Očišćeni poslovi za: {job}';
 	@override String get config_set_by_file => 'Konfiguraciju trenutno postavlja konfiguracioni fajl';
@@ -990,6 +995,9 @@ class _TranslationsAdminSrLatn extends TranslationsAdminEn {
 	@override String get confirm_reprocess_all_faces => 'Da li ste sigurni da želite da ponovo obradite sva lica? Ovo će takođe obrisati imenovane osobe.';
 	@override String get confirm_user_password_reset => 'Da li ste sigurni da želite da resetujete lozinku korisnika {user}?';
 	@override String get create_job => 'Kreirajte posao';
+	@override String get cron_expression => 'Cron izraz (expression)';
+	@override String get cron_expression_description => 'Podesite interval skeniranja koristeći cron format. Za više informacija pogledajte npr. <link>Crontab Guru</link>';
+	@override String get cron_expression_presets => 'Predefinisana podešavanja Cron izraza (expression)';
 	@override String get crontab_guru => 'Guru servisnih zadataka';
 	@override String get disable_login => 'Onemogući prijavu';
 	@override String get disabled => '';
@@ -1497,6 +1505,11 @@ extension on TranslationsSrLatn {
 			case 'admin.authentication_settings_disable_all': return 'Da li ste sigurni da želite da onemogućite sve metode prijavljivanja? Prijava će biti potpuno onemogućena.';
 			case 'admin.authentication_settings_reenable': return 'Da biste ponovo omogućili, koristite <link>komandu servera</link>.';
 			case 'admin.background_task_job': return 'Pozadinski zadaci';
+			case 'admin.backup_database': return 'Rezervna kopija baze podataka';
+			case 'admin.backup_database_enable_description': return 'Omogućite rezervne kopije baze podataka';
+			case 'admin.backup_keep_last_amount': return 'Količina prethodnih rezervnih kopija za čuvanje';
+			case 'admin.backup_settings': return 'Podešavanja rezervne kopije';
+			case 'admin.backup_settings_description': return 'Upravljajte postavkama rezervne kopije baze podataka';
 			case 'admin.check_all': return 'Proveri sve';
 			case 'admin.cleared_jobs': return 'Očišćeni poslovi za: {job}';
 			case 'admin.config_set_by_file': return 'Konfiguraciju trenutno postavlja konfiguracioni fajl';
@@ -1506,6 +1519,9 @@ extension on TranslationsSrLatn {
 			case 'admin.confirm_reprocess_all_faces': return 'Da li ste sigurni da želite da ponovo obradite sva lica? Ovo će takođe obrisati imenovane osobe.';
 			case 'admin.confirm_user_password_reset': return 'Da li ste sigurni da želite da resetujete lozinku korisnika {user}?';
 			case 'admin.create_job': return 'Kreirajte posao';
+			case 'admin.cron_expression': return 'Cron izraz (expression)';
+			case 'admin.cron_expression_description': return 'Podesite interval skeniranja koristeći cron format. Za više informacija pogledajte npr. <link>Crontab Guru</link>';
+			case 'admin.cron_expression_presets': return 'Predefinisana podešavanja Cron izraza (expression)';
 			case 'admin.crontab_guru': return 'Guru servisnih zadataka';
 			case 'admin.disable_login': return 'Onemogući prijavu';
 			case 'admin.disabled': return '';
@@ -1946,7 +1962,7 @@ extension on TranslationsSrLatn {
 			case 'confirm_password': return 'Ponovo unesi šifru';
 			case 'contain': return 'Obuhvati';
 			case 'context': return 'Kontekst';
-			case 'continue_text': return 'Nastavi';
+			case 'kContinue': return 'Nastavi';
 			case 'copied_image_to_clipboard': return 'Kopirana slika u međuspremnik (clipboard).';
 			case 'copied_to_clipboard': return 'Kopirano u međuspremnik (clipboard)!';
 			case 'copy_error': return 'Greška pri kopiranju';

@@ -197,7 +197,7 @@ class TranslationsVi extends Translations {
 	@override String get confirm_password => 'Xác nhận mật khẩu';
 	@override String get contain => 'Chứa';
 	@override String get context => 'Ngữ cảnh';
-	@override String get continue_text => 'Tiếp tục';
+	@override String get kContinue => 'Tiếp tục';
 	@override String get copied_image_to_clipboard => 'Đã sao chép hình ảnh vào clipboard.';
 	@override String get copied_to_clipboard => 'Đã sao chép vào clipboard!';
 	@override String get copy_error => 'Sao chép lỗi';
@@ -1913,7 +1913,7 @@ extension on TranslationsVi {
 			case 'confirm_password': return 'Xác nhận mật khẩu';
 			case 'contain': return 'Chứa';
 			case 'context': return 'Ngữ cảnh';
-			case 'continue_text': return 'Tiếp tục';
+			case 'kContinue': return 'Tiếp tục';
 			case 'copied_image_to_clipboard': return 'Đã sao chép hình ảnh vào clipboard.';
 			case 'copied_to_clipboard': return 'Đã sao chép vào clipboard!';
 			case 'copy_error': return 'Sao chép lỗi';
