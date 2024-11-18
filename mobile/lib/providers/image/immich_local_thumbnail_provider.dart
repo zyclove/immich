@@ -18,8 +18,8 @@ class ImmichLocalThumbnailProvider
 
   ImmichLocalThumbnailProvider({
     required this.asset,
-    this.height = 256,
-    this.width = 256,
+    this.height = 128,
+    this.width = 128,
   }) : assert(asset.local != null, 'Only usable when asset.local is set');
 
   /// Converts an [ImageProvider]'s settings plus an [ImageConfiguration] to a key
