@@ -31,7 +31,7 @@ class ImmichThumbnail extends HookWidget {
   static ImageProvider imageProvider({
     Asset? asset,
     String? assetId,
-    int thumbnailSize = 256,
+    int thumbnailSize = 128,
   }) {
     if (asset == null && assetId == null) {
       throw Exception('Must supply either asset or assetId');
