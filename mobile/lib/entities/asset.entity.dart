@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:immich_mobile/entities/exif_info.entity.dart';
-import 'package:immich_mobile/entities/store.entity.dart';
 import 'package:immich_mobile/utils/hash.dart';
 import 'package:isar/isar.dart';
 import 'package:openapi/api.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager/photo_manager.dart' show AssetEntity;
 import 'package:immich_mobile/extensions/string_extensions.dart';
 import 'package:path/path.dart' as p;
 
@@ -41,33 +41,6 @@ class Asset {
         stackCount = remote.stack?.assetCount ?? 0,
         stackId = remote.stack?.id,
         thumbhash = remote.thumbhash;
-
-  Asset.local(AssetEntity local, List<int> hash)
-      : localId = local.id,
-        checksum = base64.encode(hash),
-        durationInSeconds = local.duration,
-        type = AssetType.values[local.typeInt],
-        height = local.height,
-        width = local.width,
-        fileName = local.title!,
-        ownerId = Store.get(StoreKey.currentUser).isarId,
-        fileModifiedAt = local.modifiedDateTime,
-        updatedAt = local.modifiedDateTime,
-        isFavorite = local.isFavorite,
-        isArchived = false,
-        isTrashed = false,
-        isOffline = false,
-        stackCount = 0,
-        fileCreatedAt = local.createDateTime {
-    if (fileCreatedAt.year == 1970) {
-      fileCreatedAt = fileModifiedAt;
-    }
-    if (local.latitude != null) {
-      exifInfo = ExifInfo(lat: local.latitude, long: local.longitude);
-    }
-    _local = local;
-    assert(hash.length == 20, "invalid SHA1 hash");
-  }
 
   Asset({
     this.id = Isar.autoIncrement,
@@ -113,6 +86,29 @@ class Asset {
       );
     }
     return _local;
+  }
+
+  set local(AssetEntity? assetEntity) => _local = assetEntity;
+
+  @ignore
+  bool _didUpdateLocal = false;
+
+  @ignore
+  Future<AssetEntity> get localAsync async {
+    final local = this.local;
+    if (local == null) {
+      throw Exception('Asset $fileName has no local data');
+    }
+
+    final updatedLocal =
+        _didUpdateLocal ? local : await local.obtainForNewProperties();
+    if (updatedLocal == null) {
+      throw Exception('Could not fetch local data for $fileName');
+    }
+
+    this.local = updatedLocal;
+    _didUpdateLocal = true;
+    return updatedLocal;
   }
 
   Id id = Isar.autoIncrement;
@@ -172,10 +168,21 @@ class Asset {
 
   int stackCount;
 
-  /// Aspect ratio of the asset
+  /// Returns null if the asset has no sync access to the exif info
   @ignore
-  double? get aspectRatio =>
-      width == null || height == null ? 0 : width! / height!;
+  double? get aspectRatio {
+    final orientatedWidth = this.orientatedWidth;
+    final orientatedHeight = this.orientatedHeight;
+
+    if (orientatedWidth != null &&
+        orientatedHeight != null &&
+        orientatedWidth > 0 &&
+        orientatedHeight > 0) {
+      return orientatedWidth.toDouble() / orientatedHeight.toDouble();
+    }
+
+    return null;
+  }
 
   /// `true` if this [Asset] is present on the device
   @ignore
@@ -195,6 +202,12 @@ class Asset {
   bool get isImage => type == AssetType.image;
 
   @ignore
+  bool get isVideo => type == AssetType.video;
+
+  @ignore
+  bool get isMotionPhoto => livePhotoVideoId != null;
+
+  @ignore
   AssetState get storage {
     if (isRemote && isLocal) {
       return AssetState.merged;
@@ -209,6 +222,54 @@ class Asset {
 
   @ignore
   Duration get duration => Duration(seconds: durationInSeconds);
+
+  // ignore: invalid_annotation_target
+  @ignore
+  set byteHash(List<int> hash) => checksum = base64.encode(hash);
+
+  /// Returns null if the asset has no sync access to the exif info
+  @ignore
+  @pragma('vm:prefer-inline')
+  bool? get isFlipped {
+    final exifInfo = this.exifInfo;
+    if (exifInfo != null) {
+      return exifInfo.isFlipped;
+    }
+
+    if (_didUpdateLocal && Platform.isAndroid) {
+      final local = this.local;
+      if (local == null) {
+        throw Exception('Asset $fileName has no local data');
+      }
+      return local.orientation == 90 || local.orientation == 270;
+    }
+
+    return null;
+  }
+
+  /// Returns null if the asset has no sync access to the exif info
+  @ignore
+  @pragma('vm:prefer-inline')
+  int? get orientatedHeight {
+    final isFlipped = this.isFlipped;
+    if (isFlipped == null) {
+      return null;
+    }
+
+    return isFlipped ? width : height;
+  }
+
+  /// Returns null if the asset has no sync access to the exif info
+  @ignore
+  @pragma('vm:prefer-inline')
+  int? get orientatedWidth {
+    final isFlipped = this.isFlipped;
+    if (isFlipped == null) {
+      return null;
+    }
+
+    return isFlipped ? height : width;
+  }
 
   @override
   bool operator ==(other) {

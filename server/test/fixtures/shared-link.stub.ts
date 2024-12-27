@@ -5,7 +5,7 @@ import { SharedLinkResponseDto } from 'src/dtos/shared-link.dto';
 import { mapUser } from 'src/dtos/user.dto';
 import { SharedLinkEntity } from 'src/entities/shared-link.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { AssetOrder, AssetType, SharedLinkType } from 'src/enum';
+import { AssetOrder, AssetStatus, AssetType, SharedLinkType } from 'src/enum';
 import { assetStub } from 'test/fixtures/asset.stub';
 import { authStub } from 'test/fixtures/auth.stub';
 import { userStub } from 'test/fixtures/user.stub';
@@ -62,10 +62,6 @@ const assetResponse: AssetResponseDto = {
   updatedAt: today,
   isFavorite: false,
   isArchived: false,
-  smartInfo: {
-    tags: [],
-    objects: ['a', 'b', 'c'],
-  },
   duration: '0:00:00.00000',
   exifInfo: assetInfo,
   livePhotoVideoId: null,
@@ -188,6 +184,7 @@ export const sharedLinkStub = {
       assets: [
         {
           id: 'id_1',
+          status: AssetStatus.ACTIVE,
           owner: undefined as unknown as UserEntity,
           ownerId: 'user_id_1',
           deviceAssetId: 'device_asset_id_1',
@@ -204,12 +201,6 @@ export const sharedLinkStub = {
           isArchived: false,
           isExternal: false,
           isOffline: false,
-          smartInfo: {
-            assetId: 'id_1',
-            tags: [],
-            objects: ['a', 'b', 'c'],
-            asset: null as any,
-          },
           files: [],
           thumbhash: null,
           encodedVideoPath: '',
@@ -307,21 +298,6 @@ export const sharedLinkResponseStub = {
     showMetadata: true,
     type: SharedLinkType.ALBUM,
     userId: 'admin_id',
-  }),
-  readonly: Object.freeze<SharedLinkResponseDto>({
-    id: '123',
-    userId: 'admin_id',
-    key: sharedLinkBytes.toString('base64url'),
-    type: SharedLinkType.ALBUM,
-    createdAt: today,
-    expiresAt: tomorrow,
-    description: null,
-    password: null,
-    allowUpload: false,
-    allowDownload: false,
-    showMetadata: true,
-    album: albumResponse,
-    assets: [assetResponse],
   }),
   readonlyNoMetadata: Object.freeze<SharedLinkResponseDto>({
     id: '123',

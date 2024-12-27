@@ -5,20 +5,19 @@ import { AssetFileEntity } from 'src/entities/asset-files.entity';
 import { AssetJobStatusEntity } from 'src/entities/asset-job-status.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
 import { ExifEntity } from 'src/entities/exif.entity';
-import { SmartInfoEntity } from 'src/entities/smart-info.entity';
-import { AssetFileType, AssetOrder, AssetType } from 'src/enum';
+import { AssetFileType, AssetOrder, AssetStatus, AssetType, PaginationMode } from 'src/enum';
 import {
   AssetBuilderOptions,
   AssetCreate,
   AssetDeltaSyncOptions,
   AssetExploreFieldOptions,
   AssetFullSyncOptions,
-  AssetPathEntity,
   AssetStats,
   AssetStatsOptions,
   AssetUpdateAllOptions,
   AssetUpdateDuplicateOptions,
   AssetUpdateOptions,
+  DayOfYearAssets,
   IAssetRepository,
   LivePhotoSearchOptions,
   MonthDay,
@@ -30,8 +29,7 @@ import {
 } from 'src/interfaces/asset.interface';
 import { AssetSearchOptions, SearchExploreItem } from 'src/interfaces/search.interface';
 import { searchAssetBuilder } from 'src/utils/database';
-import { Instrumentation } from 'src/utils/instrumentation';
-import { Paginated, PaginationMode, PaginationOptions, paginate, paginatedBuilder } from 'src/utils/pagination';
+import { Paginated, PaginationOptions, paginate, paginatedBuilder } from 'src/utils/pagination';
 import {
   Brackets,
   FindOptionsOrder,
@@ -55,7 +53,6 @@ const dateTrunc = (options: TimeBucketOptions) =>
     truncateMap[options.size]
   }', (asset."localDateTime" at time zone 'UTC')) at time zone 'UTC')::timestamptz`;
 
-@Instrumentation()
 @Injectable()
 export class AssetRepository implements IAssetRepository {
   constructor(
@@ -63,7 +60,6 @@ export class AssetRepository implements IAssetRepository {
     @InjectRepository(AssetFileEntity) private fileRepository: Repository<AssetFileEntity>,
     @InjectRepository(ExifEntity) private exifRepository: Repository<ExifEntity>,
     @InjectRepository(AssetJobStatusEntity) private jobStatusRepository: Repository<AssetJobStatusEntity>,
-    @InjectRepository(SmartInfoEntity) private smartInfoRepository: Repository<SmartInfoEntity>,
   ) {}
 
   async upsertExif(exif: Partial<ExifEntity>): Promise<void> {
@@ -79,8 +75,8 @@ export class AssetRepository implements IAssetRepository {
   }
 
   @GenerateSql({ params: [[DummyValue.UUID], { day: 1, month: 1 }] })
-  getByDayOfYear(ownerIds: string[], { day, month }: MonthDay): Promise<AssetEntity[]> {
-    return this.repository
+  async getByDayOfYear(ownerIds: string[], { day, month }: MonthDay): Promise<DayOfYearAssets[]> {
+    const assets = await this.repository
       .createQueryBuilder('entity')
       .where(
         `entity.ownerId IN (:...ownerIds)
@@ -95,9 +91,25 @@ export class AssetRepository implements IAssetRepository {
         },
       )
       .leftJoinAndSelect('entity.exifInfo', 'exifInfo')
-      .leftJoinAndSelect('entity.files', 'files')
-      .orderBy('entity.localDateTime', 'ASC')
+      .innerJoinAndSelect('entity.files', 'files')
+      .andWhere('files.type = :type', { type: AssetFileType.THUMBNAIL })
+      .andWhere(
+        `EXTRACT(YEAR FROM CURRENT_DATE AT TIME ZONE 'UTC') - EXTRACT(YEAR FROM entity.localDateTime AT TIME ZONE 'UTC') > 0`,
+      )
+      .orderBy('entity.fileCreatedAt', 'ASC')
       .getMany();
+
+    const groups: Record<number, DayOfYearAssets> = {};
+    const currentYear = new Date().getFullYear();
+    for (const asset of assets) {
+      const yearsAgo = currentYear - asset.localDateTime.getFullYear();
+      if (!groups[yearsAgo]) {
+        groups[yearsAgo] = { yearsAgo, assets: [] };
+      }
+      groups[yearsAgo].assets.push(asset);
+    }
+
+    return Object.values(groups);
   }
 
   @GenerateSql({ params: [[DummyValue.UUID]] })
@@ -122,7 +134,6 @@ export class AssetRepository implements IAssetRepository {
       where: { id: In(ids) },
       relations: {
         exifInfo: true,
-        smartInfo: true,
         tags: true,
         faces: {
           person: true,
@@ -177,14 +188,6 @@ export class AssetRepository implements IAssetRepository {
     return this.getAll(pagination, { ...options, userIds: [userId] });
   }
 
-  @GenerateSql({ params: [{ take: 1, skip: 0 }, DummyValue.UUID] })
-  getExternalLibraryAssetPaths(pagination: PaginationOptions, libraryId: string): Paginated<AssetPathEntity> {
-    return paginate(this.repository, pagination, {
-      select: { id: true, originalPath: true, isOffline: true },
-      where: { library: { id: libraryId }, isExternal: true },
-    });
-  }
-
   @GenerateSql({ params: [DummyValue.UUID, DummyValue.STRING] })
   getByLibraryIdAndOriginalPath(libraryId: string, originalPath: string): Promise<AssetEntity | null> {
     return this.repository.findOne({
@@ -198,22 +201,14 @@ export class AssetRepository implements IAssetRepository {
   async getPathsNotInLibrary(libraryId: string, originalPaths: string[]): Promise<string[]> {
     const result = await this.repository.query(
       `
-      WITH paths AS (SELECT unnest($2::text[]) AS path)
-      SELECT path FROM paths
-      WHERE NOT EXISTS (SELECT 1 FROM assets WHERE "libraryId" = $1 AND "originalPath" = path);
-    `,
+        WITH paths AS (SELECT unnest($2::text[]) AS path)
+        SELECT path
+        FROM paths
+        WHERE NOT EXISTS (SELECT 1 FROM assets WHERE "libraryId" = $1 AND "originalPath" = path);
+      `,
       [libraryId, originalPaths],
     );
     return result.map((row: { path: string }) => row.path);
-  }
-
-  @GenerateSql({ params: [DummyValue.UUID, [DummyValue.STRING]] })
-  @ChunkedArray({ paramIndex: 1 })
-  async updateOfflineLibraryAssets(libraryId: string, originalPaths: string[]): Promise<void> {
-    await this.repository.update(
-      { library: { id: libraryId }, originalPath: Not(In(originalPaths)), isOffline: false },
-      { isOffline: true },
-    );
   }
 
   getAll(pagination: PaginationOptions, options: AssetSearchOptions = {}): Paginated<AssetEntity> {
@@ -295,16 +290,6 @@ export class AssetRepository implements IAssetRepository {
       .execute();
   }
 
-  @Chunked()
-  async softDeleteAll(ids: string[]): Promise<void> {
-    await this.repository.softDelete({ id: In(ids) });
-  }
-
-  @Chunked()
-  async restoreAll(ids: string[]): Promise<void> {
-    await this.repository.restore({ id: In(ids) });
-  }
-
   async update(asset: AssetUpdateOptions): Promise<void> {
     await this.repository.update(asset.id, asset);
   }
@@ -383,12 +368,10 @@ export class AssetRepository implements IAssetRepository {
   }
 
   @GenerateSql(
-    ...Object.values(WithProperty)
-      .filter((property) => property !== WithProperty.IS_OFFLINE && property !== WithProperty.IS_ONLINE)
-      .map((property) => ({
-        name: property,
-        params: [DummyValue.PAGINATION, property],
-      })),
+    ...Object.values(WithProperty).map((property) => ({
+      name: property,
+      params: [DummyValue.PAGINATION, property],
+    })),
   )
   getWithout(pagination: PaginationOptions, property: WithoutProperty): Paginated<AssetEntity> {
     let relations: FindOptionsRelations<AssetEntity> = {};
@@ -453,22 +436,6 @@ export class AssetRepository implements IAssetRepository {
         break;
       }
 
-      case WithoutProperty.OBJECT_TAGS: {
-        relations = {
-          smartInfo: true,
-        };
-        where = {
-          jobStatus: {
-            previewAt: Not(IsNull()),
-          },
-          isVisible: true,
-          smartInfo: {
-            tags: IsNull(),
-          },
-        };
-        break;
-      }
-
       case WithoutProperty.FACES: {
         relations = {
           faces: true,
@@ -483,23 +450,6 @@ export class AssetRepository implements IAssetRepository {
           jobStatus: {
             previewAt: Not(IsNull()),
             facesRecognizedAt: IsNull(),
-          },
-        };
-        break;
-      }
-
-      case WithoutProperty.PERSON: {
-        relations = {
-          faces: true,
-        };
-        where = {
-          jobStatus: {
-            previewAt: Not(IsNull()),
-          },
-          isVisible: true,
-          faces: {
-            assetId: Not(IsNull()),
-            personId: IsNull(),
           },
         };
         break;
@@ -525,56 +475,6 @@ export class AssetRepository implements IAssetRepository {
         // Ensures correct order when paginating
         createdAt: 'ASC',
       },
-    });
-  }
-
-  getWith(
-    pagination: PaginationOptions,
-    property: WithProperty,
-    libraryId?: string,
-    withDeleted = false,
-  ): Paginated<AssetEntity> {
-    let where: FindOptionsWhere<AssetEntity> | FindOptionsWhere<AssetEntity>[] = {};
-
-    switch (property) {
-      case WithProperty.SIDECAR: {
-        where = [{ sidecarPath: Not(IsNull()), isVisible: true }];
-        break;
-      }
-      case WithProperty.IS_OFFLINE: {
-        if (!libraryId) {
-          throw new Error('Library id is required when finding offline assets');
-        }
-        where = [{ isOffline: true, libraryId }];
-        break;
-      }
-      case WithProperty.IS_ONLINE: {
-        if (!libraryId) {
-          throw new Error('Library id is required when finding online assets');
-        }
-        where = [{ isOffline: false, libraryId }];
-        break;
-      }
-
-      default: {
-        throw new Error(`Invalid getWith property: ${property}`);
-      }
-    }
-
-    return paginate(this.repository, pagination, {
-      where,
-      withDeleted,
-      order: {
-        // Ensures correct order when paginating
-        createdAt: 'ASC',
-      },
-    });
-  }
-
-  getFirstAssetForAlbumId(albumId: string): Promise<AssetEntity | null> {
-    return this.repository.findOne({
-      where: { albums: { id: albumId } },
-      order: { fileCreatedAt: 'DESC' },
     });
   }
 
@@ -604,7 +504,10 @@ export class AssetRepository implements IAssetRepository {
     }
 
     if (isTrashed !== undefined) {
-      builder.withDeleted().andWhere(`asset.deletedAt is not null`);
+      builder
+        .withDeleted()
+        .andWhere(`asset.deletedAt is not null`)
+        .andWhere('asset.status = :status', { status: AssetStatus.TRASHED });
     }
 
     const items = await builder.getRawMany();
@@ -689,35 +592,6 @@ export class AssetRepository implements IAssetRepository {
     return { fieldName: 'exifInfo.city', items };
   }
 
-  @GenerateSql({ params: [DummyValue.UUID, { minAssetsPerField: 5, maxFields: 12 }] })
-  async getAssetIdByTag(
-    ownerId: string,
-    { minAssetsPerField, maxFields }: AssetExploreFieldOptions,
-  ): Promise<SearchExploreItem<string>> {
-    const cte = this.smartInfoRepository
-      .createQueryBuilder('si')
-      .select('unnest(tags)', 'tag')
-      .groupBy('tag')
-      .having('count(*) >= :minAssetsPerField', { minAssetsPerField });
-
-    const items = await this.getBuilder({
-      userIds: [ownerId],
-      exifInfo: false,
-      assetType: AssetType.IMAGE,
-      isArchived: false,
-    })
-      .select('unnest(si.tags)', 'value')
-      .addSelect('asset.id', 'data')
-      .distinctOn(['unnest(si.tags)'])
-      .innerJoin('smart_info', 'si', 'asset.id = si."assetId"')
-      .addCommonTableExpression(cte, 'random_tags')
-      .innerJoin('random_tags', 't', 'si.tags @> ARRAY[t.tag]')
-      .limit(maxFields)
-      .getRawMany();
-
-    return { fieldName: 'smartInfo.tags', items };
-  }
-
   private getBuilder(options: AssetBuilderOptions) {
     const builder = this.repository.createQueryBuilder('asset').where('asset.isVisible = true');
 
@@ -762,6 +636,13 @@ export class AssetRepository implements IAssetRepository {
 
     if (options.isTrashed !== undefined) {
       builder.andWhere(`asset.deletedAt ${options.isTrashed ? 'IS NOT NULL' : 'IS NULL'}`).withDeleted();
+
+      if (options.isTrashed) {
+        // TODO: Temporarily inverted to support showing offline assets in the trash queries.
+        // Once offline assets are handled in a separate screen, this should be set back to status = TRASHED
+        // and the offline screens should use a separate isOffline = true parameter in the timeline query.
+        builder.andWhere('asset.status != :status', { status: AssetStatus.DELETED });
+      }
     }
 
     if (options.isDuplicate !== undefined) {
@@ -836,52 +717,13 @@ export class AssetRepository implements IAssetRepository {
     return builder.getMany();
   }
 
-  async getUniqueOriginalPaths(userId: string): Promise<string[]> {
-    const builder = this.getBuilder({
-      userIds: [userId],
-      exifInfo: false,
-      withStacked: false,
-      isArchived: false,
-      isTrashed: false,
-    });
-
-    const results = await builder
-      .select("DISTINCT substring(asset.originalPath FROM '^(.*/)[^/]*$')", 'directoryPath')
-      .getRawMany();
-
-    return results.map((row: { directoryPath: string }) => row.directoryPath.replaceAll(/^\/|\/$/g, ''));
-  }
-
-  @GenerateSql({ params: [DummyValue.UUID, DummyValue.STRING] })
-  async getAssetsByOriginalPath(userId: string, partialPath: string): Promise<AssetEntity[]> {
-    const normalizedPath = partialPath.replaceAll(/^\/|\/$/g, '');
-
-    const builder = this.getBuilder({
-      userIds: [userId],
-      exifInfo: true,
-      withStacked: false,
-      isArchived: false,
-      isTrashed: false,
-    });
-
-    const assets = await builder
-      .where('asset.ownerId = :userId', { userId })
-      .andWhere(
-        new Brackets((qb) => {
-          qb.where('asset.originalPath LIKE :likePath', { likePath: `%${normalizedPath}/%` }).andWhere(
-            'asset.originalPath NOT LIKE :notLikePath',
-            { notLikePath: `%${normalizedPath}/%/%` },
-          );
-        }),
-      )
-      .orderBy(String.raw`regexp_replace(asset.originalPath, '.*/(.+)', '\1')`, 'ASC')
-      .getMany();
-
-    return assets;
+  @GenerateSql({ params: [{ assetId: DummyValue.UUID, type: AssetFileType.PREVIEW, path: '/path/to/file' }] })
+  async upsertFile(file: { assetId: string; type: AssetFileType; path: string }): Promise<void> {
+    await this.fileRepository.upsert(file, { conflictPaths: ['assetId', 'type'] });
   }
 
   @GenerateSql({ params: [{ assetId: DummyValue.UUID, type: AssetFileType.PREVIEW, path: '/path/to/file' }] })
-  async upsertFile({ assetId, type, path }: { assetId: string; type: AssetFileType; path: string }): Promise<void> {
-    await this.fileRepository.upsert({ assetId, type, path }, { conflictPaths: ['assetId', 'type'] });
+  async upsertFiles(files: { assetId: string; type: AssetFileType; path: string }[]): Promise<void> {
+    await this.fileRepository.upsert(files, { conflictPaths: ['assetId', 'type'] });
   }
 }
