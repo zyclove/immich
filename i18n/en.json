@@ -1333,15 +1333,11 @@
   "warning": "Warning",
   "week": "Week",
   "welcome": "Welcome",
-<<<<<<< HEAD:web/src/lib/i18n/en.json
-  "welcome_to_immich": "Welcome to immich",
-  "workflows": "Workflows",
-=======
   "welcome_to_immich": "Welcome to Immich",
->>>>>>> 34ce61d03a206f616325491281882afff4b617f8:i18n/en.json
   "year": "Year",
   "years_ago": "{years, plural, one {# year} other {# years}} ago",
   "yes": "Yes",
   "you_dont_have_any_shared_links": "You don't have any shared links",
-  "zoom_image": "Zoom Image"
+  "zoom_image": "Zoom Image",
+  "workflows": "Workflows"
 }
