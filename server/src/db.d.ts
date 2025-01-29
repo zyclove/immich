@@ -3,21 +3,16 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from "kysely";
+import type { ColumnType } from 'kysely';
 
-export type ArrayType<T> = ArrayTypeImpl<T> extends (infer U)[]
-  ? U[]
-  : ArrayTypeImpl<T>;
+export type ArrayType<T> = ArrayTypeImpl<T> extends (infer U)[] ? U[] : ArrayTypeImpl<T>;
 
-export type ArrayTypeImpl<T> = T extends ColumnType<infer S, infer I, infer U>
-  ? ColumnType<S[], I[], U[]>
-  : T[];
+export type ArrayTypeImpl<T> = T extends ColumnType<infer S, infer I, infer U> ? ColumnType<S[], I[], U[]> : T[];
 
-export type AssetsStatusEnum = "active" | "deleted" | "trashed";
+export type AssetsStatusEnum = 'active' | 'deleted' | 'trashed';
 
-export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
-  ? ColumnType<S, I | undefined, U>
-  : ColumnType<T, T | undefined, T>;
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U> ? ColumnType<S, I | undefined, U> : ColumnType<T, T | undefined, T>;
 
 export type Int8 = ColumnType<string, bigint | number | string, bigint | number | string>;
 
@@ -33,7 +28,7 @@ export type JsonPrimitive = boolean | number | string | null;
 
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
-export type Sourcetype = "exif" | "machine-learning";
+export type Sourcetype = 'exif' | 'machine-learning';
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
@@ -152,6 +147,12 @@ export interface AssetStack {
   id: Generated<string>;
   ownerId: string;
   primaryAssetId: string;
+}
+
+export interface AssetUser {
+  assetId: string;
+  createdAt: Timestamp;
+  userId: string;
 }
 
 export interface Audit {
@@ -413,6 +414,7 @@ export interface DB {
   asset_files: AssetFiles;
   asset_job_status: AssetJobStatus;
   asset_stack: AssetStack;
+  asset_user: AssetUser;
   assets: Assets;
   audit: Audit;
   exif: Exif;
@@ -438,6 +440,6 @@ export interface DB {
   tags_closure: TagsClosure;
   user_metadata: UserMetadata;
   users: Users;
-  "vectors.pg_vector_index_stat": VectorsPgVectorIndexStat;
+  'vectors.pg_vector_index_stat': VectorsPgVectorIndexStat;
   version_history: VersionHistory;
 }

@@ -5,6 +5,7 @@ import { APIKeyEntity } from 'src/entities/api-key.entity';
 import { AssetFaceEntity } from 'src/entities/asset-face.entity';
 import { AssetFileEntity } from 'src/entities/asset-files.entity';
 import { AssetJobStatusEntity } from 'src/entities/asset-job-status.entity';
+import { AssetUserEntity } from 'src/entities/asset-user.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
 import { AuditEntity } from 'src/entities/audit.entity';
 import { ExifEntity } from 'src/entities/exif.entity';
@@ -34,6 +35,7 @@ export const entities = [
   AssetEntity,
   AssetFaceEntity,
   AssetFileEntity,
+  AssetUserEntity,
   AssetJobStatusEntity,
   AuditEntity,
   ExifEntity,

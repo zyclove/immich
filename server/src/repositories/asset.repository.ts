@@ -81,7 +81,24 @@ export class AssetRepository implements IAssetRepository {
   }
 
   create(asset: Insertable<Assets>): Promise<AssetEntity> {
-    return this.db.insertInto('assets').values(asset).returningAll().executeTakeFirst() as any as Promise<AssetEntity>;
+    return this.db.transaction().execute(async (tx) => {
+      const newAsset = (await tx
+        .insertInto('assets')
+        .values(asset)
+        .returningAll()
+        .executeTakeFirst()) as any as AssetEntity;
+
+      await tx
+        .insertInto('asset_user')
+        .values({
+          assetId: newAsset.id,
+          userId: newAsset.ownerId,
+          createdAt: new Date(),
+        })
+        .execute();
+
+      return newAsset;
+    });
   }
 
   @GenerateSql({ params: [DummyValue.UUID, { day: 1, month: 1 }] })
