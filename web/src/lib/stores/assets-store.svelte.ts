@@ -236,6 +236,15 @@ export class AssetStore {
   initialized = $state(false);
   timelineHeight = $state(0);
   buckets: AssetBucket[] = $state([]);
+  absoluteBucketHeights =  $derived.by(() => {
+    const heights: number[] = [];
+    let cummulativeHeight = 0;
+    for (const bucket of this.buckets) {
+      heights.push(cummulativeHeight);
+      cummulativeHeight += bucket.bucketHeight;
+    }
+    return heights;
+  });
   assets: AssetResponseDto[] = $derived.by(() => {
     return this.buckets.flatMap(({ assets }) => assets);
   });

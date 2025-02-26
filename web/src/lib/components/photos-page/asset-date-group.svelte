@@ -26,6 +26,7 @@
   export let assetStore: AssetStore;
   export let bucket: AssetBucket;
   export let assetInteraction: AssetInteraction;
+  export let absoluteHeight: number = 0;
 
   export let onScrollTarget: ScrollTargetListener | undefined = undefined;
   export let onAssetInGrid: ((asset: AssetResponseDto) => void) | undefined = undefined;
@@ -101,6 +102,7 @@
 
     <div
       id="date-group"
+      data-abs={absoluteHeight}
       use:intersectionObserver={{
         onIntersect: () => {
           assetStore.taskManager.intersectedDateGroup(componentId, dateGroup, () =>

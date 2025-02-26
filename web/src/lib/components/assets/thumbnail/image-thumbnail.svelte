@@ -88,7 +88,7 @@
     loading={preload ? 'eager' : 'lazy'}
     style:width={widthStyle}
     style:height={heightStyle}
-    style:filter={hidden ? 'grayscale(50%)' : 'none'}
+    style:filter="blur(10px)"
     style:opacity={hidden ? '0.5' : '1'}
     src={url}
     alt={loaded || errored ? altText : ''}
