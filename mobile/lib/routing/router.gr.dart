@@ -1614,3 +1614,122 @@ class TrashRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [TroubleshootAlbumAssetPage]
+class TroubleshootAlbumAssetRoute
+    extends PageRouteInfo<TroubleshootAlbumAssetRouteArgs> {
+  TroubleshootAlbumAssetRoute({
+    Key? key,
+    required AssetPathEntity album,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TroubleshootAlbumAssetRoute.name,
+          args: TroubleshootAlbumAssetRouteArgs(
+            key: key,
+            album: album,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TroubleshootAlbumAssetRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TroubleshootAlbumAssetRouteArgs>();
+      return TroubleshootAlbumAssetPage(
+        key: args.key,
+        album: args.album,
+      );
+    },
+  );
+}
+
+class TroubleshootAlbumAssetRouteArgs {
+  const TroubleshootAlbumAssetRouteArgs({
+    this.key,
+    required this.album,
+  });
+
+  final Key? key;
+
+  final AssetPathEntity album;
+
+  @override
+  String toString() {
+    return 'TroubleshootAlbumAssetRouteArgs{key: $key, album: $album}';
+  }
+}
+
+/// generated route for
+/// [TroubleshootAlbumsListPage]
+class TroubleshootAlbumsListRoute
+    extends PageRouteInfo<TroubleshootAlbumsListRouteArgs> {
+  TroubleshootAlbumsListRoute({
+    Key? key,
+    required String name,
+    required GetLocalAlbums getLocalAlbums,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TroubleshootAlbumsListRoute.name,
+          args: TroubleshootAlbumsListRouteArgs(
+            key: key,
+            name: name,
+            getLocalAlbums: getLocalAlbums,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TroubleshootAlbumsListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TroubleshootAlbumsListRouteArgs>();
+      return TroubleshootAlbumsListPage(
+        key: args.key,
+        name: args.name,
+        getLocalAlbums: args.getLocalAlbums,
+      );
+    },
+  );
+}
+
+class TroubleshootAlbumsListRouteArgs {
+  const TroubleshootAlbumsListRouteArgs({
+    this.key,
+    required this.name,
+    required this.getLocalAlbums,
+  });
+
+  final Key? key;
+
+  final String name;
+
+  final GetLocalAlbums getLocalAlbums;
+
+  @override
+  String toString() {
+    return 'TroubleshootAlbumsListRouteArgs{key: $key, name: $name, getLocalAlbums: $getLocalAlbums}';
+  }
+}
+
+/// generated route for
+/// [TroubleshootAlbumsPage]
+class TroubleshootAlbumsRoute extends PageRouteInfo<void> {
+  const TroubleshootAlbumsRoute({List<PageRouteInfo>? children})
+      : super(
+          TroubleshootAlbumsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TroubleshootAlbumsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const TroubleshootAlbumsPage();
+    },
+  );
+}
