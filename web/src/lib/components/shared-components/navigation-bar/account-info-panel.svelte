@@ -8,12 +8,14 @@
   import { preferences, user } from '$lib/stores/user.store';
   import { handleError } from '$lib/utils/handle-error';
   import { deleteProfileImage, updateMyPreferences, type UserAvatarColor } from '@immich/sdk';
-  import { mdiCog, mdiLogout, mdiPencil, mdiWrench } from '@mdi/js';
+  import { mdiCog, mdiLogout, mdiPencil, mdiQrcode, mdiWrench } from '@mdi/js';
   import { t } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { NotificationType, notificationController } from '../notification/notification';
   import UserAvatar from '../user-avatar.svelte';
   import AvatarSelector from './avatar-selector.svelte';
+  import { IconButton } from '@immich/ui';
+  import { qrCodeLoginStore } from '$lib/stores/qrcode-login.svelte';
 
   interface Props {
     onLogout: () => void;
@@ -51,6 +53,14 @@
   class="absolute right-[25px] top-[75px] z-[100] w-[min(360px,100vw-50px)] rounded-3xl bg-gray-200 shadow-lg dark:border dark:border-immich-dark-gray dark:bg-immich-dark-gray"
   use:focusTrap
 >
+  <div class="absolute right-8 top-8">
+    <IconButton
+      icon={mdiQrcode}
+      shape="round"
+      aria-label="Signin With QR Code"
+      onclick={() => qrCodeLoginStore.showForm()}
+    />
+  </div>
   <div
     class="mx-4 mt-4 flex flex-col items-center justify-center gap-4 rounded-3xl bg-white p-4 dark:bg-immich-dark-primary/10"
   >

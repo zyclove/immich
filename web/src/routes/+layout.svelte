@@ -22,6 +22,7 @@
   import { setTranslations } from '@immich/ui';
   import '../app.css';
   import { t } from 'svelte-i18n';
+  import QRCodeLoginForm from '$lib/components/shared-components/qrcode-login-form.svelte';
 
   interface Props {
     children?: Snippet;
@@ -154,6 +155,7 @@
 <UploadPanel />
 <NotificationList />
 <DialogWrapper />
+<QRCodeLoginForm />
 
 {#if $user?.isAdmin}
   <VersionAnnouncementBox />
