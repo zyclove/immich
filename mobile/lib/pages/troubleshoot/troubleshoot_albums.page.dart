@@ -33,6 +33,12 @@ Future<List<AssetPathEntity>> _getLocalAlbumsWithIgnoreSize() async {
   );
 }
 
+Future<List<AssetPathEntity>> _getLocalAlbumsWithCustomSQL() async {
+  return await PhotoManager.getAssetPathList(
+    filterOption: AdvancedCustomFilter(),
+  );
+}
+
 @RoutePage()
 class TroubleshootAlbumsPage extends HookWidget {
   const TroubleshootAlbumsPage({super.key});
@@ -85,6 +91,20 @@ class TroubleshootAlbumsPage extends HookWidget {
                 );
               },
               child: const Text("Check Albums with Ignore Size"),
+            ),
+          ),
+          _NumberedWidget(
+            number: 6,
+            child: TextButton(
+              onPressed: () {
+                context.router.push(
+                  TroubleshootAlbumsListRoute(
+                    name: "Check Albums with Custom SQL",
+                    getLocalAlbums: _getLocalAlbumsWithCustomSQL,
+                  ),
+                );
+              },
+              child: const Text("Check Albums with Custom SQL"),
             ),
           ),
         ],
