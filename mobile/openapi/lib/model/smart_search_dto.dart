@@ -25,6 +25,7 @@ class SmartSearchDto {
     this.isNotInAlbum,
     this.isOffline,
     this.isVisible,
+    this.language,
     this.lensModel,
     this.libraryId,
     this.make,
@@ -32,8 +33,10 @@ class SmartSearchDto {
     this.page,
     this.personIds = const [],
     required this.query,
+    this.rating,
     this.size,
     this.state,
+    this.tagIds = const [],
     this.takenAfter,
     this.takenBefore,
     this.trashedAfter,
@@ -130,6 +133,14 @@ class SmartSearchDto {
   ///
   bool? isVisible;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? language;
+
   String? lensModel;
 
   String? libraryId;
@@ -157,6 +168,16 @@ class SmartSearchDto {
 
   String query;
 
+  /// Minimum value: -1
+  /// Maximum value: 5
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? rating;
+
   /// Minimum value: 1
   /// Maximum value: 1000
   ///
@@ -168,6 +189,8 @@ class SmartSearchDto {
   num? size;
 
   String? state;
+
+  List<String> tagIds;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -257,6 +280,7 @@ class SmartSearchDto {
     other.isNotInAlbum == isNotInAlbum &&
     other.isOffline == isOffline &&
     other.isVisible == isVisible &&
+    other.language == language &&
     other.lensModel == lensModel &&
     other.libraryId == libraryId &&
     other.make == make &&
@@ -264,8 +288,10 @@ class SmartSearchDto {
     other.page == page &&
     _deepEquality.equals(other.personIds, personIds) &&
     other.query == query &&
+    other.rating == rating &&
     other.size == size &&
     other.state == state &&
+    _deepEquality.equals(other.tagIds, tagIds) &&
     other.takenAfter == takenAfter &&
     other.takenBefore == takenBefore &&
     other.trashedAfter == trashedAfter &&
@@ -292,6 +318,7 @@ class SmartSearchDto {
     (isNotInAlbum == null ? 0 : isNotInAlbum!.hashCode) +
     (isOffline == null ? 0 : isOffline!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
+    (language == null ? 0 : language!.hashCode) +
     (lensModel == null ? 0 : lensModel!.hashCode) +
     (libraryId == null ? 0 : libraryId!.hashCode) +
     (make == null ? 0 : make!.hashCode) +
@@ -299,8 +326,10 @@ class SmartSearchDto {
     (page == null ? 0 : page!.hashCode) +
     (personIds.hashCode) +
     (query.hashCode) +
+    (rating == null ? 0 : rating!.hashCode) +
     (size == null ? 0 : size!.hashCode) +
     (state == null ? 0 : state!.hashCode) +
+    (tagIds.hashCode) +
     (takenAfter == null ? 0 : takenAfter!.hashCode) +
     (takenBefore == null ? 0 : takenBefore!.hashCode) +
     (trashedAfter == null ? 0 : trashedAfter!.hashCode) +
@@ -313,7 +342,7 @@ class SmartSearchDto {
     (withExif == null ? 0 : withExif!.hashCode);
 
   @override
-  String toString() => 'SmartSearchDto[city=$city, country=$country, createdAfter=$createdAfter, createdBefore=$createdBefore, deviceId=$deviceId, isArchived=$isArchived, isEncoded=$isEncoded, isFavorite=$isFavorite, isMotion=$isMotion, isNotInAlbum=$isNotInAlbum, isOffline=$isOffline, isVisible=$isVisible, lensModel=$lensModel, libraryId=$libraryId, make=$make, model=$model, page=$page, personIds=$personIds, query=$query, size=$size, state=$state, takenAfter=$takenAfter, takenBefore=$takenBefore, trashedAfter=$trashedAfter, trashedBefore=$trashedBefore, type=$type, updatedAfter=$updatedAfter, updatedBefore=$updatedBefore, withArchived=$withArchived, withDeleted=$withDeleted, withExif=$withExif]';
+  String toString() => 'SmartSearchDto[city=$city, country=$country, createdAfter=$createdAfter, createdBefore=$createdBefore, deviceId=$deviceId, isArchived=$isArchived, isEncoded=$isEncoded, isFavorite=$isFavorite, isMotion=$isMotion, isNotInAlbum=$isNotInAlbum, isOffline=$isOffline, isVisible=$isVisible, language=$language, lensModel=$lensModel, libraryId=$libraryId, make=$make, model=$model, page=$page, personIds=$personIds, query=$query, rating=$rating, size=$size, state=$state, tagIds=$tagIds, takenAfter=$takenAfter, takenBefore=$takenBefore, trashedAfter=$trashedAfter, trashedBefore=$trashedBefore, type=$type, updatedAfter=$updatedAfter, updatedBefore=$updatedBefore, withArchived=$withArchived, withDeleted=$withDeleted, withExif=$withExif]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -377,6 +406,11 @@ class SmartSearchDto {
     } else {
     //  json[r'isVisible'] = null;
     }
+    if (this.language != null) {
+      json[r'language'] = this.language;
+    } else {
+    //  json[r'language'] = null;
+    }
     if (this.lensModel != null) {
       json[r'lensModel'] = this.lensModel;
     } else {
@@ -404,6 +438,11 @@ class SmartSearchDto {
     }
       json[r'personIds'] = this.personIds;
       json[r'query'] = this.query;
+    if (this.rating != null) {
+      json[r'rating'] = this.rating;
+    } else {
+    //  json[r'rating'] = null;
+    }
     if (this.size != null) {
       json[r'size'] = this.size;
     } else {
@@ -414,6 +453,7 @@ class SmartSearchDto {
     } else {
     //  json[r'state'] = null;
     }
+      json[r'tagIds'] = this.tagIds;
     if (this.takenAfter != null) {
       json[r'takenAfter'] = this.takenAfter!.toUtc().toIso8601String();
     } else {
@@ -484,6 +524,7 @@ class SmartSearchDto {
         isNotInAlbum: mapValueOfType<bool>(json, r'isNotInAlbum'),
         isOffline: mapValueOfType<bool>(json, r'isOffline'),
         isVisible: mapValueOfType<bool>(json, r'isVisible'),
+        language: mapValueOfType<String>(json, r'language'),
         lensModel: mapValueOfType<String>(json, r'lensModel'),
         libraryId: mapValueOfType<String>(json, r'libraryId'),
         make: mapValueOfType<String>(json, r'make'),
@@ -493,8 +534,12 @@ class SmartSearchDto {
             ? (json[r'personIds'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         query: mapValueOfType<String>(json, r'query')!,
+        rating: num.parse('${json[r'rating']}'),
         size: num.parse('${json[r'size']}'),
         state: mapValueOfType<String>(json, r'state'),
+        tagIds: json[r'tagIds'] is Iterable
+            ? (json[r'tagIds'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
         takenAfter: mapDateTime(json, r'takenAfter', r''),
         takenBefore: mapDateTime(json, r'takenBefore', r''),
         trashedAfter: mapDateTime(json, r'trashedAfter', r''),
