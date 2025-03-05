@@ -165,9 +165,13 @@
     }
     return () => void 0;
   };
-
+  const compensateScrollCallback = (delta: number) => {
+    debugger;
+    console.log('compensate', delta);
+    element?.scrollBy(0, delta);
+  };
   onMount(() => {
-    void assetStore.init().then(() => (assetStore.connect(), updateSlidingWindow()));
+    void assetStore.init(compensateScrollCallback).then(() => (assetStore.connect(), updateSlidingWindow()));
     if (!enableRouting) {
       showSkeleton = false;
     }

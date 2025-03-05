@@ -23,6 +23,10 @@ const {
   TIMELINE: { INTERSECTION_EXPAND_TOP, INTERSECTION_EXPAND_BOTTOM },
 } = TUNABLES;
 
+const THUMBNAIL_HEIGHT = 235;
+const GAP = 12;
+const HEADER = 49; //(1.5rem)
+
 type AssetApiGetTimeBucketsRequest = Parameters<typeof getTimeBuckets>[0];
 export type AssetStoreOptions = Omit<AssetApiGetTimeBucketsRequest, 'size'>;
 
@@ -106,9 +110,6 @@ interface AssetLookup {
   assetIndex: number;
 }
 
-const GAP = 12;
-const HEADER = 49; //(1.5rem)
-
 function getPosition(geometry: CommonJustifiedLayout, boxIdx: number) {
   const top = geometry.getTop(boxIdx);
   const left = geometry.getLeft(boxIdx);
@@ -164,20 +165,38 @@ export class AssetBucket {
   }
 
   set bucketHeight(height: number) {
+    const {store} = this;
     const bucketHeightDelta = height - this.#bucketHeight;
-    const prevBucket = this.store.buckets[this.index - 1];
+    const prevBucket = store.buckets[this.index - 1];
     if (prevBucket) {
       this.#top = prevBucket.#top + prevBucket.#bucketHeight;
     }
     if (bucketHeightDelta) {
       let cursor = this.index + 1;
-      while (cursor < this.store.buckets.length) {
+      while (cursor < store.buckets.length) {
         const nextBucket = this.store.buckets[cursor];
         nextBucket.#top += bucketHeightDelta;
         cursor++;
       }
     }
     this.#bucketHeight = height;
+    if (store.topIntersectingBucket) {
+      const currentIndex = store.buckets.indexOf(store.topIntersectingBucket);
+      // if the bucket is 'before' the last intersecting bucket in the sliding window
+      // then adjust the scroll position by the delta, to compensate for the bucket
+      // size adjustment
+      if (INTERSECTION_EXPAND_TOP > 0) {
+         // we use < or = because the topIntersectingBucket is actually slightly expanded
+          // because of INTERSECTION_EXPAND_TOP
+        if (this.index <= currentIndex) {
+          store.compensateScrollCallback?.(bucketHeightDelta);
+        }
+      } else {
+        if (this.index <= currentIndex) {
+          store.compensateScrollCallback?.(bucketHeightDelta);
+        }
+      }
+    }
   }
   get bucketHeight() {
     return this.#bucketHeight;
@@ -227,8 +246,6 @@ export class AssetBucket {
 
 const isMismatched = (option: boolean | undefined, value: boolean): boolean =>
   option === undefined ? false : option !== value;
-
-const THUMBNAIL_HEIGHT = 235;
 
 interface AddAsset {
   type: 'add';
@@ -305,7 +322,8 @@ export class AssetStore {
   });
   albumAssets: Set<string> = new SvelteSet();
   visibleWindow = $state({ topSectionHeight: 0, top: 0, bottom: 0 });
-
+  topIntersectingBucket:AssetBucket|undefined = $state();
+  compensateScrollCallback:  ((delta:number) => void) | undefined;
 
   initTask = new CancellableTask(
     () => {
@@ -399,9 +417,14 @@ export class AssetStore {
     if (!this.isInitialized || this.visibleWindow.bottom === 0) {
       return;
     }
+    let topIntersectingBucket = undefined;
     for (const bucket of this.buckets) {
       this.updateIntersection(bucket);
+      if (!topIntersectingBucket && bucket.intersecting) {
+        topIntersectingBucket=bucket;
+      }
     }
+    this.topIntersectingBucket = topIntersectingBucket;
   }
 
   updateIntersection(bucket: AssetBucket) {
@@ -468,14 +491,14 @@ export class AssetStore {
     }
 
     this.pendingChanges = [];
-    // this.emit(true);
   }, 2500);
 
-  async init() {
+
+  async init(compensateScrollCallback?: (delta:number)=>void) {
     if (this.isInitialized) {
       throw 'Can only init once';
     }
-
+    this.compensateScrollCallback=compensateScrollCallback;
     await this.initialize();
   }
 
@@ -494,7 +517,6 @@ export class AssetStore {
   }
 
   async initialize(options?: AssetStoreOptions) {
-    // debugger
     if (!options && this.initTask.isLoading()) {
       await this.initTask.waitForCompletion();
       return;
@@ -529,7 +551,6 @@ export class AssetStore {
 
   private async updateViewportGeometry(changedWidth: boolean) {
     if (!this.isInitialized) {
-      // debugger;
       return;
     }
     for (const bucket of this.buckets) {
@@ -645,7 +666,6 @@ export class AssetStore {
     if (!bucket) {
       return;
     }
-
 
     if (bucket.loader?.isLoaded) {
       return;
