@@ -14,7 +14,7 @@
   import { navigate } from '$lib/utils/navigation';
   import { formatGroupTitle, type ScrubberListener } from '$lib/utils/timeline-util';
   import type { AlbumResponseDto, AssetResponseDto, PersonResponseDto } from '@immich/sdk';
-  import { throttle } from 'lodash-es';
+  import { throttle, update } from 'lodash-es';
   import { onMount, type Snippet } from 'svelte';
   import Portal from '../shared-components/portal/portal.svelte';
   import Scrubber from '../shared-components/scrubber/scrubber.svelte';
@@ -88,6 +88,9 @@
   let scrubBucket: { bucketDate: string | undefined } | undefined = $state();
   let scrubOverallPercent: number = $state(0);
   let topSectionHeight = $state(0);
+  $effect(() => {
+    assetStore.topSectionHeight = topSectionHeight;
+  });
   let topSectionOffset = $state(0);
   // 60 is the bottom spacer element at 60px
   let bottomSectionHeight = 60;
@@ -166,20 +169,21 @@
     return () => void 0;
   };
   const compensateScrollCallback = (delta: number) => {
+    console.log('comp', delta);
     debugger;
-    console.log('compensate', delta);
     element?.scrollBy(0, delta);
   };
+
   onMount(() => {
-    void assetStore.init(compensateScrollCallback).then(() => (assetStore.connect(), updateSlidingWindow()));
+    assetStore.setCompensateScrollCallback(compensateScrollCallback);
+
     if (!enableRouting) {
       showSkeleton = false;
     }
-    const dispose = hmrSupport();
+    const disposeHmr = hmrSupport();
     return () => {
-      assetStore.disconnect();
-      assetStore.destroy();
-      dispose();
+      assetStore.setCompensateScrollCallback(null);
+      disposeHmr();
     };
   });
 
@@ -309,7 +313,7 @@
   const updateSlidingWindow = () => {
     const top = element?.scrollTop || 0;
     const bottom = viewport.height + top;
-    assetStore.updateSlidingWindow({ topSectionHeight, top, bottom });
+    assetStore.updateSlidingWindow({ top, bottom });
   };
 
   const handleTimelineScroll = throttle(_handleTimelineScroll, 16, { leading: false, trailing: true });
@@ -691,6 +695,7 @@
   tabindex="-1"
   use:resizeObserver={({ height, width }) => {
     viewport = { height, width };
+    updateSlidingWindow();
     void assetStore.updateViewport(viewport);
   }}
   bind:this={element}
