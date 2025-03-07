@@ -65,9 +65,9 @@ _INSIGHTFACE_MODELS = {
 
 SUPPORTED_PROVIDERS = [
     "CUDAExecutionProvider",
-    "ROCMExecutionProvider",
+    "MIGraphXExecutionProvider",
     "OpenVINOExecutionProvider",
-    "CPUExecutionProvider",
+    # "CPUExecutionProvider",
 ]
 
 
