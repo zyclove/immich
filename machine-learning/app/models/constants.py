@@ -67,7 +67,7 @@ SUPPORTED_PROVIDERS = [
     "CUDAExecutionProvider",
     "MIGraphXExecutionProvider",
     "OpenVINOExecutionProvider",
-    # "CPUExecutionProvider",
+    "CPUExecutionProvider",
 ]
 
 
