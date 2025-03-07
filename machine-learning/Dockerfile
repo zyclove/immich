@@ -17,7 +17,7 @@ RUN mkdir /opt/armnn && \
 
 # Warning: 25GiB+ disk space required to pull this image
 # TODO: find a way to reduce the image size
-FROM rocm/dev-ubuntu-22.04:6.3.1-complete AS builder-rocm
+FROM rocm/dev-ubuntu-22.04:6.3.4-complete AS builder-rocm
 
 WORKDIR /code
 
@@ -108,7 +108,7 @@ COPY --from=builder-armnn \
     /opt/ann/build.sh \
     /opt/armnn/
 
-FROM rocm/dev-ubuntu-22.04:6.3.1-complete AS prod-rocm
+FROM rocm/dev-ubuntu-22.04:6.3.4-complete AS prod-rocm
 
 FROM prod-${DEVICE} AS prod
 
