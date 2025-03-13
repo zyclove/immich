@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { DeleteResult, Insertable, Kysely, UpdateResult, Updateable, sql } from 'kysely';
 import { isEmpty, isUndefined, omitBy } from 'lodash';
 import { InjectKysely } from 'nestjs-kysely';
-import { AssetFiles, AssetJobStatus, Assets, DB, Exif } from 'src/db';
+import { AssetJobStatus, Assets, DB, Exif } from 'src/db';
 import { Chunked, ChunkedArray, DummyValue, GenerateSql } from 'src/decorators';
-import { AssetFileEntity } from 'src/entities/asset-files.entity';
 import {
   AssetEntity,
   AssetEntityPlaceholder,
@@ -158,7 +157,9 @@ export class AssetRepository {
   constructor(@InjectKysely() private db: Kysely<DB>) {}
 
   async upsertExif(exif: Insertable<Exif>): Promise<void> {
+    console.log('upsertExif', exif);
     const value = { ...exif, assetId: asUuid(exif.assetId) };
+    console.log('upsertExif value', value);
     await this.db
       .insertInto('exif')
       .values(value)
@@ -200,6 +201,8 @@ export class AssetRepository {
         ),
       )
       .execute();
+
+    console.log('upsertExif finished');
   }
 
   async upsertJobStatus(...jobStatus: Insertable<AssetJobStatus>[]): Promise<void> {
@@ -570,6 +573,7 @@ export class AssetRepository {
   }
 
   async update(asset: Updateable<Assets> & { id: string }): Promise<AssetEntity> {
+    console.log('update', asset);
     const value = omitBy(asset, isUndefined);
     delete value.id;
     if (!isEmpty(value)) {
@@ -582,7 +586,9 @@ export class AssetRepository {
         .executeTakeFirst() as Promise<AssetEntity>;
     }
 
-    return this.getById(asset.id, { exifInfo: true, faces: { person: true } }) as Promise<AssetEntity>;
+    const a = this.getById(asset.id, { exifInfo: true, faces: { person: true } }) as Promise<AssetEntity>;
+    console.log('update finished');
+    return a;
   }
 
   async remove(asset: { id: string }): Promise<void> {
