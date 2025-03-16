@@ -14,7 +14,6 @@
   import { navigate } from '$lib/utils/navigation';
   import { type ScrubberListener } from '$lib/utils/timeline-util';
   import type { AlbumResponseDto, AssetResponseDto, PersonResponseDto } from '@immich/sdk';
-  import { throttle } from 'lodash-es';
   import { onMount, type Snippet } from 'svelte';
   import Portal from '../shared-components/portal/portal.svelte';
   import Scrubber from '../shared-components/scrubber/scrubber.svelte';
@@ -156,14 +155,11 @@
     }
     return () => void 0;
   };
+
   const updateIsScrolling = () => (assetStore.scrolling = true);
-
-  const _updateSlidingWindow = () => assetStore.updateSlidingWindow(element?.scrollTop || 0);
-  const updateSlidingWindow = throttle(_updateSlidingWindow, 16, { leading: false, trailing: true });
-
-  const compensateScrollCallback = (delta: number) => {
-    element?.scrollBy(0, delta);
-  };
+  // note: don't throttle, debounch, or otherwise do this function async - it causes flicker
+  const updateSlidingWindow = () => assetStore.updateSlidingWindow(element?.scrollTop || 0);
+  const compensateScrollCallback = (delta: number) => element?.scrollBy(0, delta);
   const topSectionResizeObserver: OnResizeCallback = ({ height }) => (assetStore.topSectionHeight = height);
 
   onMount(() => {
@@ -178,20 +174,10 @@
     };
   });
 
-  function getOffset(bucketDate: string) {
-    let offset = 0;
-    for (let a = 0; a < assetStore.buckets.length; a++) {
-      if (assetStore.buckets[a].bucketDate === bucketDate) {
-        break;
-      }
-      offset += assetStore.buckets[a].bucketHeight;
-    }
-    return offset;
-  }
-
-  const getMaxScrollPercent = () =>
-    (assetStore.timelineHeight + bottomSectionHeight + assetStore.topSectionHeight - assetStore.viewportHeight) /
-    (assetStore.timelineHeight + bottomSectionHeight + assetStore.topSectionHeight);
+  const getMaxScrollPercent = () => {
+    const totalHeight = assetStore.timelineHeight + bottomSectionHeight + assetStore.topSectionHeight;
+    return (totalHeight - assetStore.viewportHeight) / totalHeight;
+  };
 
   const getMaxScroll = () => {
     if (!element || !timelineElement) {
@@ -201,18 +187,18 @@
   };
 
   const scrollToBucketAndOffset = (bucket: AssetBucket, bucketScrollPercent: number) => {
-    const topOffset = getOffset(bucket.bucketDate) + assetStore.topSectionHeight;
+    const topOffset = bucket.top;
     const maxScrollPercent = getMaxScrollPercent();
     const delta = bucket.bucketHeight * bucketScrollPercent;
     const scrollTop = (topOffset + delta) * maxScrollPercent;
 
-    if (!element) {
-      return;
+    if (element) {
+      element.scrollTop = scrollTop;
     }
-    element.scrollTop = scrollTop;
   };
 
-  const _onScrub: ScrubberListener = (
+  // note: don't throttle, debounch, or otherwise make this function async - it causes flicker
+  const onScrub: ScrubberListener = (
     bucketDate: string | undefined,
     scrollPercent: number,
     bucketScrollPercent: number,
@@ -233,9 +219,9 @@
       scrollToBucketAndOffset(bucket, bucketScrollPercent);
     }
   };
-  const onScrub = throttle(_onScrub, 16, { leading: false, trailing: true });
 
-  const _handleTimelineScroll = () => {
+  // note: don't throttle, debounch, or otherwise make this function async - it causes flicker
+  const handleTimelineScroll = () => {
     leadout = false;
 
     if (!element) {
@@ -250,7 +236,7 @@
       scrubBucket = undefined;
       scrubBucketPercent = 0;
     } else {
-      let top = element?.scrollTop;
+      let top = element.scrollTop;
       if (top < assetStore.topSectionHeight) {
         // in the lead-in area
         scrubBucket = undefined;
@@ -264,18 +250,24 @@
       let maxScrollPercent = getMaxScrollPercent();
       let found = false;
 
-      // create virtual buckets....
-      const vbuckets = [
-        { bucketHeight: assetStore.topSectionHeight, bucketDate: undefined },
-        ...assetStore.buckets,
-        { bucketHeight: bottomSectionHeight, bucketDate: undefined },
-      ];
-
-      for (const bucket of vbuckets) {
-        let next = top - bucket.bucketHeight * maxScrollPercent;
+      const bucketsLength = assetStore.buckets.length;
+      for (let i = -1; i < bucketsLength + 1; i++) {
+        let bucket: { bucketDate: string | undefined } | undefined;
+        let bucketHeight = 0;
+        if (i === -1) {
+          // lead-in
+          bucketHeight = assetStore.topSectionHeight;
+        } else if (i === bucketsLength) {
+          // lead-out
+          bucketHeight = bottomSectionHeight;
+        } else {
+          bucket = assetStore.buckets[i];
+          bucketHeight = assetStore.buckets[i].bucketHeight;
+        }
+        let next = top - bucketHeight * maxScrollPercent;
         if (next < 0) {
           scrubBucket = bucket;
-          scrubBucketPercent = top / (bucket.bucketHeight * maxScrollPercent);
+          scrubBucketPercent = top / (bucketHeight * maxScrollPercent);
           found = true;
           break;
         }
@@ -289,8 +281,6 @@
       }
     }
   };
-
-  const handleTimelineScroll = throttle(_handleTimelineScroll, 16, { leading: false, trailing: true });
 
   const trashOrDelete = async (force: boolean = false) => {
     isShowDeleteConfirmation = false;
